@@ -1,0 +1,4 @@
+mod
+===========
+
+.. lua:autoobject:: mod
