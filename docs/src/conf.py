@@ -18,11 +18,11 @@ extensions = [
     "sphinx_lua_ls",
     "sphinx_design"
 ]
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
+exclude_patterns = ['build', 'Thumbs.db', '.DS_Store']
 
 # -- Options for LuaLS extension ---------------------------------------------
 
-lua_ls_project_root = "../src/patch/lua/annotations"
+lua_ls_project_root = "../../src/patch/lua/annotations"
 lua_ls_backend = "emmylua"
 lua_ls_default_options = {
    # Document members without description.

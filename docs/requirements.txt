@@ -1,0 +1,4 @@
+sphinx>=8.0
+sphinx-lua-ls
+sphinx-design
+shibuya
