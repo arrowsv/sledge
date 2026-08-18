@@ -1,3 +1,5 @@
 # Sledge
 
-Sledge is a modding tool and game modification for Red Faction: Guerrilla Re-Mars-tered. This project aims to supersede legacy XML-based mod managers with a Lua-based mod format, an integrated mod manager, and a Lua scripting API.
+Sledge is a modification and modding tool for Red Faction: Guerrilla Re-Mars-tered with a built-in mod manager and Lua scripting API.
+
+View the documentation at [sledge.readthedocs.io](https://sledge.readthedocs.io).
