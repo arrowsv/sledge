@@ -34,30 +34,6 @@ std::filesystem::path get_module_directory(HMODULE h_module) {
     return std::filesystem::path(path).parent_path();
 }
 
-std::string open_file_dialog(const char* filter, const char* title) {
-    OPENFILENAME ofn;
-    char szFile[260];
-
-    ZeroMemory(&ofn, sizeof(ofn));
-    ofn.lStructSize = sizeof(ofn);
-    ofn.hwndOwner = NULL;
-    ofn.lpstrFile = szFile;
-    ofn.lpstrFile[0] = '\0';
-    ofn.nMaxFile = sizeof(szFile);
-    ofn.lpstrFilter = filter;
-    ofn.nFilterIndex = 1;
-    ofn.lpstrTitle = title;
-    ofn.lpstrFileTitle = NULL;
-    ofn.nMaxFileTitle = 0;
-    ofn.lpstrInitialDir = NULL;
-    ofn.Flags = OFN_PATHMUSTEXIST | OFN_FILEMUSTEXIST;
-
-    if (GetOpenFileName(&ofn))
-        return ofn.lpstrFile;
-
-    return {};
-}
-
 std::optional<std::filesystem::path> open_folder_dialog() {
     std::optional<std::filesystem::path> directory;
 

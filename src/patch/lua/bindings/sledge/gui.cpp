@@ -2,7 +2,6 @@
 #include "common/utils/imgui.hpp"
 
 #include <imgui.h>
-#include <imgui_stdlib.cpp>
 #include <imgui_stdlib.h>
 #include <plog/Log.h>
 #include <sol/sol.hpp>
