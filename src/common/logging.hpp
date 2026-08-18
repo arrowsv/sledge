@@ -24,7 +24,7 @@ namespace logging
         static plog::RollingFileAppender<plog::TxtFormatter>fileAppender(log_file.string().c_str(), 0, 0);
         static plog::ConsoleAppender<plog::TxtFormatter> consoleAppender;
     
-        plog::init(plog::debug, &fileAppender).addAppender(&consoleAppender);
+        plog::init(plog::info, &fileAppender).addAppender(&consoleAppender);
 
         PLOG_INFO << "Sledge " << constants::version << " - Build date: " << __DATE__ << " " << __TIME__;
     }
