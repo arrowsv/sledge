@@ -5,16 +5,20 @@
 #include "common/mods.hpp"
 #include "patch/lua/events/save.hpp"
 #include "patch/lua/manager.hpp"
+#include "patch/rfg/math/hash.hpp"
 #include "patch/rfg/game.hpp"
 #include "patch/utils/hook.hpp"
-
 #include <crashcatch.hpp>
 #include <plog/Log.h>
 
 namespace hooks::misc {
 HOOK_FUNC(OFFSET(0x00941aa0, 0x00941c60), void, __cdecl, set_mod_table_hash, uint32_t mod_table_hash) {
-    auto num_mods_enabled = mods::manager::get().get_enabled_mods().size();
-    set_mod_table_hash_original(mod_table_hash + num_mods_enabled);
+    size_t num_mods_enabled = mods::manager::get().get_enabled_mods().size();
+
+    std::string hash_src = std::to_string(mod_table_hash) + std::to_string(num_mods_enabled) + constants::version;
+    uint32_t hash = rfg::get_crc32_from_string(hash_src.c_str());
+
+    set_mod_table_hash_original(hash);
 }
 
 HOOK_FUNC(OFFSET(0x0058ad30, 0x0058ae30), void, __cdecl, frametime_set_cap, float min, float max) {
@@ -64,7 +68,7 @@ void apply() {
 
     //keen_main_apply();
     gameseq_set_state_apply();
-        rfg_init_stage_1_loop_update_apply();
+    rfg_init_stage_1_loop_update_apply();
     frametime_set_cap_apply();
     keen_get_build_version_apply();
     set_mod_table_hash_apply();
