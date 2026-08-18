@@ -1,0 +1,21 @@
+{
+    "id": "arrows.more_salvage",
+    "name": "More Salvage",
+    "author": "arrows",
+    "description": "",
+    "version": "1.0.0",
+    "options": {
+        "Metal": {
+            "type": "custom",
+            "default": "20"
+        },
+        "Ore": {
+            "type": "custom",
+            "default": "35"
+        },
+        "Chemical": {
+            "type": "custom",
+            "default": "45"
+        }
+    }
+}

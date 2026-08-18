@@ -1,0 +1,7 @@
+{
+    "id": "arrows.teleport_menu",
+    "name": "Teleport Menu",
+    "author": "arrows",
+    "description": "Adds a menu with preset teleport locations.",
+    "version": "1.0.0"
+}

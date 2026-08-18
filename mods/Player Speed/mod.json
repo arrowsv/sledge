@@ -1,0 +1,13 @@
+{
+    "id": "arrows.player_speed",
+    "name": "Player Speed",
+    "author": "arrows",
+    "description": "",
+    "version": "1.0.0",
+    "options": {
+        "Speed": {
+            "type": "custom",
+            "default": "5"
+        }
+    }
+}

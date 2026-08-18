@@ -1,0 +1,13 @@
+{
+    "id": "arrows.freecam",
+    "name": "Freecam",
+    "author": "arrows",
+    "description": "Adds a freecam and a menu for further configuration.\n\nWhile enabled, hold 'shift' to speed up, 'control' to slow down, and scroll to modify the current speed.",
+    "version": "1.0.0",
+    "options": {
+        "Freecam key": {
+            "type": "key",
+            "default": "f2"
+        }
+    }
+}

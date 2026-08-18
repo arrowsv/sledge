@@ -1,0 +1,21 @@
+{
+    "id": "arrows.toggle_hud_weather",
+    "name": "Toggle HUD/Weather",
+    "author": "arrows",
+    "description": "",
+    "version": "1.0.0",
+    "options": {
+        "HUD key": {
+            "type": "key",
+            "default": "numpad_1"
+        },
+        "Fog key": {
+            "type": "key",
+            "default": "numpad_2"
+        },
+        "Wind key": {
+            "type": "key",
+            "default": "numpad_3"
+        }
+    }
+}

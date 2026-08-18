@@ -1,0 +1,72 @@
+{
+    "id": "arrows.safehouse_vehicle_selector",
+    "name": "Safehouse Vehicle Selector",
+    "author": "arrows",
+    "description": "",
+    "version": "1.0.0",
+    "options": {
+        "Parker": {
+            "type": "multiple",
+            "choices": [
+                "EDF APC",
+                "EDF APC (Turret)",
+                "EDF Scout",
+                "EDF Scout (Turret)",
+                "EDF Staff",
+                "EDF Staff (Turret)",
+                "EDF Supply Truck",
+                "EDF Supply Truck (Turret)",
+                "EDF Flyer",
+                "EDF Bomber",
+                "Civilian Supply Truck",
+                "Civilian Supply Truck (Turret)",
+                "Civilian Garbage Truck",
+                "Civilian Garbage Truck (Turret)",
+                "Civilian Dump Truck",
+                "Civilian Pickup",
+                "Civilian Pickup (Turret)",
+                "Civilian Mining ATV",
+                "Civilian Mining ATV (Turret)",
+                "Civilian Mini Hauler",
+                "Civilian Rover",
+                "Civilian Rover (Turret)",
+                "Civilian Emergency Rover",
+                "Civilian Flatbed",
+                "Civilian Flatbed (Turret)",
+                "Civilian Fuel Tanker",
+                "Civilian Supercar",
+                "Civilian Luxury Coupé",
+                "Civilian Luxury SUV",
+                "Civilian Luxury Taxi",
+                "Civilian Luxury Bus",
+                "Marauder Jetter",
+                "Marauder Raider",
+                "Light Walker",
+                "Heavy Walker",
+                "Combat Walker",
+                "Tank",
+                "Heavy Tank",
+                "Rocket Tank",
+                "Heavy Rocket Tank",
+                "Bulldozer",
+                "Mars Rover"
+            ]
+        },
+        "Dust": {
+            "type": "multiple",
+            "choices": "Parker"
+        },
+        "Badlands": {
+            "type": "multiple",
+            "choices": "Parker"
+        },
+        "Oasis": {
+            "type": "multiple",
+            "choices": "Parker"
+        },
+        "Eos": {
+            "type": "multiple",
+            "choices": "Parker"
+        }
+    }
+}
