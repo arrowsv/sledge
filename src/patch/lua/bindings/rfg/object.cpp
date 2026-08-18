@@ -10,23 +10,23 @@ namespace lua::bindings::rfg {
 void bind_object_functions(sol::state_view& lua) {
     auto table = lua["game"].get_or_create<sol::table>();
 
-    table["get_object_from_handle"] = [](uint32_t handle) -> ::rfg::object* {
-        for (int i = 0; i < ::rfg::g_world()->all_objects.size(); i++) {
-            if (::rfg::g_world()->all_objects[i]->handle == handle) {
-                return ::rfg::g_world()->all_objects[i];
-            }
-        }
-        return nullptr;
-    };
+    // table["get_object_from_handle"] = [](uint32_t handle) -> ::rfg::object* {
+    //     for (int i = 0; i < ::rfg::g_world()->all_objects.size(); i++) {
+    //         if (::rfg::g_world()->all_objects[i]->handle == handle) {
+    //             return ::rfg::g_world()->all_objects[i];
+    //         }
+    //     }
+    //     return nullptr;
+    // };
 
-    table["apply_linear_impulse"] = [](uint32_t handle, const ::rfg::vector* impulse) {
-        ::rfg::havok_body_apply_linear_impulse(handle, impulse);
-    };
+    // table["apply_linear_impulse"] = [](uint32_t handle, const ::rfg::vector* impulse) {
+    //     ::rfg::havok_body_apply_linear_impulse(handle, impulse);
+    // };
 
-    table["apply_point_impulse"] = [](uint32_t handle, const ::rfg::vector* impulse,
-                                      const ::rfg::vector* position) {
-        ::rfg::havok_body_apply_point_impulse(handle, impulse, position);
-    };
+    // table["apply_point_impulse"] = [](uint32_t handle, const ::rfg::vector* impulse,
+    //                                   const ::rfg::vector* position) {
+    //     ::rfg::havok_body_apply_point_impulse(handle, impulse, position);
+    // };
 }
 
 void bind_object_type(sol::state_view& lua) {

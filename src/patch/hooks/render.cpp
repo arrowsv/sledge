@@ -214,24 +214,24 @@ LRESULT CALLBACK wnd_proc(HWND hwnd, UINT msg, WPARAM w_param, LPARAM l_param) {
     return CallWindowProc(g_original_wnd_proc, hwnd, msg, w_param, l_param);
 }
 
-HOOK_FUNC(0x59A180, void, __cdecl, key_poll) {
+HOOK_FUNC(OFFSET(0x59A180, 0x0059a290), void, __cdecl, key_poll) {
     if (should_block_game_input())
         return;
     return key_poll_original();
 }
 
-HOOK_FUNC(0x5C3570, void, __cdecl, mouse_poll) {
+HOOK_FUNC(OFFSET(0x5C3570, 0x005c3660), void, __cdecl, mouse_poll) {
     if (should_block_game_input())
         return;
     return mouse_poll_original();
 }
 
-HOOK_FUNC(0xC78D80, void, __cdecl, mouse_set_relative_input, void* input_system, bool enabled) {
+HOOK_FUNC(OFFSET(0xC78D80, 0x00c790b0), void, __cdecl, mouse_set_relative_input, void* input_system, bool enabled) {
     return mouse_set_relative_input_original(input_system,
                                              should_block_game_input() ? false : enabled);
 }
 
-HOOK_FUNC(0xC6A8A0, void*, __cdecl, keen_graphics_begin_frame,
+HOOK_FUNC(OFFSET(0xC6A8A0, 0x00c6abd0), void*, __cdecl, keen_graphics_begin_frame,
           rfg::graphics_system* p_graphics_system, rfg::render_swap_chain* p_swap_chain) {
     if (g_graphics_system != p_graphics_system || g_swap_chain != p_swap_chain) {
         g_graphics_system = p_graphics_system;
@@ -255,7 +255,7 @@ HOOK_FUNC(0xC6A8A0, void*, __cdecl, keen_graphics_begin_frame,
     return keen_graphics_begin_frame_original(p_graphics_system, p_swap_chain);
 }
 
-HOOK_FUNC(0xC6FFF0, bool, __cdecl, keen_graphics_end_frame,
+HOOK_FUNC(OFFSET(0xC6FFF0, 0x00c70320), bool, __cdecl, keen_graphics_end_frame,
           rfg::graphics_system* p_graphics_system) {
     if (!g_imgui_initialized)
         return keen_graphics_end_frame_original(p_graphics_system);

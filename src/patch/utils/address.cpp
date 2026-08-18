@@ -18,9 +18,4 @@ uintptr_t convert(utils::address::offset offset) {
     new_offset -= 0x400000;
     return (uintptr_t)g_game_module_base + new_offset;
 }
-
-uintptr_t convert(uintptr_t offset) {
-    offset -= 0x400000;
-    return (uintptr_t)g_game_module_base + offset;
-}
 } // namespace utils::address

@@ -448,5 +448,5 @@ struct /*__attribute__((aligned(8)))*/ player : human {
 };
 static_assert(sizeof(player) == 0x2E50);
 
-REF_FUNC(get_local_player, rfg::player* __cdecl(), 0xA10540);
+REF_FUNC(get_local_player, rfg::player* __cdecl(), OFFSET(0xA10540, 0x00a108d0));
 } // namespace rfg

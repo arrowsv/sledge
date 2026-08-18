@@ -5,7 +5,7 @@
 #include <plog/Log.h>
 
 namespace utils::memory {
-void write_bytes(uintptr_t offset, const void* data, uint32_t size) {
+void write_bytes(utils::address::offset offset, const void* data, uint32_t size) {
     DWORD old_protect;
     uintptr_t address = utils::address::convert(offset);
 

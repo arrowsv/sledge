@@ -1,6 +1,4 @@
 #include "patch/rfg/player.hpp"
-#include "patch/rfg/world.hpp"
-#include "sol/property.hpp"
 
 #include <sol/sol.hpp>
 
@@ -27,10 +25,5 @@ void bind_player(sol::state_view& lua) {
         [](::rfg::player& self, int value) { self.meta_data.supply_crate_count = value; });
     player["play_time"] =
         sol::readonly_property([](::rfg::player& self) { return self.meta_data.play_time; });
-
-    // Functions
-    player["get_current_district"] = [](::rfg::player& self) {
-        return ::rfg::get_district_from_position(&self.position);
-    };
 }
 } // namespace lua::bindings::rfg

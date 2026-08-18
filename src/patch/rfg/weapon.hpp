@@ -459,13 +459,13 @@ struct weapon : item {
 };
 static_assert(sizeof(weapon) == 0x2FC);
 
-REF_FUNC(get_weapon_info_from_handle, const rfg::weapon_info* __cdecl(uint32_t handle), 0x00bd9a10);
+// REF_FUNC(get_weapon_info_from_handle, const rfg::weapon_info* __cdecl(uint32_t handle), 0x00bd9a10);
 
-REF_FUNC(weapon_cabinet_unlock_weapon, bool* __cdecl(const rfg::weapon_info* info, bool unlocked),
-         0x0085b3e0);
-REF_FUNC(weapon_cabinet_add_weapon, void* __cdecl(const rfg::weapon_info* info, bool unlocked),
-         0x00877220);
+// REF_FUNC(weapon_cabinet_unlock_weapon, bool* __cdecl(const rfg::weapon_info* info, bool unlocked),
+//          0x0085b3e0);
+// REF_FUNC(weapon_cabinet_add_weapon, void* __cdecl(const rfg::weapon_info* info, bool unlocked),
+//          0x00877220);
 
-REF_VAR(g_weapon_infos, rfg::weapon_info*, 0x3881C9C);
-REF_VAR(g_weapon_infos_count, int, 0x3881C94);
+// REF_VAR(g_weapon_infos, rfg::weapon_info*, 0x3881C9C);
+// REF_VAR(g_weapon_infos_count, int, 0x3881C94);
 } // namespace rfg

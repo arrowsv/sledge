@@ -1,22 +1,21 @@
 #include "gui.hpp"
 
+#include "launcher.hpp"
 #include "common/config.hpp"
 #include "common/constants.hpp"
 #include "common/mods.hpp"
 #include "common/utils/imgui.hpp"
 #include "common/utils/os.hpp"
-#include "injector.hpp"
 
 #include <GL/gl.h>
 #include <imgui.h>
-#include <imgui_stdlib.cpp>
 #include <imgui_stdlib.h>
 #include <magic_enum.hpp>
 
 #define STB_IMAGE_IMPLEMENTATION
 #include <stb_image.h>
 
-namespace gui {
+namespace launcher::gui {
 config gui_config;
 std::string selected_mod_id = "";
 
@@ -76,22 +75,12 @@ void load_background_textures() {
 void draw_options_modal() {
     if (ImGui::BeginPopupModal("Options", NULL,
                                ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize)) {
-        std::string game_directory_str = gui_config.game_directory.string();
-        ImGui::InputText("Game directory", &game_directory_str, ImGuiInputTextFlags_ReadOnly);
-        ImGui::SameLine();
-        if (ImGui::Button("...")) {
-            auto directory = utils::os::open_folder_dialog();
-            if (directory.has_value())
-                gui_config.game_directory = directory.value();
-        }
-
         utils::imgui::key_combobox("Sledge menu key", &gui_config.open_key);
 
         ImGui::InputInt("FPS limit", (int*)&gui_config.fps_limit);
         ImGui::SetItemTooltip("To prevent engine issues, the recommended values are 60 or 120.");
 
         ImGui::Checkbox("Skip startup videos", &gui_config.skip_startup_videos);
-        ImGui::Checkbox("Keep launcher open", &gui_config.keep_launcher_open);
 
         ImGui::Separator();
 
@@ -285,17 +274,11 @@ void draw() {
     ImGui::SetCursorPosY(ImGui::GetCursorPosY() + available_height - ImGui::GetFrameHeight());
 
     if (ImGui::Button("Play")) {
-        if (injector::run_game(config::get().game_directory)) {
-            if (!config::get().keep_launcher_open)
-                std::exit(0);
-        }
+        launcher::select_play();
     }
     ImGui::SameLine();
     if (ImGui::Button("Play (vanilla)")) {
-        if (injector::run_game(config::get().game_directory, true)) {
-            if (!config::get().keep_launcher_open)
-                std::exit(0);
-        }
+        launcher::select_play_vanilla();
     }
     ImGui::SameLine();
     if (ImGui::Button("Options")) {
@@ -323,4 +306,4 @@ void draw() {
     ImGui::End();
 }
 
-} // namespace gui
+} // namespace launcher::gui

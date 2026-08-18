@@ -20,10 +20,8 @@ class config {
     void initialize(const std::filesystem::path& config_directory);
     bool save();
 
-    std::filesystem::path game_directory;
     uint32_t fps_limit;
     bool skip_startup_videos;
-    bool keep_launcher_open;
     utils::os::key open_key;
     std::map<std::string, mods::mod_state> mod_states;
 

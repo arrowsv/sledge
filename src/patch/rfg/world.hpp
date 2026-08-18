@@ -272,9 +272,9 @@ struct __attribute__((aligned(8))) world {
     bool stub_serialization_in_progress;
 };
 
-REF_VAR(g_world, rfg::world, 0x2F97490);
-REF_VAR(g_havok_world, rfg::hkp_world, 0x02b81284);
+// REF_VAR(g_world, rfg::world, 0x2F97490);
+// REF_VAR(g_havok_world, rfg::hkp_world, 0x02b81284);
 
-REF_FUNC(get_district_from_position, rfg::district* __cdecl(const rfg::vector* position), 0x78F340);
+// REF_FUNC(get_district_from_position, rfg::district* __cdecl(const rfg::vector* position), 0x78F340);
 
 } // namespace rfg

@@ -48,15 +48,12 @@ target("common")
     
     add_defines("MAGIC_ENUM_RANGE_MIN=0")
     add_defines("MAGIC_ENUM_RANGE_MAX=256")
-    
+
 target("launcher")
-    set_kind("binary")
-    set_filename("sledge.exe")
+    set_kind("static")
     
     add_deps("common")
     add_packages("plog", "glfw", "glad", "magic_enum")
-    --add_embeddirs("src/launcher/assets")
-    add_includedirs("src")
     
     add_rules("utils.bin2c", {extensions = {".png"}})
     add_files("src/launcher/assets/*.png")
@@ -68,9 +65,16 @@ target("launcher")
     )
     
     add_defines("IMGUI_IMPL_OPENGL_LOADER_GLAD")
-    add_ldflags("-mwindows", {force = true})
-    add_ldflags("-static", "-static-libgcc", "-static-libstdc++")
-    
+
+target("proxy")
+    set_kind("shared")
+    set_filename("dinput8.dll")
+    add_deps("launcher")
+    add_files("src/proxy/*.cpp")
+
+    add_shflags("src/proxy/dinput.def", {force = true})
+    add_shflags("-static-libgcc", "-static-libstdc++", "-static", {force = true})
+
 target("patch")
     set_kind("shared")
     set_filename("sledge.dll")

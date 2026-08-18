@@ -364,6 +364,6 @@ struct camera {
     rl_view_frustum m_culling_frustum;
 };
 
-REF_VAR(g_camera, rfg::camera, 0x01de3b50);
+REF_VAR(g_camera, rfg::camera, OFFSET(0x01de3b50, 0x01de4b50));
 
 } // namespace rfg

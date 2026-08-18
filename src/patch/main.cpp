@@ -1,7 +1,6 @@
 #include "main.hpp"
 
 #include "common/config.hpp"
-#include "common/constants.hpp"
 #include "common/logging.hpp"
 #include "common/mods.hpp"
 #include "common/utils/os.hpp"
@@ -45,13 +44,6 @@ bool verify_game_version() {
     if (it != version_hashes.end()) {
         g_game_version = it->second;
         PLOG_INFO << "Game version: " << std::string(magic_enum::enum_name(g_game_version));
-
-        if (g_game_version == game_version::steam) {
-            utils::os::show_message_error("Sledge " + std::string(constants::version) +
-                                          " is not compatible with Steam.");
-            return false;
-        }
-
         return true;
     }
 

@@ -118,7 +118,7 @@ struct v_packfile {
 };
 
 inline rfg::cfile* open_table_file(const char* file_name) {
-    void* target = reinterpret_cast<void*>(utils::address::convert(0x005cd280));
+    void* target = reinterpret_cast<void*>(utils::address::convert(OFFSET(0x005cd280, 0x005cd360)));
     rfg::cfile* result;
 
     asm volatile("call *%[func]"
@@ -133,14 +133,14 @@ inline rfg::cfile* open_table_file(const char* file_name) {
 REF_FUNC(cf_open,
          cfile* __cdecl(uint8_t* buffer, uint32_t buffer_size, const char* open_mode,
                         vlib_platform disk_platform),
-         0x005b5bb0);
+         OFFSET(0x005b5bb0, 0x005c27f0));
 REF_FUNC(cf_read,
          uint32_t __cdecl(void* dest_buffer, uint32_t num_bytes_to_read, cfile* file,
                           bool abortable),
-         0x005c27e0);
-REF_FUNC(cf_close, bool __cdecl(cfile* file), 0x005ca4b0);
+         OFFSET(0x005c27e0, 0x005c28d0));
+REF_FUNC(cf_close, bool __cdecl(cfile* file), OFFSET(0x005ca4b0, 0x005ca590));
 
-REF_VAR(g_packfiles, v_packfile*, 0x01ce1768);
-REF_VAR(g_packfile_count, int, 0x1CE767C);
+// REF_VAR(g_packfiles, v_packfile*, 0x01ce1768);
+// REF_VAR(g_packfile_count, int, 0x1CE767C);
 
 } // namespace rfg

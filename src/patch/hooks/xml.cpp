@@ -10,7 +10,7 @@
 #include <string>
 
 namespace hooks::xml {
-HOOK_FUNC(0x005cd2f0, rfg::xml_element*, __cdecl, xml_parse, const char* file_name,
+HOOK_FUNC(OFFSET(0x005cd2f0, 0x005cd3d0), rfg::xml_element*, __cdecl, xml_parse, const char* file_name,
           rfg::mempool_base* dest) {
     if (!file_name)
         return xml_parse_original(file_name, dest);

@@ -27,10 +27,8 @@ void config::load_from_file(const std::filesystem::path& config_file) {
         }
     }
 
-    game_directory = data.value("game_directory", "");
     fps_limit = data.value("fps_limit", 120);
     skip_startup_videos = data.value("skip_startup_videos", true);
-    keep_launcher_open = data.value("keep_launcher_open", true);
 
     auto open_key_string = data.value("open_key", "f1");
     open_key = utils::os::key_from_string(open_key_string);
@@ -52,10 +50,8 @@ void config::load_from_file(const std::filesystem::path& config_file) {
 }
 
 bool config::save() {
-    nlohmann::ordered_json data = {{"game_directory", game_directory},
-                                   {"fps_limit", fps_limit},
+    nlohmann::ordered_json data = {{"fps_limit", fps_limit},
                                    {"skip_startup_videos", skip_startup_videos},
-                                   {"keep_launcher_open", keep_launcher_open},
                                    {"open_key", key_to_string(open_key)}};
 
     for (const auto& [id, state] : mod_states) {

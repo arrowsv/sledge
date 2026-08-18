@@ -266,11 +266,11 @@ struct object_spawn_region : object {
 // REF_FUNC(object_set_visible, void __stdcall(rfg::object *p_this, void *edx, bool visible),
 // 0xA8C010); REF_FUNC(object_is_visible, bool __stdcall(rfg::object *p_this), 0x6C38A0);
 REF_FUNC(object_set_visibility_plus_children, void __cdecl(rfg::object* object, bool visible),
-         0x00a8c070);
+         OFFSET(0x00a8c070, 0x00a8c440));
 
-REF_FUNC(havok_body_apply_linear_impulse, void __cdecl(uint32_t handle, const rfg::vector* impulse),
-         0x00823cb0);
-REF_FUNC(havok_body_apply_point_impulse,
-         void __cdecl(uint32_t handle, const rfg::vector* impulse, const rfg::vector* position),
-         0x00823d30);
+// REF_FUNC(havok_body_apply_linear_impulse, void __cdecl(uint32_t handle, const rfg::vector* impulse),
+//          0x00823cb0);
+// REF_FUNC(havok_body_apply_point_impulse,
+//          void __cdecl(uint32_t handle, const rfg::vector* impulse, const rfg::vector* position),
+//          0x00823d30);
 } // namespace rfg

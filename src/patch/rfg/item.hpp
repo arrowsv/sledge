@@ -216,7 +216,7 @@ struct item : object {
     unsigned int owner_handle;
 };
 
-REF_FUNC(get_inv_item_info_from_name, rfg::inv_item_info* __cdecl(const char* name), 0x00a12240);
-REF_FUNC(get_inv_item_info_from_handle, rfg::inv_item_info* __cdecl(uint32_t handle), 0x00a12370);
+//REF_FUNC(get_inv_item_info_from_name, rfg::inv_item_info* __cdecl(const char* name), 0x00a12240);
+//REF_FUNC(get_inv_item_info_from_handle, rfg::inv_item_info* __cdecl(uint32_t handle), 0x00a12370);
 
 } // namespace rfg

@@ -134,55 +134,54 @@ struct rfg_weather_info {
 REF_FUNC(ui_add_secondary_message,
          rfg::hud_message_handle __cdecl(const wchar_t* text, float display_time,
                                          bool animated_background, bool force_redisplay),
-         0x008d8270);
+         OFFSET(0x008d8270, 0x008d8270));
 
-REF_FUNC(get_alert_level, rfg::alert_level __cdecl(), 0x75D580);
-REF_FUNC(set_alert_level, void __cdecl(rfg::alert_level alert_level), 0x7AA6B0);
+REF_FUNC(get_alert_level, rfg::alert_level __cdecl(), OFFSET(0x75D580, 0x0075d5a0));
+REF_FUNC(set_alert_level, void __cdecl(rfg::alert_level alert_level), OFFSET(0x7AA6B0, 0x007aa740));
 
 REF_FUNC(get_alert_level_cap, void __cdecl(rfg::alert_level* minimum, rfg::alert_level* maximum),
-         0x75D580);
+         OFFSET(0x75D580, 0x75d680));
 REF_FUNC(set_alert_level_cap,
-         rfg::alert_level __cdecl(rfg::alert_level minimum, rfg::alert_level maximum), 0x007aa6e0);
-REF_FUNC(release_alert_level_cap, void __cdecl(), 0x0075d5f0);
+         rfg::alert_level __cdecl(rfg::alert_level minimum, rfg::alert_level maximum),
+         OFFSET(0x007aa6e0, 0x007aa770));
+REF_FUNC(release_alert_level_cap, void __cdecl(), OFFSET(0x0075d5f0, 0x0075d640));
 
 REF_FUNC(game_clock_set_time, void __cdecl(uint32_t hours, uint32_t minutes, uint32_t seconds),
-         0x7C16F0);
-REF_FUNC(game_clock_get_time_period, rfg::game_clock_time_of_day __cdecl(), 0x007c1560);
-REF_VAR(g_game_time_should_update, bool, 0x165BBE8);
-REF_VAR(g_game_clock, rfg::game_clock, 0x25044AC);
+         OFFSET(0x7C16F0, 0x007c1770));
+REF_FUNC(game_clock_get_time_period, rfg::game_clock_time_of_day __cdecl(),
+         OFFSET(0x007c1560, 0x007c15e0));
+REF_VAR(g_game_time_should_update, bool, OFFSET(0x165BBE8, 0x0165cbe8));
+REF_VAR(g_game_clock, rfg::game_clock, OFFSET(0x25044AC, 0x025054ac));
 
-REF_FUNC(gameseq_get_state, rfg::game_state __cdecl(), 0x7BFC70);
-REF_FUNC(gameseq_state_is_active, bool __cdecl(rfg::game_state state), 0x007bfc90);
+REF_FUNC(gameseq_get_state, rfg::game_state __cdecl(), OFFSET(0x7BFC70, 0x007bfcf0));
+REF_FUNC(gameseq_state_is_active, bool __cdecl(rfg::game_state state),
+         OFFSET(0x007bfc90, 0x007bfd10));
 
-REF_FUNC(game_pause, void __cdecl(bool mute_music), 0x007c1620);
-REF_FUNC(game_unpause, void __cdecl(), 0x007c1650);
-REF_FUNC(game_is_paused, bool __cdecl(), 0x007c1610);
+REF_FUNC(game_pause, void __cdecl(bool mute_music), OFFSET(0x007c1620, 0x007c16a0));
+REF_FUNC(game_unpause, void __cdecl(), OFFSET(0x007c1650, 0x007c16d0));
+REF_FUNC(game_is_paused, bool __cdecl(), OFFSET(0x007c1610, 0x007c1690));
 
 // Graphics/Render
-REF_FUNC(is_hud_hidden, bool __cdecl(), 0x00841b10);
-REF_FUNC(set_hud_hidden, void __cdecl(bool hidden), 0x00841ae0);
-REF_FUNC(is_fog_enabled, bool __cdecl(), 0x007c2c40);
-REF_FUNC(set_fog_enabled, void __cdecl(bool enabled), 0x007c2c50);
+REF_FUNC(is_hud_hidden, bool __cdecl(), OFFSET(0x00841b10, 0x00841ac0));
+REF_FUNC(set_hud_hidden, void __cdecl(bool hidden), OFFSET(0x00841ae0, 0x00841a90));
+REF_FUNC(is_fog_enabled, bool __cdecl(), OFFSET(0x007c2c40, 0x007c2c60));
+REF_FUNC(set_fog_enabled, void __cdecl(bool enabled), OFFSET(0x007c2c50, 0x007c2c70));
 
 // Weather
-REF_FUNC(weather_wind_start, bool __cdecl(), 0x00beccb0);
-REF_FUNC(weather_wind_stop, void __cdecl(), 0x00becdb0);
-REF_VAR(g_weather_stats, rfg::rfg_weather_info, 0x038b1f90);
+REF_FUNC(weather_wind_start, bool __cdecl(), OFFSET(0x00beccb0, 0x00bed070));
+REF_FUNC(weather_wind_stop, void __cdecl(), OFFSET(0x00becdb0, 0x00bed170));
+REF_VAR(g_weather_stats, rfg::rfg_weather_info, OFFSET(0x038b1f90, 0x038b2f90));
 
-REF_VAR(g_frames_per_second, float, 0x151856c);
-REF_VAR(g_frametime_minimum, float, 0x1518574);
+REF_VAR(g_frames_per_second, float, OFFSET(0x151856c, 0x0151956c));
+REF_VAR(g_frametime_minimum, float, OFFSET(0x1518574, 0x01519574));
 
-REF_VAR(g_exit_startup_videos, bool, 0x2C071C2);
-REF_VAR(g_multiplayer, bool, 0x02fea588);
+REF_VAR(g_exit_startup_videos, bool, OFFSET(0x2C071C2, 0x02c081c3));
+REF_VAR(g_multiplayer, bool, OFFSET(0x02fea588, 0x02feb588));
 
-REF_VAR(g_player_input_disabled, bool, 0x01e299b9);
-REF_VAR(g_player_camera_input_disabled, bool, 0x01e299ba);
+REF_VAR(g_player_input_disabled, bool, OFFSET(0x01e299b9, 0x01e2a9b9));
+REF_VAR(g_player_camera_input_disabled, bool, OFFSET(0x01e299ba, 0x01e2a9ba));
 
 // Player
-REF_VAR(g_unlimited_ammo, bool, 0x3881CB6);
-REF_VAR(g_unlimited_magazine_ammo, bool, 0x3881CBC);
-REF_VAR(g_vehicle_max_speed, float, 0x16B9434);
-
-// World
-REF_VAR(g_fog_color, rfg::color_float, 0x0165d8b8);
+REF_VAR(g_unlimited_ammo, bool, OFFSET(0x3881CB6, 0x03882cb6));
+REF_VAR(g_unlimited_magazine_ammo, bool, OFFSET(0x3881CBC, 0x03882cbc));
 } // namespace rfg

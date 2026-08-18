@@ -1089,8 +1089,8 @@ struct __attribute__((aligned(4))) flyer : vehicle {
     flyer_flags flags;
 };
 
-REF_FUNC(vehicle_request_enter,
-         bool __cdecl(rfg::human* h, rfg::vehicle* v, rfg::vehicle_enter_data* ved), 0x00bb7880);
-REF_FUNC(vehicle_request_exit, void __cdecl(rfg::human* h, rfg::vehicle_exit_data* ved),
-         0x00bb5c80);
+// REF_FUNC(vehicle_request_enter,
+//          bool __cdecl(rfg::human* h, rfg::vehicle* v, rfg::vehicle_enter_data* ved), 0x00bb7880);
+// REF_FUNC(vehicle_request_exit, void __cdecl(rfg::human* h, rfg::vehicle_exit_data* ved),
+//          0x00bb5c80);
 } // namespace rfg

@@ -1824,20 +1824,20 @@ REF_FUNC(give_item_from_name,
          void __cdecl(rfg::human* human, const char* name, int count, int ammo_count, int slot,
                       bool add_to_weapon_cabinet, bool demolitions_master_override,
                       bool show_inventory),
-         0x00ab52a0);
+         OFFSET(0x00ab52a0, 0x00ab5690));
 
 REF_FUNC(give_item_from_inv_item_info,
          void __cdecl(rfg::human* human, const rfg::inv_item_info* info, int count, int ammo_count,
                       int slot, bool add_to_weapon_cabinet, bool demolitions_master_override,
                       bool show_inventory),
-         0x00ab4e20);
+         OFFSET(0x00ab4e20, 0x00ab5210));
 
 REF_FUNC(teleport_human,
          void __cdecl(rfg::human* human, rfg::vector* position, rfg::matrix* orient,
                       float placement_range, bool allow_fail),
-         0x00a9a3c0);
+         OFFSET(0x00a9a3c0, 0x00a9a7a0));
 
 REF_FUNC(teleport_human_unsafe,
-         void __cdecl(rfg::human* human, rfg::vector position, rfg::matrix orient), 0x00a7c290);
+         void __cdecl(rfg::human* human, rfg::vector position, rfg::matrix orient), OFFSET(0x00a7c290, 0x00a7c660));
 
 } // namespace rfg
