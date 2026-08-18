@@ -9,7 +9,7 @@
 project = 'Sledge'
 copyright = '2026, arrows'
 author = 'arrows'
-release = '0.1.0'
+release = '0.1.0-beta.2'
 
 # -- General configuration ---------------------------------------------------
 # https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
