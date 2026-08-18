@@ -24,7 +24,6 @@ add_requires("glfw 3.4")
 add_requires("glad 0.1.36")
 
 -- requires: patch
-add_requires("minhook 1.3.4")
 add_requires("picosha2 2022.08.08")
 add_requires("sol2 3.5.0")
 add_requires("pugixml 1.16")
@@ -77,7 +76,7 @@ target("patch")
     set_filename("sledge.dll")
     
     add_deps("common")
-    add_packages("plog", "sol2", "minhook", "nlohmann_json", "picosha2", "pugixml", "safetyhook", "magic_enum")
+    add_packages("plog", "sol2", "nlohmann_json", "picosha2", "pugixml", "safetyhook", "magic_enum")
     
     add_files("src/patch/**.cpp")
     add_files(

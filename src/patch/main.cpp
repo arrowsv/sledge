@@ -9,7 +9,6 @@
 #include "hooks/hooks.hpp"
 #include "lua/manager.hpp"
 
-#include <MinHook.h>
 #include <filesystem>
 #include <magic_enum.hpp>
 #include <picosha2.h>
