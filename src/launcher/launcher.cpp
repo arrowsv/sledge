@@ -39,7 +39,9 @@ choice run() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-    GLFWwindow* window = glfwCreateWindow(576, 324, "Sledge", nullptr, nullptr);
+    int width = 576;
+    int height = 324;
+    GLFWwindow* window = glfwCreateWindow(width, height, "Sledge", nullptr, nullptr);
     if (!window) {
         glfwTerminate();
         return choice::play;
@@ -51,15 +53,12 @@ choice run() {
     GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
     const GLFWvidmode* videoMode = glfwGetVideoMode(primaryMonitor);
 
-    // 3. Extract monitor position (crucial for multi-monitor setups)
     int monitorX, monitorY;
     glfwGetMonitorPos(primaryMonitor, &monitorX, &monitorY);
 
-    // 4. Calculate center position
-    int centerX = monitorX + (videoMode->width - 576) / 2;
-    int centerY = monitorY + (videoMode->height - 324) / 2;
+    int centerX = monitorX + (videoMode->width - width) / 2;
+    int centerY = monitorY + (videoMode->height - height) / 2;
 
-    // 5. Position and show the window
     glfwSetWindowPos(window, centerX, centerY);
 
     IMGUI_CHECKVERSION();
