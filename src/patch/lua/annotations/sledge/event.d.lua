@@ -7,7 +7,6 @@
 -- --- @field key_down defines.event
 -- --- @field key_up defines.event
 -- --- @field mouse_wheel defines.event
--- --- @field parse_xml defines.event
 -- defines.event = {}
 
 ---@enum defines.event
@@ -17,6 +16,5 @@ defines.event = {
   save_loaded = 3,
   key_down = 4,
   key_up = 5,
-  mouse_wheel = 6,
-  parse_xml = 7
+  mouse_wheel = 6
 }

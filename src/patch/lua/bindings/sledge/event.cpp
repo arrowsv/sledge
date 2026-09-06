@@ -16,5 +16,5 @@ namespace lua::bindings::sledge {
         events["key_down"] = events::event::key_down;
         events["key_up"] = events::event::key_up;
         events["mouse_wheel"] = events::event::mouse_wheel;
-    events["parse_xml"] = events::event::parse_xml;
+    }
 }
