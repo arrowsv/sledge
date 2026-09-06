@@ -7,7 +7,7 @@
 #include <string>
 
 namespace mods {
-struct mod_state;
+    struct mod_state;
 }
 
 class config {

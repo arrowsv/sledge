@@ -1,4 +1,5 @@
 #include "launcher/launcher.hpp"
+
 #include <string>
 #include <windows.h>
 
@@ -35,8 +36,9 @@ std::wstring get_game_directory() {
 }
 
 void ensure_sledge_loaded() {
-    if (g_sledge_initialized)
+    if (g_sledge_initialized) {
         return;
+    }
 
     g_sledge_initialized = true;
 
@@ -44,9 +46,13 @@ void ensure_sledge_loaded() {
     g_sledge = LoadLibraryW(s_sledge_path.c_str());
     if (!g_sledge)
         return;
-
-    if (!resolve(g_sledge, p_sledge_initialize, "initialize"))
+    if (!g_sledge) {
         return;
+    }
+
+    if (!resolve(g_sledge, p_sledge_initialize, "initialize")) {
+        return;
+    }
 
     p_sledge_initialize();
 }
@@ -117,19 +123,18 @@ BOOL APIENTRY DllMain(HMODULE module, DWORD reason_for_call, LPVOID reserved) {
 }
 
 extern "C" {
-HRESULT WINAPI DirectInput8Create(HINSTANCE hinst, DWORD dw_version, REFIID riidltf,
-                                  LPVOID* ppv_out, LPUNKNOWN punk_outer) {
-    // ensure_sledge_loaded();
-    return p_direct_input8_create(hinst, dw_version, riidltf, ppv_out, punk_outer);
-}
+    HRESULT WINAPI DirectInput8Create(HINSTANCE hinst, DWORD dw_version, REFIID riidltf,
+                                      LPVOID* ppv_out, LPUNKNOWN punk_outer) {
+        return p_direct_input8_create(hinst, dw_version, riidltf, ppv_out, punk_outer);
+    }
 
-HRESULT WINAPI DllCanUnloadNow() { return p_dll_can_unload_now(); }
+    HRESULT WINAPI DllCanUnloadNow() { return p_dll_can_unload_now(); }
 
-HRESULT WINAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv) {
-    return p_dll_get_class_object(rclsid, riid, ppv);
-}
+    HRESULT WINAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, LPVOID* ppv) {
+        return p_dll_get_class_object(rclsid, riid, ppv);
+    }
 
-HRESULT WINAPI DllRegisterServer() { return p_dll_register_server(); }
+    HRESULT WINAPI DllRegisterServer() { return p_dll_register_server(); }
 
-HRESULT WINAPI DllUnregisterServer() { return p_dll_unregister_server(); }
+    HRESULT WINAPI DllUnregisterServer() { return p_dll_unregister_server(); }
 }

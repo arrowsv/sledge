@@ -17,49 +17,50 @@
 #include <backends/imgui_impl_opengl3.h>
 
 namespace launcher {
+    static choice g_result = choice::quit;
+    static bool g_done = false;
 
-static choice g_result = choice::quit;
-static bool g_done = false;
+    choice run() {
+        auto sledge_directory = utils::os::get_module_directory(nullptr) / "sledge";
 
-choice run() {
-    auto sledge_directory = utils::os::get_module_directory(nullptr);
+        logging::initialize(sledge_directory, "launcher");
+        config::get().initialize(sledge_directory);
+        mods::manager::get().initialize(sledge_directory / "mods");
+        config::get().save();
 
-    logging::initialize(sledge_directory, "sledge_launcher");
-    config::get().initialize(sledge_directory);
-    mods::manager::get().initialize(sledge_directory / "mods");
-    config::get().save();
+        if (!glfwInit()) {
+            spdlog::error("Failed to initialize GLFW, continuing in vanilla mode.");
+            return choice::play_vanilla;
+        }
 
-    if (!glfwInit()) {
-        PLOG_ERROR << "Failed to initialize GLFW, continuing in vanilla mode.";
-        return choice::play_vanilla;
-    }
+        const char* glsl_version = "#version 130";
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+        glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
+        glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-    const char* glsl_version = "#version 130";
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
-    glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
+        int width = 640;
+        int height = 360;
 
-    int width = 576;
-    int height = 324;
-    GLFWwindow* window = glfwCreateWindow(width, height, "Sledge", nullptr, nullptr);
-    if (!window) {
-        glfwTerminate();
-        return choice::play;
-    }
+        GLFWwindow* window = glfwCreateWindow(width, height, "Sledge", nullptr, nullptr);
+        if (!window) {
+            glfwTerminate();
+            return launcher::choice::play;
+        }
 
-    glfwMakeContextCurrent(window);
-    glfwSwapInterval(1);
 
-    GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
-    const GLFWvidmode* videoMode = glfwGetVideoMode(primaryMonitor);
+        glfwMakeContextCurrent(window);
+        glfwSwapInterval(1);
 
-    int monitorX, monitorY;
-    glfwGetMonitorPos(primaryMonitor, &monitorX, &monitorY);
+        GLFWmonitor* primaryMonitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode* videoMode = glfwGetVideoMode(primaryMonitor);
 
-    int centerX = monitorX + (videoMode->width - width) / 2;
-    int centerY = monitorY + (videoMode->height - height) / 2;
+        int monitorX, monitorY;
+        glfwGetMonitorPos(primaryMonitor, &monitorX, &monitorY);
 
-    glfwSetWindowPos(window, centerX, centerY);
+        int centerX = monitorX + (videoMode->width - width) / 2;
+        int centerY = monitorY + (videoMode->height - height) / 2;
+
+        glfwSetWindowPos(window, centerX, centerY);
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
@@ -70,50 +71,49 @@ choice run() {
     utils::imgui::initialize_styles();
     utils::imgui::initialize_fonts();
 
-    ImGui_ImplGlfw_InitForOpenGL(window, true);
-    ImGui_ImplOpenGL3_Init(glsl_version);
+        ImGui_ImplGlfw_InitForOpenGL(window, true);
+        ImGui_ImplOpenGL3_Init(glsl_version);
 
-    launcher::gui::load_background_textures();
+        launcher::gui::load_background_textures();
 
-    while (!g_done && !glfwWindowShouldClose(window)) {
-        glfwPollEvents();
-        if (glfwGetWindowAttrib(window, GLFW_ICONIFIED) != 0) {
-            ImGui_ImplGlfw_Sleep(10);
-            continue;
+        while (!g_done && !glfwWindowShouldClose(window)) {
+            glfwPollEvents();
+            if (glfwGetWindowAttrib(window, GLFW_ICONIFIED) != 0) {
+                ImGui_ImplGlfw_Sleep(10);
+                continue;
+            }
+
+            ImGui_ImplOpenGL3_NewFrame();
+            ImGui_ImplGlfw_NewFrame();
+            ImGui::NewFrame();
+
+            launcher::gui::draw();
+
+            ImGui::Render();
+            int display_w, display_h;
+            glfwGetFramebufferSize(window, &display_w, &display_h);
+            glViewport(0, 0, display_w, display_h);
+            glClearColor(0.45f, 0.55f, 0.60f, 1.0f);
+            glClear(GL_COLOR_BUFFER_BIT);
+            ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+            glfwSwapBuffers(window);
         }
 
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
+        ImGui_ImplOpenGL3_Shutdown();
+        ImGui_ImplGlfw_Shutdown();
+        ImGui::DestroyContext();
+        glfwDestroyWindow(window);
+        glfwTerminate();
 
-        gui::draw();
-
-        ImGui::Render();
-        int display_w, display_h;
-        glfwGetFramebufferSize(window, &display_w, &display_h);
-        glViewport(0, 0, display_w, display_h);
-        glClearColor(0.45f, 0.55f, 0.60f, 1.0f);
-        glClear(GL_COLOR_BUFFER_BIT);
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-        glfwSwapBuffers(window);
+        return g_done ? g_result : choice::quit;
     }
 
-    ImGui_ImplOpenGL3_Shutdown();
-    ImGui_ImplGlfw_Shutdown();
-    ImGui::DestroyContext();
-    glfwDestroyWindow(window);
-    glfwTerminate();
-
-    return g_done ? g_result : choice::quit;
+    void select_play() {
+        g_result = choice::play;
+        g_done = true;
+    }
+    void select_play_vanilla() {
+        g_result = choice::play_vanilla;
+        g_done = true;
+    }
 }
-
-void select_play() {
-    g_result = choice::play;
-    g_done = true;
-}
-void select_play_vanilla() {
-    g_result = choice::play_vanilla;
-    g_done = true;
-}
-
-} // namespace launcher

@@ -33,4 +33,4 @@ namespace utils::hook {
         }                                                                                          \
     }                                                                                              \
     void name##_mid_detour(SafetyHookContext& ctx)
-} // namespace utils::hook
+}

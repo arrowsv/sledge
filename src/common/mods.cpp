@@ -6,77 +6,79 @@
 #include <plog/Log.h>
 
 namespace mods {
-void manager::initialize(const std::filesystem::path& mods_directory) {
-    m_discovered_mods = scan_mods_directory(mods_directory);
-    sync_states_with_discovered();
-}
+    void manager::initialize(const std::filesystem::path& mods_directory) {
+        m_discovered_mods = scan_mods_directory(mods_directory);
+        sync_states_with_discovered();
+    }
 
-void manager::sync_states_with_discovered() {
-    std::map<std::string, mod_state> next_states;
-    auto& current_states = config::get().mod_states;
+    void manager::sync_states_with_discovered() {
+        std::map<std::string, mod_state> next_states;
+        auto& current_states = config::get().mod_states;
 
-    for (const auto& mod : m_discovered_mods) {
-        auto [it, inserted] = next_states.try_emplace(mod.id, std::move(current_states[mod.id]));
-        auto& state = it->second;
+        for (const auto& mod : m_discovered_mods) {
+            auto [it, inserted] =
+                next_states.try_emplace(mod.id, std::move(current_states[mod.id]));
+            auto& state = it->second;
 
-        std::map<std::string, std::string> active_options;
+            std::map<std::string, std::string> active_options;
 
-        for (const auto& opt : mod.options) {
-            auto& current_selection = state.options[opt.name];
+            for (const auto& opt : mod.options) {
+                auto& current_selection = state.options[opt.name];
 
-            switch (opt.type) {
-            case mods::mod_option_type::custom:
-            case mods::mod_option_type::key:
-            case mods::mod_option_type::checkbox: {
-                if (current_selection.empty()) {
-                    current_selection = opt.choice_default;
+                switch (opt.type) {
+                    case mods::mod_option_type::custom:
+                    case mods::mod_option_type::key:
+                    case mods::mod_option_type::checkbox: {
+                        if (current_selection.empty()) {
+                            current_selection = opt.choice_default;
+                        }
+                        break;
+                    }
+                    case mods::mod_option_type::multiple: {
+                        // Reset to default if it doesn't exist in the defined choices.
+                        if (std::find(opt.choice_multiple.begin(), opt.choice_multiple.end(),
+                                      current_selection) == opt.choice_multiple.end())
+                            current_selection = opt.choice_default;
+                    } break;
                 }
-                break;
-            }
-            case mods::mod_option_type::multiple: {
-                // Reset to default if it doesn't exist in the defined choices.
-                if (std::find(opt.choice_multiple.begin(), opt.choice_multiple.end(),
-                              current_selection) == opt.choice_multiple.end())
-                    current_selection = opt.choice_default;
-            } break;
-            }
 
-            active_options[opt.name] = current_selection;
+                active_options[opt.name] = current_selection;
+            }
+            state.options = std::move(active_options);
         }
-        state.options = std::move(active_options);
+        current_states = std::move(next_states);
     }
-    current_states = std::move(next_states);
-}
 
-std::vector<mod_info> manager::scan_mods_directory(const std::filesystem::path& mods_directory) {
-    std::vector<mod_info> list;
-    if (!std::filesystem::exists(mods_directory))
+    std::vector<mod_info>
+    manager::scan_mods_directory(const std::filesystem::path& mods_directory) {
+        std::vector<mod_info> list;
+        if (!std::filesystem::exists(mods_directory))
+            return list;
+
+        for (const auto& entry : std::filesystem::directory_iterator(mods_directory)) {
+            std::filesystem::path mod_config_path = entry.path() / "mod.toml";
+            if (!std::filesystem::exists(mod_config_path))
+                continue;
+
+            std::optional<mod_info> mod = parse_mod_config(mod_config_path);
+            if (!mod.has_value())
+                continue;
+
+            mod.value().path = entry.path().string();
+
+            auto exists = std::ranges::find_if(
+                list, [&](const std::string& existing_id) { return existing_id == mod.value().id; },
+                &mod_info::id);
+
+            if (exists != list.end()) {
+                spdlog::warn("Skipped mod '{}': a mod already exists with the id '{}'.",
+                             mod_config_path.string(), mod.value().id);
+                continue;
+            }
+            list.push_back(mod.value());
+        }
         return list;
-
-    for (const auto& entry : std::filesystem::directory_iterator(mods_directory)) {
-        std::filesystem::path mod_config_path = entry.path() / "mod.json";
-        if (!std::filesystem::exists(mod_config_path))
-            continue;
-
-        std::optional<mod_info> mod = parse_mod_config(mod_config_path);
-        if (!mod.has_value())
-            continue;
-
-        mod.value().path = entry.path().string();
-
-        auto exists = std::ranges::find_if(
-            list, [&](const std::string& existing_id) { return existing_id == mod.value().id; },
-            &mod_info::id);
-
-        if (exists != list.end()) {
-            PLOG_WARNING << "Skipped mod located at '" << mod_config_path
-                         << "'. A mod already exists with the id '" << mod.value().id << "'.";
-            continue;
-        }
-        list.push_back(mod.value());
     }
-    return list;
-}
 
 std::optional<mod_info> manager::parse_mod_config(const std::filesystem::path& mod_config_path) {
     mod_info mod;
@@ -156,38 +158,21 @@ std::optional<mod_info> manager::parse_mod_config(const std::filesystem::path& m
 
                         option.choice_multiple = options_it->choice_multiple;
 
-                        if (option.choice_default.empty() && !option.choice_multiple.empty()) {
-                            option.choice_default = option.choice_multiple[0];
-                        }
-                    }
-                } else {
-                    PLOG_WARNING << "[" << mod.name << "] Option '" << option.name
-                                 << "' requires a valid type. Available types: 'custom', 'key', or "
-                                    "'multiple'.";
-                    continue;
-                }
-                mod.options.push_back(option);
+        }
+        return mod;
+    }
+
+    std::vector<mod_info> manager::get_enabled_mods() {
+        std::vector<mod_info> enabled_mods;
+        auto& states = config::get().mod_states;
+
+        for (const auto& mod : m_discovered_mods) {
+            if (states.contains(mod.id) && states[mod.id].enabled) {
+                enabled_mods.push_back(mod);
             }
         }
-    } catch (const nlohmann::json::exception& e) {
-        PLOG_ERROR << "Failed parsing mod config file located at '" << mod_config_path
-                   << "'. Error: " << e.what();
-        return {};
+        return enabled_mods;
     }
-    return mod;
+
+    const std::vector<mod_info>& manager::get_discovered_mods() { return m_discovered_mods; }
 }
-
-std::vector<mod_info> manager::get_enabled_mods() {
-    std::vector<mod_info> enabled_mods;
-    auto& states = config::get().mod_states;
-
-    for (const auto& mod : m_discovered_mods) {
-        if (states.contains(mod.id) && states[mod.id].enabled) {
-            enabled_mods.push_back(mod);
-        }
-    }
-    return enabled_mods;
-}
-
-const std::vector<mod_info>& manager::get_discovered_mods() { return m_discovered_mods; }
-} // namespace mods

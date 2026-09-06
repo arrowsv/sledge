@@ -17,28 +17,28 @@
 #include <sol/sol.hpp>
 
 namespace lua::bindings {
-void bind_all(sol::state_view& lua) {
-    auto types = lua["types"].get_or_create<sol::table>();
-    auto defines = lua["defines"].get_or_create<sol::table>();
+    void bind_all(sol::state_view& lua) {
+        auto types = lua["types"].get_or_create<sol::table>();
+        auto defines = lua["defines"].get_or_create<sol::table>();
 
-    // sledge
-    sledge::bind_mod(lua);
-    sledge::bind_gui(lua);
-    sledge::bind_xml(lua);
-    sledge::bind_event(lua);
-    sledge::bind_key(lua);
+        // sledge
+        sledge::bind_mod(lua);
+        sledge::bind_gui(lua);
+        sledge::bind_xml(lua);
+        sledge::bind_event(lua);
+        sledge::bind_key(lua);
 
-    // rfg/math
-    rfg::bind_vector(lua);
-    rfg::bind_vector2(lua);
-    rfg::bind_vector4(lua);
-    rfg::bind_matrix(lua);
+        // rfg/math
+        rfg::bind_vector(lua);
+        rfg::bind_vector2(lua);
+        rfg::bind_vector4(lua);
+        rfg::bind_matrix(lua);
 
-    // rfg
-    rfg::bind_camera(lua);
-    rfg::bind_game(lua);
-    rfg::bind_object(lua);
-    rfg::bind_human(lua);
-    rfg::bind_player(lua);
+        // rfg
+        rfg::bind_camera(lua);
+        rfg::bind_game(lua);
+        rfg::bind_object(lua);
+        rfg::bind_human(lua);
+        rfg::bind_player(lua);
+    }
 }
-} // namespace lua::bindings

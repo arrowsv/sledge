@@ -6,3 +6,7 @@ AllowShortIfStatementsOnASingleLine: false
 AllowShortLoopsOnASingleLine: false
 PointerAlignment: Left
 SortIncludes: false
+FixNamespaceComments: false
+NamespaceIndentation: All
+IndentCaseLabels: true
+IndentExternBlock: Indent
