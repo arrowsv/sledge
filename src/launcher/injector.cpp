@@ -3,7 +3,6 @@
 #include "common/config.hpp"
 #include "common/game_version.hpp"
 #include "common/utils/os.hpp"
-#include "spdlog/spdlog.h"
 
 #include <fstream>
 #include <windows.h>
