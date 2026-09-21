@@ -26,10 +26,11 @@ namespace lua {
         sol::protected_function_result execute_function_with_context(sol::protected_function& func,
                                                                      sol::table& context);
 
+        bool has_subscribers(lua::events::event event,
+                             std::optional<std::string_view> filter = std::nullopt);
         void trigger_event(lua::events::event event, const lua::events::event_context& context,
-                           std::optional<std::string_view> filter);
+                           std::optional<std::string_view> filter = std::nullopt);
         void register_event(lua::events::event event, events::event_callback callback);
-        bool has_event_subscriber(lua::events::event event, std::string_view filter_name);
 
       private:
         bool m_loading = false;

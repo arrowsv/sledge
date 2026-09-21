@@ -34,6 +34,36 @@ namespace utils::os {
         return std::filesystem::path(path).parent_path();
     }
 
+    std::optional<std::filesystem::path> find_game_directory() {
+        auto current_dir = get_module_directory(nullptr);
+        if (std::filesystem::exists(current_dir / "rfg.exe")) {
+            return current_dir;
+        }
+
+        auto parent_dir = current_dir.parent_path();
+        if (std::filesystem::exists(parent_dir / "rfg.exe")) {
+            return parent_dir;
+        }
+
+        return std::nullopt;
+    }
+
+    std::optional<std::filesystem::path> find_sledge_directory() {
+        auto current_dir = get_module_directory(nullptr);
+        if (std::filesystem::exists(current_dir / "sledge.dll") &&
+            std::filesystem::exists(current_dir / "launcher.exe")) {
+            return current_dir;
+        }
+
+        auto sledge_subdir = current_dir / "sledge";
+        if (std::filesystem::exists(sledge_subdir / "sledge.dll") &&
+            std::filesystem::exists(sledge_subdir / "launcher.exe")) {
+            return sledge_subdir;
+        }
+
+        return std::nullopt;
+    }
+
     std::optional<std::filesystem::path> open_folder_dialog() {
         std::optional<std::filesystem::path> directory;
 

@@ -1,6 +1,5 @@
 #include "mod.hpp"
 #include "common/config.hpp"
-#include "patch/gui/gui.hpp"
 #include "patch/lua/manager.hpp"
 
 #include <filesystem>
@@ -9,13 +8,6 @@
 #include <sol/sol.hpp>
 
 namespace lua::bindings::sledge {
-
-std::shared_ptr<gui::mod_panel> create_panel(std::string title, const mods::mod_info mod_info,
-                                             sol::protected_function& draw_function,
-                                             ImGuiWindowFlags flags, float width, float height) {
-    return std::make_shared<gui::mod_panel>(title, mod_info, draw_function, flags,
-                                            ImVec2{width, height});
-}
 
     void bind_mod(sol::state_view& lua) {
         auto types = lua["types"].get_or_create<sol::table>();
@@ -39,7 +31,7 @@ std::shared_ptr<gui::mod_panel> create_panel(std::string title, const mods::mod_
                 return sol::nullopt;
             }
 
-            const auto& states = config::get().mod_states;
+            const auto& states = config::get().sledge.mod_states;
             auto state_it = states.find(mod_info.id);
             if (state_it == states.end()) {
                 spdlog::error("Failed to find state for mod '{}'.", option_name, mod_info.id);
@@ -97,4 +89,4 @@ std::shared_ptr<gui::mod_panel> create_panel(std::string title, const mods::mod_
                               const mods::mod_info& mod_info) {
         environment["mod"] = mod_info;
     }
-} // namespace lua::bindings::sledge
+}

@@ -9,7 +9,8 @@ namespace utils::os {
     void show_message_error(const std::string& message);
     std::string read_file_to_string(const std::string& path);
     std::filesystem::path get_module_directory(HMODULE h_module);
-    std::string open_file_dialog(const char* filter, const char* title = "Open");
+    std::optional<std::filesystem::path> find_game_directory();
+    std::optional<std::filesystem::path> find_sledge_directory();
     std::optional<std::filesystem::path> open_folder_dialog();
 
     enum class key {

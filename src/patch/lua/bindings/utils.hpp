@@ -1,5 +1,6 @@
 #pragma once
 
+#include "common/mods.hpp"
 #include <sol/forward.hpp>
 
 namespace lua::api::utils {
@@ -8,5 +9,7 @@ namespace lua::api::utils {
                                      [](type& self, bool value) { self.field = value ? 1 : 0; });
 
     template <typename T> sol::table create_table(sol::state_view& lua, T list, int count);
+
+    sol::optional<mods::mod_info> get_env_mod(sol::this_environment this_env);
 
 }

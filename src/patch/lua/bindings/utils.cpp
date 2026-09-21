@@ -1,4 +1,5 @@
 #include "utils.hpp"
+#include "common/mods.hpp"
 
 #include <sol/sol.hpp>
 
@@ -13,5 +14,13 @@ namespace lua::api::utils {
         return t;
     }
 
+    sol::optional<mods::mod_info> get_env_mod(sol::this_environment this_env) {
+        sol::environment& env = this_env;
+
+        if (!env)
+            return {};
+
+        return env["mod"];
+    }
 
 }

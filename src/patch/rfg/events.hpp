@@ -1,6 +1,7 @@
 #pragma once
 
 #include "patch/rfg/game.hpp"
+
 namespace rfg {
     enum event_type {
         EVENT_UNDEFINED = 0xFFFFFFFF,

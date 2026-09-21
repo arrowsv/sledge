@@ -1,5 +1,6 @@
 #include "address.hpp"
 
+#include "common/game_version.hpp"
 #include "patch/main.hpp"
 
 namespace utils::address {
@@ -12,6 +13,8 @@ namespace utils::address {
                 break;
             case game_version::steam:
                 new_offset = offset.steam;
+                break;
+            default:
                 break;
         }
 

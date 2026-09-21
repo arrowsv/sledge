@@ -1,8 +1,7 @@
 #pragma once
 
-namespace hooks::gameplay {
+namespace misc::player {
 extern bool g_camera_overriding_position;
 extern bool g_camera_overriding_orientation;
-
-void apply();
-} // namespace hooks::gameplay
+void apply_patches();
+}

@@ -104,6 +104,24 @@ namespace lua {
         return func(context);
     }
 
+    bool manager::has_subscribers(lua::events::event event,
+                                  std::optional<std::string_view> filter) {
+        std::lock_guard<std::recursive_mutex> lock(m_lua_state_mutex);
+
+        auto subscribers = m_event_registry.find(event);
+        if (subscribers == m_event_registry.end())
+            return false;
+
+        if (!filter.has_value())
+            return !subscribers->second.empty();
+
+        for (const auto& callback : subscribers->second) {
+            if (!callback.filter.has_value() || callback.filter.value() == filter.value())
+                return true;
+        }
+        return false;
+    }
+
     void manager::trigger_event(lua::events::event event, const lua::events::event_context& context,
                                 std::optional<std::string_view> filter) {
         if (m_loading || *rfg::g_multiplayer())
@@ -121,9 +139,11 @@ namespace lua {
         sol::table context_table = context.to_table(lua);
 
         for (auto& callback : subscribers->second) {
-            if (filter.has_value() && callback.filter.has_value())
-                if (filter.value() != callback.filter.value())
+            if (filter.has_value() && callback.filter.has_value()) {
+                if (filter.value() != callback.filter.value()) {
                     continue;
+                }
+            }
 
             auto result = execute_function_with_context(callback.function, context_table);
             if (!result.valid()) {
@@ -136,20 +156,5 @@ namespace lua {
     void manager::register_event(lua::events::event event, lua::events::event_callback callback) {
         std::lock_guard<std::recursive_mutex> lock(m_lua_state_mutex);
         m_event_registry[event].push_back(callback);
-    }
-
-    bool manager::has_event_subscriber(lua::events::event event, std::string_view filter_name) {
-        std::lock_guard<std::recursive_mutex> lock(m_lua_state_mutex);
-
-        auto subscribers = m_event_registry.find(event);
-        if (subscribers == m_event_registry.end())
-            return false;
-
-        for (const auto& callback : subscribers->second) {
-            if (!callback.filter.has_value() || callback.filter.value() == filter_name) {
-                return true;
-            }
-        }
-        return false;
     }
 }

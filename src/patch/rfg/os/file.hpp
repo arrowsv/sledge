@@ -1,14 +1,39 @@
 #pragma once
 
 #include "patch/rfg/containers.hpp"
+#include "patch/rfg/memory.hpp"
 #include "patch/utils/memory.hpp"
 
 namespace rfg {
-union cfile_union {
-    void* m_standard_fp;
-    void* m_packfile_fp;
-    void* _m_memory_fp;
-};
+    struct v_packfile_entry;
+
+    struct cf_memory_handle {
+        unsigned __int8* buf;
+        unsigned int size;
+        bool compressed;
+        unsigned int compressed_size;
+    };
+
+    struct cf_keen_open_file {
+        unsigned int handle;
+        void* p_file_system;
+        unsigned int flags;
+        unsigned int async_num_bytes_to_transfer;
+        unsigned int async_pad_bytes;
+        unsigned int async_num_pad_bytes_to_transfer;
+        unsigned int async_num_bytes_read;
+    };
+
+    struct keen_cf_packfile_handle {
+        cf_keen_open_file* file_handle;
+        v_packfile_entry* packfile_entry;
+    };
+
+    union cfile_union {
+        cf_keen_open_file* m_standard_fp;
+        keen_cf_packfile_handle* m_packfile_fp;
+        cf_memory_handle* _m_memory_fp;
+    };
 
     enum cf_search_types {
         CF_SEARCH_NONE = 0xFFFFFFFF,
@@ -48,6 +73,14 @@ union cfile_union {
         CF_ERROR_WRITE = 0x2,
         CF_ERROR_ABORT = 0x3,
         CF_ERROR_NUM_CODES = 0x4,
+    };
+
+    struct cf_found_info {
+        enum cf_search_types searched_system;
+        enum cf_io_media_types media_type;
+        char full_name[0x100];
+        uint32_t size;
+        v_packfile_entry* vpe;
     };
 
     enum vlib_platform {
@@ -135,4 +168,21 @@ union cfile_union {
              cfile* __cdecl(uint8_t* buffer, uint32_t buffer_size, const char* open_mode,
                             vlib_platform disk_platform),
              OFFSET(0x005b5bb0, 0x005b5cc0));
+    REF_FUNC(cf_open_file_name,
+             cfile* __cdecl(const char* file_name, const char* open_mode,
+                            vlib_platform disk_platform, bool async),
+             OFFSET(0x005c2700, 0x005c27f0));
+    REF_FUNC(cf_read,
+             uint32_t __cdecl(void* dest_buffer, uint32_t num_bytes_to_read, cfile* file,
+                              bool abortable),
+             OFFSET(0x005c27e0, 0x005c28d0));
+    REF_FUNC(cf_close, bool __cdecl(cfile* file), OFFSET(0x005ca4b0, 0x005ca590));
+    REF_FUNC(packfile_find_packfile, v_packfile* __cdecl(const char* packfile_name),
+             OFFSET(0x00598950, 0x00598a60));
+    REF_FUNC(packfile_add,
+             bool __cdecl(const char* packfile_name, mempool_base* preload, bool installed_packfile,
+                          bool encrypted),
+             OFFSET(0x005cada0, 0x005cae80));
+    REF_FUNC(game_enable_standard_access, void __cdecl(), OFFSET(0x005d2650, 0x005d2730));
+    REF_FUNC(game_disable_standard_access, void __cdecl(), OFFSET(0x005d2680, 0x005d2760));
 }

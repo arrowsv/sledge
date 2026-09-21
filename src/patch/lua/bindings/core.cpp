@@ -1,5 +1,6 @@
 #include "core.hpp"
 
+#include "sledge/sledge.hpp"
 #include "sledge/gui.hpp"
 #include "sledge/mod.hpp"
 #include "sledge/xml.hpp"
@@ -22,6 +23,7 @@ namespace lua::bindings {
         auto defines = lua["defines"].get_or_create<sol::table>();
 
         // sledge
+        sledge::bind_sledge(lua);
         sledge::bind_mod(lua);
         sledge::bind_gui(lua);
         sledge::bind_xml(lua);

@@ -8,24 +8,28 @@ namespace lua::bindings::sledge {
         auto types_table = lua["types"].get_or_create<sol::table>();
 
         auto xml_node = types_table.new_usertype<pugi::xml_node>("xml_node");
-        xml_node["get"] = [](pugi::xml_node& node,
-                             const std::string& name) -> sol::optional<pugi::xml_node> {
-            auto child = node.child(name.c_str());
 
-            if (child.empty())
-                return sol::nullopt;
+        xml_node["value"] = sol::property(
+            [](pugi::xml_node& node) { return std::string(node.text().as_string()); },
+            [](pugi::xml_node& node, const std::string& value) { node.text().set(value); });
 
+        xml_node["name"] = sol::property(
+            [](pugi::xml_node& node) { return std::string(node.name()); },
+            [](pugi::xml_node& node, const std::string& name) { node.set_name(name); });
+
+        xml_node["exists"] = [](pugi::xml_node& node) { return !node.empty(); };
+
+        xml_node["get"] = [](pugi::xml_node& node, const std::string& name) -> pugi::xml_node {
+            auto child = node.child(name);
             return child;
         };
+
         xml_node["get_from_path"] = [](pugi::xml_node& node,
-                                       const std::string& query) -> sol::optional<pugi::xml_node> {
+                                       const std::string& query) -> pugi::xml_node {
             pugi::xpath_node found_node = node.select_node(query.c_str());
-
-            if (!found_node)
-                return sol::nullopt;
-
             return found_node.node();
         };
+
         xml_node["get_multiple_from_path"] = [&lua](pugi::xml_node& node,
                                                     const std::string& query) -> sol::table {
             pugi::xpath_node_set found_nodes = node.select_nodes(query.c_str());
@@ -41,12 +45,7 @@ namespace lua::bindings::sledge {
 
             return list;
         };
-        xml_node["value"] = [](pugi::xml_node& node) {
-            return std::string(node.text().as_string());
-        };
-        xml_node["set"] = [](pugi::xml_node& node, const std::string& value) {
-            node.text().set(value);
-        };
+
         xml_node["add"] = [](pugi::xml_node& node, const std::string& name,
                              sol::optional<std::string> value) {
             pugi::xml_node child = node.append_child(name.c_str());
@@ -55,11 +54,13 @@ namespace lua::bindings::sledge {
             }
             return child;
         };
+
         xml_node["delete"] = [](pugi::xml_node& node) {
             if (node.parent()) {
                 node.parent().remove_child(node);
             }
         };
+
         xml_node["children"] = [&lua](pugi::xml_node& node) -> sol::table {
             sol::table list = lua.create_table();
 
@@ -68,6 +69,11 @@ namespace lua::bindings::sledge {
                 list[index++] = child;
             }
             return list;
+        };
+
+        xml_node["parent"] = [](pugi::xml_node& node) -> pugi::xml_node {
+            auto parent = node.parent();
+            return parent;
         };
 
         auto xml_document = types_table.new_usertype<pugi::xml_document>("xml_document");

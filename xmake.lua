@@ -9,10 +9,6 @@ if is_host("linux") then
     set_plat("mingw") 
 end
 
-if is_mode("releasedbg") then 
-    add_cxflags("-g1") 
-end
-
 -- requires: common
 add_requires("magic_enum 0.9.8")
 add_requires("nativefiledialog-extended 1.3.0")

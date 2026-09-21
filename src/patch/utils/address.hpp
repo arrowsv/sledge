@@ -2,8 +2,9 @@
 
 #include <cstdint>
 
-namespace utils::address {
 #define OFFSET(gog, steam) ::utils::address::offset(gog, steam)
+
+namespace utils::address {
     struct offset {
         uintptr_t gog;
         uintptr_t steam;

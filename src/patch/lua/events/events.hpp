@@ -19,7 +19,7 @@ namespace lua::events {
     struct event_callback {
         std::string id;
         std::optional<std::string> filter;
-    mods::mod_info mod_info;
+        std::optional<mods::mod_info> mod_info;
         sol::protected_function function;
     };
 
