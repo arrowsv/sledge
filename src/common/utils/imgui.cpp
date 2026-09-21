@@ -1,9 +1,19 @@
 #include "imgui.hpp"
+#include "common/assets/fonts/icons.hpp"
 #include "common/utils/os.hpp"
-#include "fonts.hpp"
 
 #include <imgui.h>
 #include <magic_enum.hpp>
+
+namespace {
+    unsigned char base_font_data[] = {
+#include "roboto_medium.ttf.h"
+    };
+
+    unsigned char icon_font_data[] = {
+#include "material_icons_round.ttf.h"
+    };
+}
 
 namespace utils::imgui {
     void initialize_styles() {
@@ -141,15 +151,15 @@ namespace utils::imgui {
     void initialize_fonts() {
         ImGuiIO& io = ImGui::GetIO();
 
+        float size_pixels = 14.0f;
+
         // Base font
         ImFontConfig base_config;
         base_config.FontDataOwnedByAtlas = false;
-
-        float size_pixels = 14.0f;
-
+        base_config.OversampleH = 3;
+        base_config.OversampleV = 3;
         ImFont* roboto_medium = io.Fonts->AddFontFromMemoryTTF(
-            roboto_medium_data, sizeof(roboto_medium_data), size_pixels, &base_config);
-
+            base_font_data, sizeof(base_font_data), size_pixels, &base_config);
         io.FontDefault = roboto_medium;
 
         // Icon font
@@ -157,12 +167,13 @@ namespace utils::imgui {
         icon_config.FontDataOwnedByAtlas = false;
         icon_config.MergeMode = true;
         icon_config.PixelSnapH = true;
-        icon_config.GlyphMinAdvanceX = 14.0f;
-        icon_config.GlyphOffset.y = 1.5f;
-        static const ImWchar icon_ranges[] = {ICON_MIN_MS, ICON_MAX_MS, 0};
-        io.Fonts->AddFontFromMemoryTTF(material_symbols_rounded_data,
-                                       sizeof(material_symbols_rounded_data), 16.0f, &icon_config,
-                                       icon_ranges);
+        icon_config.GlyphMinAdvanceX = size_pixels;
+        icon_config.GlyphMaxAdvanceX = size_pixels;
+        icon_config.GlyphOffset.y = 2.0f;
+
+        static const ImWchar icon_ranges[] = {ICON_MIN_MD, ICON_MAX_MD, 0};
+        io.Fonts->AddFontFromMemoryTTF(icon_font_data, sizeof(icon_font_data), size_pixels,
+                                       &icon_config, icon_ranges);
     }
 
     bool key_combobox(const char* label, os::key* current_key) {

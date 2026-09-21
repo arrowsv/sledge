@@ -44,6 +44,9 @@ target("common")
     add_files("src/common/**.cpp")
     add_files("deps/imgui/*.cpp")
     
+    add_rules("utils.bin2c", {extensions = {".ttf"}})
+    add_files("src/common/assets/fonts/*.ttf")
+
     add_links("comdlg32")
     
     add_defines("MAGIC_ENUM_RANGE_MIN=0")
