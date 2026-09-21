@@ -28,8 +28,7 @@ state.player_original_position = types.vector.new(0, 0, 0)
 state.player_original_invulnerable_flag = false
 state.player_original_ai_ignore_flag = false
 state.player_original_no_ragdoll_flag = false
-state.player_original_locked_controller_flag = false
-state.player_original_hit_points = 0
+state.player_original_hit_points = 0.0
 
 local function camera_move(desired_direction)
     local modified_speed = state.freecam_speed
@@ -61,7 +60,7 @@ local function camera_move(desired_direction)
     end
 end
 
-mod:register_event(defines.event.player_do_frame, function (e)
+sledge.register_event(defines.event.player_do_frame, function(e)
     if state.freecam_enabled then
         if game.is_key_down(defines.key.w) or game.is_key_down(defines.key.arrow_up) then
             camera_move(direction.forward)
@@ -87,7 +86,7 @@ mod:register_event(defines.event.player_do_frame, function (e)
     end
 end)
 
-mod:register_event(defines.event.key_down, function (e)
+sledge.register_event(defines.event.key_down, function(e)
     if not game.is_in_gameplay() then return end
 
     local player = game.get_player()
@@ -137,7 +136,7 @@ mod:register_event(defines.event.key_down, function (e)
     end
 end)
 
-mod:register_event(defines.event.mouse_wheel, function (e)
+sledge.register_event(defines.event.mouse_wheel, function(e)
     if state.freecam_enabled then
         state.freecam_speed = state.freecam_speed + e.delta * 0.001
         if state.freecam_speed < state.freecam_speed_minimum then
@@ -148,49 +147,45 @@ mod:register_event(defines.event.mouse_wheel, function (e)
     end
 end)
 
-mod:register_window("Freecam", function ()
+sledge.register_window("Freecam", function()
     if not game.is_in_gameplay() then
-        gui.text('A save must be loaded before using this menu.')
+        gui.text("A save must be loaded before using this menu.")
         return
     end
 
-    local value, changed = gui.slider_float(
-        "Speed", state.freecam_speed, state.freecam_speed_minimum, state.freecam_speed_maximum
-    )
-    if changed then
-        state.freecam_speed = value
-    end
+    gui.property_table("Options", function()
+        gui.property_row("Speed", function()
+            gui.slider_float(state.freecam_speed, state.freecam_speed_minimum, state.freecam_speed_maximum, function(v)
+                state.freecam_speed = v
+            end)
+        end)
 
-    local value, changed = gui.slider_float(
-        "Smoothing", state.freecam_smoothing, state.freecam_smoothing_minimum, state.freecam_smoothing_maximum
-    )
-    if changed then
-        state.freecam_smoothing = value
-    end
-    gui.set_tooltip(
-        "Determines the interpolation rate between the freecam's current and new position.\nSmaller values produce smoother movement, while larger values produce quicker movement.\nDefault is 0.125."
-    )
+        gui.property_row("Smoothing", function()
+            gui.slider_float(state.freecam_smoothing, state.freecam_smoothing_minimum, state.freecam_smoothing_maximum, function(v)
+                state.freecam_smoothing = v
+            end)
+            gui.set_tooltip("Determines the interpolation rate between the freecam's current and new position. Smaller values produce smoother movement, while larger values produce quicker movement. Default is 0.125.")
+        end)
 
-    local value, changed = gui.checkbox("Invisible player", state.freecam_make_player_invisible)
-    if changed then
-        state.freecam_make_player_invisible = value
-    end
-    gui.set_tooltip(
-        "Hides the player model while the freecam is active.\nUseful to prevent the player from casting shadows.\nEquipping certain weapons (e.g. remote charges) while invisible causes the equip animation/sound to loop."
-    )
+        gui.property_row("Invisible player", function()
+            gui.checkbox(state.freecam_make_player_invisible, function(v)
+                state.freecam_make_player_invisible = v
+            end)
+            gui.set_tooltip("Hides the player model while the freecam is active. Useful to prevent the player from casting shadows. Equipping certain weapons (e.g. remote charges) while invisible causes the equip animation/sound to loop.")
+        end)
 
-    local value, changed = gui.checkbox("Keep player with camera", state.freecam_keep_player_with_camera)
-    if changed then
-        state.freecam_keep_player_with_camera = value
-    end
-    gui.set_tooltip(
-        "Teleports the player above the camera's position every frame.\nDisabling this can cause issues if the camera is too far from the player."
-    )
+        gui.property_row("Keep player with camera", function()
+            gui.checkbox(state.freecam_keep_player_with_camera, function(v)
+                state.freecam_keep_player_with_camera = v
+            end)
+            gui.set_tooltip("Teleports the player above the camera's position every frame. Disabling this can cause issues if the camera is too far from the player.")
+        end)
 
-    local value, changed = gui.checkbox("Return to original position", state.freecam_return_to_original_position)
-    if changed then
-        state.freecam_return_to_original_position = value
-    end
-    gui.set_tooltip("Returns the player to their original position after disabling the freecam.")
-end, { auto_resize = true }
-)
+        gui.property_row("Return to original position", function()
+            gui.checkbox(state.freecam_return_to_original_position, function(v)
+                state.freecam_return_to_original_position = v
+            end)
+            gui.set_tooltip("Returns the player to their original position after disabling the freecam.")
+        end)
+    end)
+end, { width = 500, height = 200 })

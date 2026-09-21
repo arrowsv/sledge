@@ -1,7 +1,7 @@
 local teleports = mod:import("teleports")
 local position = types.vector.new(0, 0, 0)
 
-local function teleports_window()
+sledge.register_window("Teleports", function()
     if not game.is_in_gameplay() then
         gui.text('A save must be loaded before using this menu.')
         return
@@ -10,43 +10,58 @@ local function teleports_window()
     local player = game.get_player()
     if not player then return end
 
-    local width, _height = gui.get_available_space()
-    gui.push_item_width(width)
+    gui.property_table('Position', function()
+        gui.property_row('X', function()
+            local width = gui.get_available_space()
+            gui.set_next_item_width(width)
+            gui.input_float(position.x, function(v)
+                position.x = v
+            end)
+        end)
 
-    local new_values, changed = gui.input_float_3('', { position.x, position.y, position.z })
-    if changed then
-        position = types.vector.new(new_values[1], new_values[2], new_values[3])
-    end
+        gui.property_row('Y', function()
+            local width = gui.get_available_space()
+            gui.set_next_item_width(width)
+            gui.input_float(position.y, function(v)
+                position.y = v
+            end)
+        end)
 
-    gui.pop_item_width()
+        gui.property_row('Z', function()
+            local width = gui.get_available_space()
+            gui.set_next_item_width(width)
+            gui.input_float(position.z, function(v)
+                position.z = v
+            end)
+        end)
+    end)
 
-    if gui.button('Teleport', width, 0) then
+    local width = gui.get_available_space()
+    gui.button('Teleport', function()
         player:teleport(position)
-    end
+    end, {width = width})
+    gui.button('Sync current position', function()
+        position = types.vector.new(player.position)
+    end, {width = width})
 
-    gui.separator_text('Presets')
-    if (gui.begin_tab_bar('TeleportTabs')) then
+    gui.separator('Presets')
+    gui.tab_bar('Teleports', function()
         for _, data in ipairs(teleports) do
             local sector = data.sector
             local locations = data.locations
 
-            if (gui.begin_tab_item(sector)) then
+            gui.tab_item(sector, function()
                 for _, info in ipairs(locations) do
-                    if gui.button(info.name, width, 0) then
+                    gui.button(info.name, function()
                         position = info.position
-                    end
-                    if gui.begin_tooltip() then
+                    end, {width = width})
+                    gui.tooltip(function()
                         gui.text('X: ' .. info.position.x)
                         gui.text('Y: ' .. info.position.y)
                         gui.text('Z: ' .. info.position.z)
-                        gui.end_tooltip()
-                    end
+                    end)
                 end
-                gui.end_tab_item()
-            end
+            end)
         end
-        gui.end_tab_bar()
-    end
-end
-
-mod:register_window("Teleports", teleports_window)
+    end)
+end)

@@ -1,0 +1,5 @@
+id = "arrows.teleport_menu"
+name = "Teleport Menu"
+author = "arrows"
+description = "Adds a window with preset teleport locations."
+version = "1.0.0"

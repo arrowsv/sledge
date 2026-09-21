@@ -74,51 +74,45 @@ local vehicle_choices = {
     ["Mars Rover"] = {"MarsRover1"},
 }
 
-mod:register_event(defines.event.parse_xml, function(e)
-    local table = e.document:get("root"):get("Table")
+local parker_choice = mod:get_option("Parker")
+local dust_choice = mod:get_option("Dust")
+local badlands_choice = mod:get_option("Badlands")
+local oasis_choice = mod:get_option("Oasis")
+local eos_choice = mod:get_option("Eos")
 
-    local spawn_group = table:get_from_path("//spawn_group_vehicle[Name='Amb_0410Safehouse']")
-    if spawn_group then
-        spawn_group:get("vehicle_list"):delete()
-        local vehicle_list = spawn_group:add("vehicle_list")
-        for _, vehicle in ipairs(vehicle_choices[mod:get_option("Parker")]) do
-            vehicle_list:add("vehicle_type", vehicle)
-        end
+sledge.register_xml_edit("spawn_group_vehicle.xtbl", function(document)
+    local spawn_group = document:get_from_path("//spawn_group_vehicle[Name='Amb_0410Safehouse']")
+    spawn_group:get("vehicle_list"):delete()
+    local vehicle_list = spawn_group:add("vehicle_list")
+    for _, vehicle in ipairs(vehicle_choices[parker_choice]) do
+        vehicle_list:add("vehicle_type", vehicle)
     end
 
-    local spawn_group = table:get_from_path("//spawn_group_vehicle[Name='Amb_DustSafehouse']")
-    if spawn_group then
-        spawn_group:get("vehicle_list"):delete()
-        local vehicle_list = spawn_group:add("vehicle_list")
-        for _, vehicle in ipairs(vehicle_choices[mod:get_option("Dust")]) do
-            vehicle_list:add("vehicle_type", vehicle)
-        end
+    local spawn_group = document:get_from_path("//spawn_group_vehicle[Name='Amb_DustSafehouse']")
+    spawn_group:get("vehicle_list"):delete()
+    local vehicle_list = spawn_group:add("vehicle_list")
+    for _, vehicle in ipairs(vehicle_choices[dust_choice]) do
+        vehicle_list:add("vehicle_type", vehicle)
     end
 
-    local spawn_group = table:get_from_path("//spawn_group_vehicle[Name='Amb_BadlandsSafehouse']")
-    if spawn_group then
-        spawn_group:get("vehicle_list"):delete()
-        local vehicle_list = spawn_group:add("vehicle_list")
-        for _, vehicle in ipairs(vehicle_choices[mod:get_option("Badlands")]) do
-            vehicle_list:add("vehicle_type", vehicle)
-        end
+    local spawn_group = document:get_from_path("//spawn_group_vehicle[Name='Amb_BadlandsSafehouse']")
+    spawn_group:get("vehicle_list"):delete()
+    local vehicle_list = spawn_group:add("vehicle_list")
+    for _, vehicle in ipairs(vehicle_choices[badlands_choice]) do
+        vehicle_list:add("vehicle_type", vehicle)
     end
 
-    local spawn_group = table:get_from_path("//spawn_group_vehicle[Name='Amb_OasisSafehouse']")
-    if spawn_group then
-        spawn_group:get("vehicle_list"):delete()
-        local vehicle_list = spawn_group:add("vehicle_list")
-        for _, vehicle in ipairs(vehicle_choices[mod:get_option("Oasis")]) do
-            vehicle_list:add("vehicle_type", vehicle)
-        end
+    local spawn_group = document:get_from_path("//spawn_group_vehicle[Name='Amb_OasisSafehouse']")
+    spawn_group:get("vehicle_list"):delete()
+    local vehicle_list = spawn_group:add("vehicle_list")
+    for _, vehicle in ipairs(vehicle_choices[oasis_choice]) do
+        vehicle_list:add("vehicle_type", vehicle)
     end
 
-    local spawn_group = table:get_from_path("//spawn_group_vehicle[Name='Amb_EosSafehouse']")
-    if spawn_group then
-        spawn_group:get("vehicle_list"):delete()
-        local vehicle_list = spawn_group:add("vehicle_list")
-        for _, vehicle in ipairs(vehicle_choices[mod:get_option("Eos")]) do
-            vehicle_list:add("vehicle_type", vehicle)
-        end
+    local spawn_group = document:get_from_path("//spawn_group_vehicle[Name='Amb_EosSafehouse']")
+    spawn_group:get("vehicle_list"):delete()
+    local vehicle_list = spawn_group:add("vehicle_list")
+    for _, vehicle in ipairs(vehicle_choices[eos_choice]) do
+        vehicle_list:add("vehicle_type", vehicle)
     end
-end, {filter = "spawn_group_vehicle.xtbl"})
+end)

@@ -1,212 +1,223 @@
-local state = { salvage_amount = 0, infinite_jetpack = false, desired_alert_level = defines.alert_level.green, lock_alert_level = false }
+local state = { infinite_jetpack = false, desired_alert_level = defines.alert_level.green, lock_alert_level = false }
 
-local function draw_window()
+sledge.register_window("Cheats", function()
     if not game.is_in_gameplay() then
-        gui.text('A save must be loaded before using this menu.')
+        gui.text("A save must be loaded before using this menu.")
         return
     end
 
     local player = game.get_player()
     if not player then return end
 
-    if (gui.begin_tab_bar('CheatsTabBar')) then
-        if (gui.begin_tab_item('Info')) then
-            gui.separator_text('Position')
+    gui.tab_bar("Cheats", function()
+        gui.tab_item("Info", function()
+            gui.separator("Position")
+            gui.property_table("Positions", function()
+                gui.property_row("X", function()
+                    gui.text(player.position.x)
+                end)
+                gui.property_row("Y", function()
+                    gui.text(player.position.y)
+                end)
+                gui.property_row("Z", function()
+                    gui.text(player.position.z)
+                end)
+            end)
 
-            gui.text("X:")
-            gui.same_line()
-            gui.text(player.position.x)
+            gui.separator("Statistics")
+            gui.property_table("Statistics", function()
+                gui.property_row("Salvage", function()
+                    gui.input_int(player.salvage, function(v)
+                       player.salvage = v
+                    end)
+                end)
 
-            gui.text("Y:")
-            gui.same_line()
-            gui.text(player.position.y)
+                gui.property_row("Mined ores", function()
+                    gui.input_int(player.mining_count, function(v)
+                       player.mining_count = v
+                    end)
+                end)
 
-            gui.text("Z:")
-            gui.same_line()
-            gui.text(player.position.z)
+                gui.property_row("Destroyed crates", function()
+                    gui.input_int(player.supply_crate_count, function(v)
+                       player.supply_crate_count = v
+                    end)
+                end)
+            end)
 
-            gui.separator_text('Statistics')
+            gui.separator("Team")
 
-            local new_value, changed = gui.input_int("Salvage", player.salvage)
-            if changed then
-                player.salvage = new_value
-            end
-
-            local new_value, changed = gui.input_int("Mined ores", player.mining_count)
-            if changed then
-                player.mining_count = new_value
-            end
-
-            local new_value, changed = gui.input_int("Destroyed crates", player.supply_crate_count)
-            if changed then
-                player.supply_crate_count = new_value
-            end
-
-            gui.separator_text("Team")
-
-            local current_team = player.team
             local team_text = ""
-
-            if current_team == defines.team.guerrilla then
+            if player.team == defines.team.guerrilla then
                 team_text = "Guerrilla"
-            elseif current_team == defines.team.edf then
+            elseif player.team == defines.team.edf then
                 team_text = "EDF"
-            elseif current_team == defines.team.civilian then
+            elseif player.team == defines.team.civilian then
                 team_text = "Civilian"
-            elseif current_team == defines.team.marauder then
+            elseif player.team == defines.team.marauder then
                 team_text = "Marauder"
             else
                 team_text = "Unknown"
             end
 
-            gui.text("Current team:")
+            gui.property_table("Team", function()
+                gui.property_row("Current team", function()
+                   gui.text(team_text)
+                end)
+            end)
+
+            gui.button("Guerrilla", function()
+                player.team = defines.team.guerrilla
+            end)
             gui.same_line()
-            gui.text(team_text)
-
-            if gui.button("Guerrilla") then player.team = defines.team.guerrilla end
+            gui.button("EDF", function()
+                player.team = defines.team.edf
+            end)
             gui.same_line()
-            if gui.button("EDF") then player.team = defines.team.edf end
+            gui.button("Civilian", function()
+                player.team = defines.team.civilian
+            end)
             gui.same_line()
-            if gui.button("Civilian") then player.team = defines.team.civilian end
-            gui.same_line()
-            if gui.button("Marauder") then player.team = defines.team.marauder end
+            gui.button("Marauder", function()
+                player.team = defines.team.marauder
+            end)
+        end)
 
-            local player = game.get_player()
+        gui.tab_item("Flags", function()
+            gui.property_table("Flags", function()
+                gui.property_row("Unlimited ammo", function()
+                    gui.checkbox(game.unlimited_ammo, function(v)
+                       game.unlimited_ammo = v
+                    end)
+                end)
 
-            if not game.is_in_gameplay() or not player then
-                gui.text("A save must be loaded before using this menu.")
-                return
-            end
-        end
+                gui.property_row("Unlimited magazine ammo", function()
+                    gui.checkbox(game.unlimited_magazine_ammo, function(v)
+                       game.unlimited_magazine_ammo = v
+                    end)
+                end)
 
-        if (gui.begin_tab_item('Flags')) then
-            local new_value, changed = gui.checkbox("Unlimited ammo", game.unlimited_ammo)
-            if changed then
-                game.unlimited_ammo = new_value
-            end
+                gui.property_row("Infinite jetpack", function()
+                    gui.checkbox(state.infinite_jetpack, function(v)
+                       state.infinite_jetpack = v
+                    end)
+                end)
 
-            local new_value, changed = gui.checkbox("Unlimited magazine ammo", game.unlimited_magazine_ammo)
-            if changed then
-                game.unlimited_magazine_ammo = new_value
-            end
+                gui.property_row("Invulnerable", function()
+                    gui.checkbox(player.flags.invulnerable, function(v)
+                       player.flags.invulnerable = v
+                    end)
+                end)
 
-            local new_value, changed = gui.checkbox("Infinite jetpack", state.infinite_jetpack)
-            if changed then
-                state.infinite_jetpack = new_value
-            end
+                gui.property_row("Disable ragdoll", function()
+                    gui.checkbox(player.flags.disallow_flinches_and_ragdolls, function(v)
+                       player.flags.disallow_flinches_and_ragdolls = v
+                    end)
+                end)
 
-            local new_value, changed = gui.checkbox("Invulnerable", player.flags.invulnerable)
-            if changed then
-                player.flags.invulnerable = new_value
-            end
+                gui.property_row("Ignored by AI", function()
+                    gui.checkbox(player.flags.ignored_by_ai, function(v)
+                       player.flags.ignored_by_ai = v
+                    end)
+                end)
 
-            local new_value, changed = gui.checkbox("Disable ragdoll", player.flags.disallow_flinches_and_ragdolls)
-            if changed then
-                player.flags.disallow_flinches_and_ragdolls = new_value
-            end
+                gui.property_row("Input enabled", function()
+                    gui.checkbox(game.input_enabled, function(v)
+                       game.input_enabled = v
+                    end)
+                end)
 
-            local new_value, changed = gui.checkbox("Ignored by AI", player.flags.ignored_by_ai)
-            if changed then
-                player.flags.ignored_by_ai = new_value
-            end
+                gui.property_row("Camera input enabled", function()
+                    gui.checkbox(game.camera_input_enabled, function(v)
+                       game.camera_input_enabled = v
+                    end)
+                end)
+            end)
+        end)
 
-            local new_value, changed = gui.checkbox("Input enabled", game.input_enabled)
-            if changed then
-                game.input_enabled = new_value
-            end
-
-            local new_value, changed = gui.checkbox("Camera input enabled", game.camera_input_enabled)
-            if changed then
-                game.camera_input_enabled = new_value
-            end
-
-            gui.end_tab_item()
-        end
-
-        if (gui.begin_tab_item('World')) then
-            gui.separator_text('Time of day')
+        gui.tab_item("World", function()
+            gui.separator("Time of day")
             local hours, minutes, seconds = game.get_time_of_day()
+            gui.property_table("Time of day", function()
+                gui.property_row("Hours", function()
+                    gui.slider_int(hours, 0, 23, function(v)
+                        game.set_time_of_day(v, minutes, seconds)
+                    end)
+                end)
+                gui.property_row("Minutes", function()
+                    gui.slider_int(minutes, 0, 59, function(v)
+                        game.set_time_of_day(hours, v, seconds)
+                    end)
+                end)
+                gui.property_row("Seconds", function()
+                    gui.slider_int(seconds, 0, 59, function(v)
+                        game.set_time_of_day(hours, minutes, v)
+                    end)
+                end)
+                gui.property_row("Lock time", function()
+                    gui.checkbox(game.time_frozen, function(v)
+                       game.time_frozen = v
+                    end)
+                end)
+            end)
 
-            local new_value, changed = gui.slider_int("Hours", hours, 0, 23)
-            if changed then
-                game.set_time_of_day(new_value, minutes, seconds)
-            end
-            local new_value, changed = gui.slider_int("Minutes", minutes, 0, 59)
-            if changed then
-                game.set_time_of_day(hours, new_value, seconds)
-            end
-            local new_value, changed = gui.slider_int("Seconds", seconds, 0, 59)
-            if changed then
-                game.set_time_of_day(hours, minutes, new_value)
-            end
-
-            local new_value, changed = gui.checkbox("Lock time of day", game.time_frozen)
-            if changed then
-                game.time_frozen = new_value
-            end
-
-            gui.separator_text('Alert level')
+            gui.separator("Alert level")
 
             local alert_level = game.get_alert_level()
-            local alert_level_text = 'Unknown'
+            local alert_level_text = "Unknown"
 
             if alert_level == defines.alert_level.green then
-                alert_level_text = 'Green'
+                alert_level_text = "Green"
             elseif alert_level == defines.alert_level.yellow then
-                alert_level_text = 'Yellow'
+                alert_level_text = "Yellow"
             elseif alert_level == defines.alert_level.orange then
-                alert_level_text = 'Orange'
+                alert_level_text = "Orange"
             elseif alert_level == defines.alert_level.red then
-                alert_level_text = 'Red'
+                alert_level_text = "Red"
             end
 
-            gui.text("Desired alert level:")
-            gui.same_line()
-            gui.text(alert_level_text)
-            if gui.button("Green") then
+            gui.property_table("Alert level", function()
+                gui.property_row("Current level", function()
+                    gui.text(alert_level_text)
+                end)
+
+                gui.property_row("Lock level", function()
+                    gui.checkbox(state.lock_alert_level, function(v)
+                        state.lock_alert_level = v
+                    end)
+                end)
+            end)
+
+            gui.button("Green", function()
                 state.desired_alert_level = defines.alert_level.green
-                game.set_alert_level(defines.alert_level.green)
-            end
-
+                game.set_alert_level(state.desired_alert_level)
+            end)
             gui.same_line()
-            if gui.button("Yellow") then
+            gui.button("Yellow", function()
                 state.desired_alert_level = defines.alert_level.yellow
-                game.set_alert_level(defines.alert_level.yellow)
-            end
-
+                game.set_alert_level(state.desired_alert_level)
+            end)
             gui.same_line()
-            if gui.button("Orange") then
+            gui.button("Orange", function()
                 state.desired_alert_level = defines.alert_level.orange
-                game.set_alert_level(defines.alert_level.orange)
-            end
-
+                game.set_alert_level(state.desired_alert_level)
+            end)
             gui.same_line()
-            if gui.button("Red") then
+            gui.button("Red", function()
                 state.desired_alert_level = defines.alert_level.red
-                game.set_alert_level(defines.alert_level.red)
-            end
+                game.set_alert_level(state.desired_alert_level)
+            end)
+        end)
+    end)
+end)
 
-            local new_value, changed = gui.checkbox("Lock alert level", state.lock_alert_level)
-            if changed then
-                state.lock_alert_level = new_value
-            end
-
-            gui.end_tab_item()
-        end
-
-        gui.end_tab_bar()
-    end
-end
-
-mod:register_window("Cheats", draw_window)
-
-mod:register_event(defines.event.player_do_frame, function (e)
+sledge.register_event(defines.event.player_do_frame, function(e)
     if state.infinite_jetpack then
         e.player.jetpack_fuel_percent = 1.0
     end
 end)
 
-mod:register_event(defines.event.alert_level_changed, function (e)
+sledge.register_event(defines.event.alert_level_changed, function(e)
     if state.lock_alert_level and e.new_alert_level ~= state.desired_alert_level then
         game.set_alert_level(state.desired_alert_level)
     end

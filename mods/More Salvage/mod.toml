@@ -1,0 +1,20 @@
+id = "arrows.more_salvage"
+name = "More Salvage"
+author = "arrows"
+description = "Increases the amount of salvage given when it is picked up."
+version = "1.0.0"
+
+[[options]]
+name = "Metal"
+type = "custom"
+default = "20"
+
+[[options]]
+name = "Ore"
+type = "custom"
+default = "35"
+
+[[options]]
+name = "Chemical"
+type = "custom"
+default = "45"

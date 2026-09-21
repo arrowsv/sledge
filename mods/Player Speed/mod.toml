@@ -1,0 +1,9 @@
+id = "arrows.player_speed"
+name = "Player Speed"
+author = "arrows"
+version = "1.0.0"
+
+[[options]]
+name = "Speed"
+type = "custom"
+default = "5"
