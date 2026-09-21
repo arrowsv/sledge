@@ -28,14 +28,8 @@ namespace lua::bindings::sledge {
         key["arrow_right"] = utils::os::key::arrow_right;
         key["arrow_down"] = utils::os::key::arrow_down;
         key["shift"] = utils::os::key::shift;
-        key["shift_left"] = utils::os::key::shift_left;
-        key["shift_right"] = utils::os::key::shift_right;
         key["control"] = utils::os::key::control;
-        key["control_left"] = utils::os::key::control_left;
-        key["control_right"] = utils::os::key::control_right;
         key["alt"] = utils::os::key::alt;
-        key["alt_left"] = utils::os::key::alt_left;
-        key["alt_right"] = utils::os::key::alt_right;
         key["semicolon"] = utils::os::key::semicolon;
         key["plus"] = utils::os::key::plus;
         key["comma"] = utils::os::key::comma;
