@@ -15,9 +15,9 @@ end
 
 -- requires: common
 add_requires("magic_enum 0.9.8")
-add_requires("plog 1.1.11")
-add_requires("nlohmann_json 3.12.0")
 add_requires("nativefiledialog-extended 1.3.0")
+add_requires("toml++ 3.4.0")
+add_requires("spdlog 1.17.0")
 
 -- requires: launcher
 add_requires("glfw 3.4")
@@ -39,7 +39,7 @@ add_cxflags("-Wunused-variable", "-Wunused-function")
 -- targets
 target("common")
     set_kind("static")
-    add_packages("plog", "nlohmann_json", "nativefiledialog-extended", "magic_enum")
+    add_packages("spdlog", "picosha2", "nativefiledialog-extended", "magic_enum", "toml++")
     
     add_files("src/common/**.cpp")
     add_files("deps/imgui/*.cpp")
@@ -53,7 +53,7 @@ target("launcher")
     set_kind("static")
     
     add_deps("common")
-    add_packages("plog", "glfw", "glad", "magic_enum")
+    add_packages("spdlog", "glfw", "glad", "magic_enum")
     
     add_rules("utils.bin2c", {extensions = {".png"}})
     add_files("src/launcher/assets/*.png")
@@ -80,8 +80,8 @@ target("patch")
     set_filename("sledge.dll")
     
     add_deps("common")
-    add_packages("plog", "sol2", "nlohmann_json", "picosha2", "pugixml", "safetyhook", "magic_enum")
-    
+    add_packages("spdlog", "sol2", "picosha2", "pugixml", "safetyhook", "magic_enum")
+
     add_files("src/patch/**.cpp")
     add_files(
         "deps/imgui/backends/imgui_impl_win32.cpp",

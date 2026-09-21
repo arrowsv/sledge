@@ -1,77 +1,97 @@
 #include "config.hpp"
+#include "utils/os.hpp"
 #include "mods.hpp"
 
 #include <filesystem>
 #include <fstream>
-#include <nlohmann/json.hpp>
-#include <plog/Log.h>
+#include <spdlog/spdlog.h>
+#include <toml++/toml.hpp>
 
 void config::initialize(const std::filesystem::path& config_directory) {
-    config_path = config_directory / "sledge.json";
-    load_from_file(config_path);
+    config_path = config_directory / "sledge.toml";
+    load_from_file();
 }
 
-void config::load_from_file(const std::filesystem::path& config_file) {
-    nlohmann::ordered_json data = nlohmann::json::object();
+void config::load_from_file() {
+    toml::table tbl;
 
-    if (std::filesystem::exists(config_file)) {
-        std::ifstream file(config_path);
-        if (file.is_open()) {
-            try {
-                data = nlohmann::json::parse(file);
-            } catch (const nlohmann::json::exception&) {
-                PLOG_ERROR << "Malformed JSON file. Using defaults.";
-            }
-        } else {
-            PLOG_ERROR << "Config file could not be opened. Using defaults.";
+    if (std::filesystem::exists(config_path)) {
+        try {
+            tbl = toml::parse_file(config_path.string());
+        } catch (const toml::parse_error& e) {
+            spdlog::error("Failed to parse config file: {}", e.what());
         }
     }
 
-    fps_limit = data.value("fps_limit", 120);
-    skip_startup_videos = data.value("skip_startup_videos", true);
+    auto game_tbl = tbl["game"];
+    game.skip_startup_videos = game_tbl["skip_startup_videos"].value_or(game.skip_startup_videos);
 
-    auto open_key_string = data.value("open_key", "f1");
-    open_key = utils::os::key_from_string(open_key_string);
+    auto sledge_tbl = tbl["sledge"];
+    sledge.keep_launcher_open =
+        sledge_tbl["keep_launcher_open"].value_or(sledge.keep_launcher_open);
+    sledge.debug_logs_enabled =
+        sledge_tbl["debug_logs_enabled"].value_or(sledge.debug_logs_enabled);
+    sledge.imgui_demo_window = sledge_tbl["imgui_demo_window"].value_or(sledge.imgui_demo_window);
 
-    if (data.contains("mod_states") && data["mod_states"].is_object()) {
-        for (const auto& [id, value] : data["mod_states"].items()) {
-            mods::mod_state state;
-            state.enabled = value.value("enabled", false);
-            if (value.contains("options") && value["options"].is_object()) {
-                for (const auto& [option_key, option_value] : value["options"].items()) {
-                    if (option_value.is_string()) {
-                        state.options[option_key] = option_value.get<std::string>();
+    std::string overlay_key_str =
+        sledge_tbl["overlay_key"].value_or(utils::os::key_to_string(sledge.overlay_key));
+    sledge.overlay_key = utils::os::key_from_string(overlay_key_str);
+
+    if (auto mods_tbl = sledge_tbl["mods"].as_table()) {
+        for (auto&& [id, value] : *mods_tbl) {
+            if (auto state_tbl = value.as_table()) {
+                mods::mod_state state;
+                state.enabled = (*state_tbl)["enabled"].value_or(false);
+
+                if (auto options = (*state_tbl)["options"].as_table()) {
+                    for (auto&& [opt_key, opt_val] : *options) {
+                        state.options[std::string(opt_key.str())] = opt_val.value_or("");
                     }
                 }
+                sledge.mod_states[std::string(id)] = state;
             }
-            mod_states[id] = state;
         }
     }
 }
 
-bool config::save() {
-    nlohmann::ordered_json data = {{"fps_limit", fps_limit},
-                                   {"skip_startup_videos", skip_startup_videos},
-                                   {"open_key", key_to_string(open_key)}};
+void config::save() {
+    toml::table tbl;
 
-    for (const auto& [id, state] : mod_states) {
-        nlohmann::ordered_json mod_entry;
-        mod_entry["enabled"] = state.enabled;
+    toml::table game_tbl;
+    game_tbl.insert("skip_startup_videos", game.skip_startup_videos);
+
+    toml::table sledge_tbl;
+    sledge_tbl.insert("keep_launcher_open", sledge.keep_launcher_open);
+    sledge_tbl.insert("overlay_key", key_to_string(sledge.overlay_key));
+    sledge_tbl.insert("debug_logs_enabled", sledge.debug_logs_enabled);
+    sledge_tbl.insert("imgui_demo_window", sledge.imgui_demo_window);
+
+    toml::table mods_tbl;
+    for (const auto& [id, state] : sledge.mod_states) {
+        toml::table state_tbl;
+        state_tbl.insert("enabled", state.enabled);
+
         if (!state.options.empty()) {
-            nlohmann::ordered_json options_table = nlohmann::json::object();
-
-            for (const auto& [k, v] : state.options)
-                options_table[k] = v;
-
-            mod_entry["options"] = options_table;
+            toml::table mod_options_tbl;
+            for (const auto& [name, value] : state.options) {
+                mod_options_tbl.insert(name, value);
+            }
+            state_tbl.insert("options", mod_options_tbl);
         }
-        data["mod_states"][id] = mod_entry;
+
+        mods_tbl.insert(id, state_tbl);
     }
+
+    if (!mods_tbl.empty()) {
+        sledge_tbl.insert("mods", mods_tbl);
+    }
+
+    tbl.insert("game", game_tbl);
+    tbl.insert("sledge", sledge_tbl);
 
     std::ofstream file(config_path);
     if (file.is_open()) {
-        file << std::setw(4) << data;
-        return true;
+        file << tbl;
+        file.close();
     }
-    return false;
 }
