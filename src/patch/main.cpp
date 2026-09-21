@@ -1,6 +1,7 @@
 #include "main.hpp"
 
 #include "common/config.hpp"
+#include "common/game_version.hpp"
 #include "common/logging.hpp"
 #include "common/mods.hpp"
 #include "common/utils/os.hpp"
@@ -53,6 +54,12 @@ bool verify_game_version() {
 
 extern "C" __declspec(dllexport) bool initialize() {
     try {
+        auto game_directory = utils::os::get_module_directory(g_game_module_base);
+        identify_game_version(game_directory / "rfg.exe");
+        if (g_game_version == game_version::unknown) {
+            return false;
+        }
+
         auto sledge_directory = utils::os::get_module_directory(g_sledge_module_base);
 
         logging::initialize(sledge_directory, "sledge");
