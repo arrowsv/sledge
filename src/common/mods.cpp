@@ -109,24 +109,7 @@ std::optional<mod_info> manager::parse_mod_config(const std::filesystem::path& m
                 mod_option option;
                 option.name = name;
 
-                auto type = values.value("type", "");
-                if (type == "custom") {
-                    option.type = mod_option_type::custom;
-                    option.choice_default = values.value("default", "");
-                } else if (type == "key") {
-                    option.type = mod_option_type::key;
-                    option.choice_default = values.value("default", "none");
-                } else if (type == "checkbox") {
-                    option.type = mod_option_type::checkbox;
-                    option.choice_default = values.value("default", "false");
-                } else if (type == "multiple") {
-                    option.type = mod_option_type::multiple;
-                    option.choice_default = values.value("default", "");
-
-                    auto choices_it = values.find("choices");
-                    if (choices_it == values.end()) {
-                        PLOG_WARNING << "[" << mod.name << "] Option '" << option.name
-                                     << "' is missing 'choices'.";
+                    option.tooltip = tbl["tooltip"].value_or("");
                         continue;
                     }
 
@@ -158,6 +141,9 @@ std::optional<mod_info> manager::parse_mod_config(const std::filesystem::path& m
 
                         option.choice_multiple = options_it->choice_multiple;
 
+                                if (option.tooltip.empty() && !options_it->tooltip.empty()) {
+                                    option.tooltip = options_it->tooltip;
+                                }
         }
         return mod;
     }

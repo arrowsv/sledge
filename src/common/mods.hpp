@@ -11,6 +11,7 @@ namespace mods {
     struct mod_option {
         std::string name;
         mod_option_type type;
+        std::string tooltip;
         std::string choice_default;
         std::vector<std::string> choice_multiple;
     };
