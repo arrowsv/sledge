@@ -49,12 +49,13 @@ target("common")
 
     add_links("comdlg32")
     
+    add_defines("IMGUI_USE_WCHAR32")
     add_defines("MAGIC_ENUM_RANGE_MIN=0")
     add_defines("MAGIC_ENUM_RANGE_MAX=256")
 
 target("launcher")
-    set_kind("static")
-    
+    set_kind("binary")
+    set_filename("launcher.exe")
     add_deps("common")
     add_packages("spdlog", "glfw", "glad", "magic_enum")
     
@@ -68,11 +69,13 @@ target("launcher")
     )
     
     add_defines("IMGUI_IMPL_OPENGL_LOADER_GLAD")
+    add_ldflags("-mwindows", {force = true})
+    add_ldflags("-static", "-static-libgcc", "-static-libstdc++")
 
 target("proxy")
     set_kind("shared")
     set_filename("dinput8.dll")
-    add_deps("launcher")
+    add_deps("common")
     add_files("src/proxy/*.cpp")
 
     add_shflags("src/proxy/dinput.def", {force = true})

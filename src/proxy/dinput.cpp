@@ -1,5 +1,6 @@
-#include "launcher/launcher.hpp"
+#include "common/utils/os.hpp"
 
+#include <filesystem>
 #include <string>
 #include <windows.h>
 
@@ -20,19 +21,42 @@ dll_get_class_object_t p_dll_get_class_object = nullptr;
 dll_register_server_t p_dll_register_server = nullptr;
 dll_unregister_server_t p_dll_unregister_server = nullptr;
 sledge_initialize_t p_sledge_initialize = nullptr;
-HHOOK p_cbt_hook = nullptr;
 
 template <typename fn_t> bool resolve(HMODULE h_mod, fn_t& fn_out, const char* sz_name) {
     fn_out = reinterpret_cast<fn_t>(GetProcAddress(h_mod, sz_name));
     return fn_out != nullptr;
 }
 
-std::wstring get_game_directory() {
-    wchar_t sz_path[MAX_PATH]{};
-    GetModuleFileNameW(nullptr, sz_path, MAX_PATH);
-    std::wstring s_path = sz_path;
-    size_t pos = s_path.find_last_of(L"\\/");
-    return (pos != std::wstring::npos) ? s_path.substr(0, pos + 1) : L"";
+bool launch_in_vanilla() {
+    auto found_sledge_dir = utils::os::find_sledge_directory();
+    if (found_sledge_dir) {
+        auto vanilla_file = found_sledge_dir.value() / "sledge_launch_vanilla.txt";
+        if (std::filesystem::exists(vanilla_file)) {
+            try {
+                std::filesystem::remove(vanilla_file);
+            } catch (const std::filesystem::filesystem_error& e) {
+                utils::os::show_message_error(
+                    std::format("Error deleting '{}': {}", vanilla_file.string(), e.what()));
+            }
+            return true;
+        }
+    }
+
+    int argc;
+    wchar_t** argv = CommandLineToArgvW(GetCommandLineW(), &argc);
+    if (!argv) {
+        return false;
+    }
+
+    bool found = false;
+    for (int i = 0; i < argc; ++i) {
+        if (std::wcscmp(argv[i], L"--vanilla") == 0) {
+            found = true;
+            break;
+        }
+    }
+    LocalFree(argv);
+    return found;
 }
 
 void ensure_sledge_loaded() {
@@ -42,10 +66,20 @@ void ensure_sledge_loaded() {
 
     g_sledge_initialized = true;
 
-    std::wstring s_sledge_path = get_game_directory() + L"sledge.dll";
-    g_sledge = LoadLibraryW(s_sledge_path.c_str());
-    if (!g_sledge)
+    if (launch_in_vanilla()) {
         return;
+    }
+
+    auto found_sledge_dir = utils::os::find_sledge_directory();
+    if (!found_sledge_dir) {
+        utils::os::show_message_error(
+            "Failed to inject Sledge: Sledge directory couldn't be found."
+            "\n\nSledge must be placed in the game's root folder or 'sledge' subdirectory.");
+        return;
+    }
+    auto sledge_dll = found_sledge_dir.value() / "sledge.dll";
+
+    g_sledge = LoadLibraryW(sledge_dll.c_str());
     if (!g_sledge) {
         return;
     }
@@ -55,39 +89,6 @@ void ensure_sledge_loaded() {
     }
 
     p_sledge_initialize();
-}
-
-LRESULT CALLBACK cbt_hook_proc(int nCode, WPARAM wParam, LPARAM lParam) {
-    if (nCode == HCBT_CREATEWND) {
-        HWND hwnd = reinterpret_cast<HWND>(wParam);
-        auto* create_struct = reinterpret_cast<CBT_CREATEWND*>(lParam)->lpcs;
-
-        if ((create_struct->style & WS_CHILD) == 0) {
-            create_struct->style &= ~WS_VISIBLE;
-
-            UnhookWindowsHookEx(p_cbt_hook);
-            p_cbt_hook = nullptr;
-
-            auto choice = launcher::run();
-
-            if (choice == launcher::choice::quit) {
-                std::exit(0);
-            }
-
-            if (choice == launcher::choice::play) {
-                ensure_sledge_loaded();
-            }
-
-            create_struct->style |= WS_VISIBLE;
-            ShowWindow(hwnd, SW_SHOW);
-            UpdateWindow(hwnd);
-
-            SetForegroundWindow(hwnd);
-            SetFocus(hwnd);
-            BringWindowToTop(hwnd);
-        }
-    }
-    return CallNextHookEx(p_cbt_hook, nCode, wParam, lParam);
 }
 
 bool initialize() {
@@ -109,8 +110,6 @@ bool initialize() {
     b_ok &= resolve(g_real_dinput8, p_dll_register_server, "DllRegisterServer");
     b_ok &= resolve(g_real_dinput8, p_dll_unregister_server, "DllUnregisterServer");
 
-    p_cbt_hook = SetWindowsHookExW(WH_CBT, cbt_hook_proc, nullptr, GetCurrentThreadId());
-
     return b_ok;
 }
 
@@ -125,6 +124,7 @@ BOOL APIENTRY DllMain(HMODULE module, DWORD reason_for_call, LPVOID reserved) {
 extern "C" {
     HRESULT WINAPI DirectInput8Create(HINSTANCE hinst, DWORD dw_version, REFIID riidltf,
                                       LPVOID* ppv_out, LPUNKNOWN punk_outer) {
+        ensure_sledge_loaded();
         return p_direct_input8_create(hinst, dw_version, riidltf, ppv_out, punk_outer);
     }
 

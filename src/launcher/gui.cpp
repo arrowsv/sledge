@@ -1,70 +1,46 @@
 #include "gui.hpp"
 
-#include "launcher.hpp"
-#include "common/config.hpp"
+#include "injector.hpp"
+#include "common/assets/fonts/icons.hpp"
 #include "common/constants.hpp"
-#include "common/mods.hpp"
-#include "common/utils/imgui.hpp"
 #include "modals/mods.hpp"
 #include "modals/options.hpp"
 
 #include <GL/gl.h>
 #include <imgui.h>
-#include <imgui_stdlib.h>
-#include <magic_enum.hpp>
-
-#define STB_IMAGE_IMPLEMENTATION
+#include <spdlog/spdlog.h>
 #include <stb_image.h>
 
-namespace launcher::gui {
-    config gui_config;
-    std::string selected_mod_id = "";
-
-    static unsigned char background_picture_data[] = {
+namespace {
+    unsigned char background_picture_data[] = {
 #include "background_picture.png.h"
     };
 
-    static unsigned char background_overlay_data[] = {
+    unsigned char background_overlay_data[] = {
 #include "background_overlay.png.h"
     };
 
-    static GLuint background_overlay_id = 0;
-    static GLuint background_picture_id = 0;
+    GLuint background_overlay_id = 0;
+    GLuint background_picture_id = 0;
 
-    void load_background_textures() {
-        {
-            int image_width = 0;
-            int image_height = 0;
+    GLuint load_texture_from_memory(const unsigned char* data, int data_size) {
+        int image_width = 0;
+        int image_height = 0;
 
-            unsigned char* image_data =
-                stbi_load_from_memory(background_picture_data, sizeof(background_picture_data),
-                                      &image_width, &image_height, NULL, 4);
+        unsigned char* image_data =
+            stbi_load_from_memory(data, data_size, &image_width, &image_height, NULL, 4);
 
-            glGenTextures(1, &background_picture_id);
-            glBindTexture(GL_TEXTURE_2D, background_picture_id);
-
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-            glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image_width, image_height, 0, GL_RGBA,
-                         GL_UNSIGNED_BYTE, image_data);
-            stbi_image_free(image_data);
+        if (!image_data) {
+            spdlog::error("Failed to load texture: {}", stbi_failure_reason());
+            return 0;
         }
 
-        {
-            int image_width = 0;
-            int image_height = 0;
+        GLuint texture_id;
+        glGenTextures(1, &texture_id);
+        glBindTexture(GL_TEXTURE_2D, texture_id);
 
-            unsigned char* image_data =
-                stbi_load_from_memory(background_overlay_data, sizeof(background_overlay_data),
-                                      &image_width, &image_height, NULL, 4);
-
-            glGenTextures(1, &background_overlay_id);
-            glBindTexture(GL_TEXTURE_2D, background_overlay_id);
-
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-            glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
         glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
         glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image_width, image_height, 0, GL_RGBA,
@@ -106,37 +82,37 @@ namespace gui {
         float available_height = ImGui::GetContentRegionAvail().y;
         ImGui::SetCursorPosY(ImGui::GetCursorPosY() + available_height - ImGui::GetFrameHeight());
 
-        if (ImGui::Button(ICON_MS_PLAY_ARROW " Play")) {
-            launcher::select_play();
+        if (ImGui::Button(ICON_MD_PLAY_ARROW " Play")) {
+            launch();
         }
         ImGui::SameLine();
-        if (ImGui::Button(ICON_MS_PLAY_ARROW "Play (vanilla)")) {
-            launcher::select_play_vanilla();
+        if (ImGui::Button(ICON_MD_PLAY_ARROW " Play (vanilla)")) {
+            launch(true);
         }
         ImGui::SameLine();
-        if (ImGui::Button(ICON_MS_SETTINGS " Options")) {
-            gui_config = config::get();
+        if (ImGui::Button(ICON_MD_SETTINGS " Options")) {
             ImGui::OpenPopup("Options");
         }
         ImGui::SameLine();
-        if (ImGui::Button(ICON_MS_EXTENSION " Mods")) {
-            gui_config = config::get();
+        if (ImGui::Button(ICON_MD_EXTENSION " Mods")) {
             ImGui::OpenPopup("Mods");
         }
+        ImGui::SameLine();
+        if (ImGui::Button(ICON_MD_OPEN_IN_BROWSER " GitHub")) {
+            ShellExecuteW(0, L"open", L"https://github.com/arrowsv/sledge", NULL, NULL,
+                          SW_SHOWDEFAULT);
+        }
 
-        std::string version_str = "Version: " + std::string(constants::version);
-        const char* version_cstr = version_str.c_str();
-        auto version_cstr_size = ImGui::CalcTextSize(version_cstr).x;
+        auto version_size = ImGui::CalcTextSize(constants::version).x;
 
         ImGui::SameLine();
         ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetContentRegionAvail().x -
-                             version_cstr_size);
-        ImGui::TextDisabled("%s", version_cstr);
+                             version_size);
+        ImGui::TextDisabled(constants::version);
 
         draw_options_modal();
         draw_mods_modal();
 
         ImGui::End();
     }
-
 }

@@ -1,6 +1,6 @@
 #pragma once
 
-namespace launcher::gui {
+namespace gui {
     void draw();
     void load_background_textures();
 }
