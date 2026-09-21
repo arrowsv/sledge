@@ -209,15 +209,24 @@ namespace lua::bindings::sledge {
             });
     }
 
-    void bind_input_slider(sol::table& table, sol::state_view& lua) {
-        table["slider_int"] = [](const std::string& label, int value, int min, int max) {
-            bool changed = ImGui::SliderInt(label.c_str(), &value, min, max);
-            return std::make_tuple(value, changed);
+    void bind_property_table(sol::table& table) {
+        table["property_table"] = [](const std::string& id, sol::function body) {
+            if (utils::imgui::begin_property_table(id.c_str())) {
+                body();
+                utils::imgui::end_property_table();
+            }
         };
 
-        table["slider_float"] = [](const std::string& label, float value, float min, float max) {
-            bool changed = ImGui::SliderFloat(label.c_str(), &value, min, max);
-            return std::make_tuple(value, changed);
+        table["property_row"] = [](const std::string& label, sol::function body) {
+            if (!utils::imgui::in_property_table()) {
+                spdlog::warn("Ignoring property row with label '{}': row must be called within a "
+                             "property table.",
+                             label);
+                return;
+            }
+            utils::imgui::begin_property_row(label.c_str());
+            body();
+            utils::imgui::end_property_row();
         };
     }
 

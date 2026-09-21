@@ -3,6 +3,7 @@
 #include "common/utils/os.hpp"
 
 #include <imgui.h>
+#include <imgui_internal.h>
 #include <magic_enum.hpp>
 
 namespace {
@@ -16,6 +17,17 @@ namespace {
 }
 
 namespace utils::imgui {
+    void initialize() {
+        IMGUI_CHECKVERSION();
+        ImGui::CreateContext();
+        ImGuiIO& io = ImGui::GetIO();
+        io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard | ImGuiConfigFlags_NavEnableGamepad;
+        io.IniFilename = NULL;
+
+        utils::imgui::initialize_styles();
+        utils::imgui::initialize_fonts();
+    }
+
     void initialize_styles() {
         /// MIT License
         /// Copyright (c) 2026 Logersnamed (https://github.com/Logersnamed/FreecamMod)
@@ -61,7 +73,7 @@ namespace utils::imgui {
         const ImVec4 bg9 = ImVec4(0.25f, 0.25f, 0.30f, 1.00f);
 
         const ImVec4 ui0 = ImVec4(0.22f, 0.22f, 0.25f, 1.00f);
-        const ImVec4 ui1 = ImVec4(0.44f, 0.44f, 0.47f, 1.00f);
+        const ImVec4 ui1 = ImVec4(0.57f, 0.57f, 0.57f, 1.00f);
         const ImVec4 ui2 = ImVec4(0.31f, 0.31f, 0.35f, 1.00f);
         const ImVec4 ui3 = ImVec4(0.40f, 0.40f, 0.45f, 1.00f);
 
@@ -204,16 +216,62 @@ namespace utils::imgui {
         return value_changed;
     }
 
+    bool begin_tooltip() {
+        bool result = ImGui::BeginItemTooltip();
+        if (result) {
+            ImGui::PushTextWrapPos(ImGui::GetFontSize() * 25.0f);
+        }
+        return result;
+    }
+    void set_tooltip(const std::string& text) {
+        if (begin_tooltip()) {
+            ImGui::TextUnformatted(text.c_str());
+            end_tooltip();
+        }
+    }
+    void end_tooltip() {
+        ImGui::PopTextWrapPos();
+        ImGui::EndTooltip();
+    }
+
     void set_help_marker(const std::string& text) {
         if (begin_help_marker()) {
-            ImGui::Text("%s", text.c_str());
+            ImGui::TextUnformatted(text.c_str());
             end_help_marker();
         }
     }
     bool begin_help_marker() {
         ImGui::SameLine();
-        ImGui::TextDisabled(ICON_MS_QUESTION_MARK);
-        return ImGui::BeginItemTooltip();
+        ImGui::TextDisabled(ICON_MD_QUESTION_MARK);
+        return begin_tooltip();
     }
-    void end_help_marker() { ImGui::EndTooltip(); }
+    void end_help_marker() { end_tooltip(); }
+
+    bool begin_property_table(const char* str_id) {
+        ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(4.0f, 2.0f));
+        bool open = ImGui::BeginTable(str_id, 2, ImGuiTableFlags_SizingFixedFit);
+        if (open) {
+            ImGui::TableSetupColumn("label", ImGuiTableColumnFlags_WidthFixed);
+            ImGui::TableSetupColumn("widget", ImGuiTableColumnFlags_WidthStretch);
+        }
+        return open;
+    }
+
+    void end_property_table() {
+        ImGui::EndTable();
+        ImGui::PopStyleVar();
+    }
+
+    void begin_property_row(const char* label) {
+        ImGui::TableNextRow();
+        ImGui::TableSetColumnIndex(0);
+        ImGui::AlignTextToFramePadding();
+        ImGui::TextDisabled("%s", label);
+        ImGui::TableSetColumnIndex(1);
+        ImGui::PushID(label);
+    }
+
+    void end_property_row() { ImGui::PopID(); }
+
+    bool in_property_table() { return ImGui::GetCurrentTable() != nullptr; }
 }
