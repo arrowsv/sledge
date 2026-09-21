@@ -5,7 +5,8 @@
 #include "common/constants.hpp"
 #include "common/mods.hpp"
 #include "common/utils/imgui.hpp"
-#include "common/utils/os.hpp"
+#include "modals/mods.hpp"
+#include "modals/options.hpp"
 
 #include <GL/gl.h>
 #include <imgui.h>
@@ -65,186 +66,21 @@ namespace launcher::gui {
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
             glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
 
-            glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
-            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image_width, image_height, 0, GL_RGBA,
-                         GL_UNSIGNED_BYTE, image_data);
-            stbi_image_free(image_data);
-        }
+        glPixelStorei(GL_UNPACK_ROW_LENGTH, 0);
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, image_width, image_height, 0, GL_RGBA,
+                     GL_UNSIGNED_BYTE, image_data);
+
+        stbi_image_free(image_data);
+        return texture_id;
     }
+}
 
-    void draw_options_modal() {
-        if (ImGui::BeginPopupModal("Options", NULL,
-                                   ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize)) {
-            utils::imgui::key_combobox("Overlay key", &gui_config.overlay_key);
-
-            ImGui::Checkbox("Skip startup videos", &gui_config.skip_startup_videos);
-
-            ImGui::Separator();
-
-            float item_spacing = ImGui::GetStyle().ItemSpacing.x;
-            float available_width = ImGui::GetContentRegionAvail().x;
-
-            int button_count = 2;
-            float button_width =
-                (available_width - (item_spacing * (button_count - 1))) / button_count;
-
-            if (ImGui::Button("Apply", {button_width, 0})) {
-                config::get() = gui_config;
-                config::get().save();
-                ImGui::CloseCurrentPopup();
-            }
-            ImGui::SameLine();
-            if (ImGui::Button("Cancel", {button_width, 0})) {
-                ImGui::CloseCurrentPopup();
-            }
-
-            ImGui::EndPopup();
-        }
-    }
-
-    void draw_mods_modal() {
-        ImVec2 main_window_size = ImGui::GetMainViewport()->Size;
-        float padding = ImGui::GetStyle().WindowPadding.x;
-        ImVec2 mods_modal_size = {main_window_size.x - (padding * 2.0f),
-                                  main_window_size.y - (padding * 2.0f)};
-        ImGui::SetNextWindowSize(mods_modal_size, ImGuiCond_Always);
-        if (ImGui::BeginPopupModal("Mods", NULL,
-                                   ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize)) {
-            float total_width = ImGui::GetContentRegionAvail().x;
-            float total_height = ImGui::GetContentRegionAvail().y;
-
-            float item_spacing_x = ImGui::GetStyle().ItemSpacing.x;
-            float item_spacing_y = ImGui::GetStyle().ItemSpacing.y;
-
-            float button_height = ImGui::GetFrameHeight();
-
-            float bottom_section_height = item_spacing_y + item_spacing_y + button_height;
-            float child_height = total_height - bottom_section_height;
-
-            float mod_list_width = total_width * 0.40;
-            float mod_info_width = total_width - mod_list_width - item_spacing_x;
-
-            auto discovered_mods = mods::manager::get().get_discovered_mods();
-
-            if (ImGui::BeginChild("mod_list", {mod_list_width, child_height},
-                                  ImGuiChildFlags_Borders, ImGuiWindowFlags_HorizontalScrollbar)) {
-                for (const auto& mod : discovered_mods) {
-                    auto state = gui_config.mod_states.find(mod.id);
-                    if (state == gui_config.mod_states.end())
-                        continue;
-
-                    ImGui::PushID(mod.id.c_str());
-
-                    ImGui::Checkbox("##enabled", &state->second.enabled);
-                    ImGui::SameLine();
-
-                    if (ImGui::Selectable(mod.name.c_str(), selected_mod_id == mod.id)) {
-                        selected_mod_id = mod.id;
-                    }
-
-                    ImGui::PopID();
-                }
-            }
-            ImGui::EndChild();
-            ImGui::SameLine();
-            if (ImGui::BeginChild("mod_info", {mod_info_width, child_height},
-                                  ImGuiChildFlags_Borders, ImGuiWindowFlags_HorizontalScrollbar)) {
-                auto mod_it = std::ranges::find_if(
-                    discovered_mods, [](const auto& m) { return m.id == selected_mod_id; });
-
-                if (mod_it != discovered_mods.end()) {
-                    const mods::mod_info& mod = *mod_it;
-
-                    ImGui::Text("%s", mod.name.c_str());
-                    ImGui::Text("Version: %s", mod.version.c_str());
-                    ImGui::Text("Author: %s", mod.author.c_str());
-
-                    if (!mod.description.empty()) {
-                        ImGui::SeparatorText("Description");
-                        ImGui::TextWrapped("%s", mod.description.c_str());
-                    }
-
-                    if (!mod.options.empty()) {
-                        ImGui::SeparatorText("Options");
-                        auto& current_mod_state = gui_config.mod_states[mod.id];
-
-                        for (const mods::mod_option& option : mod.options) {
-                            std::string& current_selection = current_mod_state.options[option.name];
-
-                            switch (option.type) {
-                                case mods::mod_option_type::custom: {
-                                    ImGui::InputText(option.name.c_str(), &current_selection);
-                                    break;
-                                }
-                                case mods::mod_option_type::key: {
-                                    utils::os::key current_key =
-                                        utils::os::key_from_string(current_selection);
-                                    if (utils::imgui::key_combobox(option.name.c_str(),
-                                                                   &current_key)) {
-                                        current_selection = utils::os::key_to_string(current_key);
-                                    }
-                                    break;
-                                }
-                                case mods::mod_option_type::checkbox: {
-                                    bool is_checked = (current_selection == "true");
-                                    if (ImGui::Checkbox(option.name.c_str(), &is_checked)) {
-                                        current_selection = is_checked ? "true" : "false";
-                                    }
-                                    break;
-                                }
-                                case mods::mod_option_type::multiple: {
-                                    if (ImGui::BeginCombo(option.name.c_str(),
-                                                          current_selection.c_str())) {
-                                        for (int i = 0; i < option.choice_multiple.size(); i++) {
-                                            const std::string& val = option.choice_multiple[i];
-                                            bool is_selected = (current_selection == val);
-
-                                            if (ImGui::Selectable(val.c_str(), is_selected)) {
-                                                current_selection = val;
-                                            }
-
-                                            if (is_selected) {
-                                                ImGui::SetItemDefaultFocus();
-                                            }
-                                        }
-                                        ImGui::EndCombo();
-                                    }
-                                    break;
-                                }
-                            }
-                        }
-                    }
-                } else {
-                    ImGui::TextDisabled("No mod selected.");
-                }
-            }
-            ImGui::EndChild();
-
-            float item_spacing = ImGui::GetStyle().ItemSpacing.x;
-            float available_width = ImGui::GetContentRegionAvail().x;
-
-            int button_count = 3;
-            float button_width =
-                (available_width - (item_spacing * (button_count - 1))) / button_count;
-
-            ImGui::Spacing();
-            if (ImGui::Button("Apply", {button_width, 0})) {
-                config::get() = gui_config;
-                config::get().save();
-                ImGui::CloseCurrentPopup();
-            }
-
-            ImGui::SameLine();
-            if (ImGui::Button("Rescan", {button_width, 0})) {
-                auto sledge_directory = utils::os::get_module_directory(nullptr) / "sledge";
-
-            ImGui::SameLine();
-            if (ImGui::Button("Cancel", {button_width, 0})) {
-                ImGui::CloseCurrentPopup();
-            }
-
-            ImGui::EndPopup();
-        }
+namespace gui {
+    void load_background_textures() {
+        background_picture_id =
+            load_texture_from_memory(background_picture_data, sizeof(background_picture_data));
+        background_overlay_id =
+            load_texture_from_memory(background_overlay_data, sizeof(background_overlay_data));
     }
 
     void draw() {
