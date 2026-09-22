@@ -1,6 +1,6 @@
-local hud_toggle_key = mod:get_option("HUD key")
-local fog_toggle_key = mod:get_option("Fog key")
-local wind_toggle_key = mod:get_option("Wind key")
+local hud_toggle_key = mod.options["HUD key"]
+local fog_toggle_key = mod.options["Fog key"]
+local wind_toggle_key = mod.options["Wind key"]
 
 sledge.register_event(defines.event.key_down, function(e)
     if e.key == hud_toggle_key then

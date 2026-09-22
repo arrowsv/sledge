@@ -5,7 +5,7 @@ function lerp(a, b, t)
 end
 
 local state = {}
-state.freecam_toggle_key = mod:get_option("Freecam key")
+state.freecam_toggle_key = mod.options["Freecam key"]
 state.freecam_position = types.vector.new(0, 0, 0)
 state.freecam_enabled = false
 

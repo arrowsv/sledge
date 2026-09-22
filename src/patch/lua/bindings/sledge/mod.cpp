@@ -14,54 +14,54 @@ namespace lua::bindings::sledge {
 
         auto mod_info = types.new_usertype<mods::mod_info>("mod_info");
         mod_info["id"] = sol::readonly(&mods::mod_info::id);
-        mod_info["name"] = sol::readonly(&mods::mod_info::name);
-        mod_info["version"] = sol::readonly(&mods::mod_info::version);
-        mod_info["description"] = sol::readonly(&mods::mod_info::description);
-        mod_info["author"] = sol::readonly(&mods::mod_info::author);
-        mod_info["path"] = sol::readonly(&mods::mod_info::path);
-        mod_info["get_option"] =
-            [&lua](const mods::mod_info& mod_info,
-                   const std::string& option_name) -> sol::optional<sol::object> {
-            auto options_it = std::find_if(
-                mod_info.options.begin(), mod_info.options.end(),
-                [option_name](const mods::mod_option& o) { return o.name == option_name; });
 
-            if (options_it == mod_info.options.end()) {
-                spdlog::error("Failed to find option '{}' for mod '{}'.", option_name, mod_info.id);
-                return sol::nullopt;
-            }
+        mod_info["name"] = sol::readonly(&mods::mod_info::name);
+
+        mod_info["options"] = sol::readonly_property([&lua](mods::mod_info& self) {
+            sol::table options_table = lua.create_table();
 
             const auto& states = config::get().sledge.mod_states;
-            auto state_it = states.find(mod_info.id);
+            auto state_it = states.find(self.id);
             if (state_it == states.end()) {
-                spdlog::error("Failed to find state for mod '{}'.", option_name, mod_info.id);
-                return sol::nullopt;
+                spdlog::error("Failed to find state for mod '{}'.", self.id);
+                return options_table;
             }
 
-            std::string option_value;
+            for (const auto& option : self.options) {
+                const auto& option_states = state_it->second.options;
+                auto opt_it = option_states.find(option.name);
+                if (opt_it == option_states.end()) {
+                    spdlog::error("Failed to find state of option '{}' for mod '{}'.", option.name,
+                                  self.id);
+                    continue;
+                }
 
-            const auto& option_states = state_it->second.options;
-            auto opt_it = option_states.find(option_name);
-            if (opt_it != option_states.end()) {
-                option_value = opt_it->second;
+                const std::string& option_value = opt_it->second;
+
+                switch (option.type) {
+                    case mods::mod_option_type::key:
+                        options_table[option.name] =
+                            sol::make_object(lua, utils::os::key_from_string(option_value));
+                        break;
+
+                    case mods::mod_option_type::checkbox:
+                        options_table[option.name] = sol::make_object(lua, option_value == "true");
+                        break;
+
+                    case mods::mod_option_type::multiple:
+                    case mods::mod_option_type::custom:
+                        options_table[option.name] = sol::make_object(lua, option_value);
+                        break;
+
+                    default:
+                        spdlog::warn("Unknown option type for option '{}'.", option.name);
+                        break;
+                }
             }
 
-            switch (options_it->type) {
-                case mods::mod_option_type::key:
-                    return sol::make_object(lua, utils::os::key_from_string(option_value));
+            return options_table;
+        });
 
-                case mods::mod_option_type::checkbox:
-                    return sol::make_object(lua, option_value == "true");
-
-                case mods::mod_option_type::multiple:
-                case mods::mod_option_type::custom:
-                    return sol::make_object(lua, option_value);
-            }
-
-            spdlog::error("Failed to find state of option '{}' for mod '{}'.", option_name,
-                          mod_info.id);
-            return sol::nullopt;
-        };
         mod_info["import"] = [lua](sol::this_environment this_env, const mods::mod_info& mod_info,
                                    const std::string& module_name) {
             std::string relative = module_name;

@@ -74,11 +74,11 @@ local vehicle_choices = {
     ["Mars Rover"] = {"MarsRover1"},
 }
 
-local parker_choice = mod:get_option("Parker")
-local dust_choice = mod:get_option("Dust")
-local badlands_choice = mod:get_option("Badlands")
-local oasis_choice = mod:get_option("Oasis")
-local eos_choice = mod:get_option("Eos")
+local parker_choice = mod.options["Parker"]
+local dust_choice = mod.options["Dust"]
+local badlands_choice = mod.options["Badlands"]
+local oasis_choice = mod.options["Oasis"]
+local eos_choice = mod.options["Eos"]
 
 sledge.register_xml_edit("spawn_group_vehicle.xtbl", function(document)
     local spawn_group = document:get_from_path("//spawn_group_vehicle[Name='Amb_0410Safehouse']")

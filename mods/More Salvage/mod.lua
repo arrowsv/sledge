@@ -1,6 +1,6 @@
-local metal_amount = mod:get_option("Metal")
-local ore_amount = mod:get_option("Ore")
-local chemical_amount = mod:get_option("Chemical")
+local metal_amount = mod.options["Metal"]
+local ore_amount = mod.options["Ore"]
+local chemical_amount = mod.options["Chemical"]
 
 sledge.register_xml_edit("salvage.xtbl", function(document)
     local table = document:get("root"):get("Table")

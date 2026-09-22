@@ -1,4 +1,4 @@
-local speed = mod:get_option("Speed")
+local speed = mod.options["Speed"]
 
 sledge.register_xml_edit("character.xtbl", function(document)
     local rfg_PC = document:get_from_path("//Character[Name='rfg_PC']")
