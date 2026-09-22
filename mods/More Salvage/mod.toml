@@ -1,6 +1,6 @@
 id = "arrows.more_salvage"
 name = "More Salvage"
-author = "arrows"
+authors = ["arrows"]
 description = "Increases the amount of salvage given when it is picked up."
 version = "1.0.0"
 

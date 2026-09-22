@@ -1,5 +1,5 @@
 id = "arrows.cheat_menu"
 name = "Cheat Menu"
-author = "arrows"
+authors = ["arrows"]
 description = "Adds a cheat menu window."
 version = "1.0.0"

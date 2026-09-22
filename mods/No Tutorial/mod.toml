@@ -1,4 +1,4 @@
 id = "arrows.no_tutorial"
 name = "No Tutorial"
-author = "arrows, moneyl"
+authors = ["arrows", "moneyl"]
 version = "1.0.0"

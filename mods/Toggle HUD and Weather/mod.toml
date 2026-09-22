@@ -1,6 +1,6 @@
 id = "arrows.toggle_hud_weather"
 name = "Toggle HUD/Weather"
-author = "arrows"
+authors = ["arrows"]
 version = "1.0.0"
 
 [[options]]

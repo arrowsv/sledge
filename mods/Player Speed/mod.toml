@@ -1,6 +1,6 @@
 id = "arrows.player_speed"
 name = "Player Speed"
-author = "arrows"
+authors = ["arrows"]
 version = "1.0.0"
 
 [[options]]

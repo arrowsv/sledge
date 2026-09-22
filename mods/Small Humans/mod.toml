@@ -1,4 +1,4 @@
 id = "arrows.small_humans"
 name = "Small Humans"
-author = "arrows"
+authors = ["arrows"]
 version = "1.0.0"

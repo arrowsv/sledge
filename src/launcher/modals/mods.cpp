@@ -76,8 +76,19 @@ namespace gui {
                         ImGui::TextUnformatted(mod.name.c_str());
                         utils::imgui::end_property_row();
 
-                        utils::imgui::begin_property_row("Author");
-                        ImGui::TextUnformatted(mod.author.c_str());
+                        utils::imgui::begin_property_row("Authors");
+                        std::string author_str = "";
+
+                        bool is_first = true;
+                        for (const auto& author : mod.authors) {
+                            if (!is_first) {
+                                author_str += ", ";
+                            }
+                            author_str += author;
+                            is_first = false;
+                        }
+                        
+                        ImGui::TextUnformatted(author_str.c_str());
                         utils::imgui::end_property_row();
 
                         utils::imgui::begin_property_row("Version");

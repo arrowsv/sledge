@@ -1,6 +1,6 @@
 id = "arrows.safehouse_vehicle_selector"
 name = "Safehouse Vehicle Selector"
-author = "arrows"
+authors = ["arrows"]
 description = "Select which vehicle spawns at each safehouse."
 version = "1.0.0"
 

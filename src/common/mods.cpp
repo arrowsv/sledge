@@ -100,7 +100,13 @@ namespace mods {
                 return std::nullopt;
             }
 
-            mod.author = tbl["author"].value_or("N/A");
+            if (auto authors = tbl["authors"].as_array()) {
+                for (auto&& node : *authors) {
+                    auto author_str = node.as_string();
+                    mod.authors.push_back(author_str->get());
+                }
+            }
+            
             mod.description = tbl["description"].value_or("");
             mod.version = tbl["version"].value_or("");
 

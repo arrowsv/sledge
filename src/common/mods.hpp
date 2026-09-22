@@ -24,7 +24,7 @@ namespace mods {
     struct mod_info {
         std::string id;
         std::string name;
-        std::string author;
+        std::vector<std::string> authors;
         std::string description;
         std::string version;
         std::vector<mod_option> options;
