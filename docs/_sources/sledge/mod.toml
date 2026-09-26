@@ -1,0 +1,30 @@
+[[types]]
+name = "mod_info"
+
+  [[types.fields]]
+  name = "id"
+  type = "string"
+  description = "Identifier of the mod."
+
+  [[types.fields]]
+  name = "name"
+  type = "string"
+  description = "Name of the mod."
+
+  [[types.fields]]
+  name = "options"
+  type = "table<string, string|boolean|defines.key|nil>"
+  description = "Options of the mod."
+
+  # [[types.methods]]
+  # name = "import"
+  #
+  #   [[types.methods.params]]
+  #   name = "name"
+  #   type = "string"
+  #
+  #   [[types.methods.returns]]
+  #   name = "result"
+  #   type = "any"
+
+  

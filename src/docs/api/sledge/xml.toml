@@ -1,0 +1,90 @@
+[[types]]
+name = "xml_node"
+
+  [[types.fields]]
+  name = "value"
+  type = "string"
+  description = "Value of the node."
+
+  [[types.fields]]
+  name = "name"
+  type = "string"
+  description = "Name of the node."
+
+  [[types.methods]]
+  name = "exists"
+  description = "Returns whether the node exists."
+
+    [[types.methods.returns]]
+    type = "boolean"
+
+  [[types.methods]]
+  name = "get"
+  description = "Returns a node's child by its name."
+
+    [[types.methods.params]]
+    name = "name"
+    type = "string"
+
+    [[types.methods.returns]]
+    type = "types.xml_node"
+
+  [[types.methods]]
+  name = "get_from_path"
+  description = "Returns the first node that matches the given XPath."
+
+    [[types.methods.params]]
+    name = "query"
+    type = "string"
+
+    [[types.methods.returns]]
+    type = "types.xml_node"
+
+  [[types.methods]]
+  name = "get_multiple_from_path"
+  description = "Returns all nodes that match the given XPath."
+
+    [[types.methods.params]]
+    name = "query"
+    type = "string"
+
+    [[types.methods.returns]]
+    type = "types.xml_node[]"
+
+  [[types.methods]]
+  name = "add"
+  description = "Adds a new child node."
+
+    [[types.methods.params]]
+    name = "name"
+    type = "string"
+
+    [[types.methods.params]]
+    name = "value"
+    type = "string"
+    optional = true
+
+    [[types.methods.returns]]
+    type = "types.xml_node"
+
+  [[types.methods]]
+  name = "delete"
+  description = "Deletes the node."
+
+  [[types.methods]]
+  name = "children"
+  description = "Returns all children of the node."
+
+    [[types.methods.returns]]
+    type = "types.xml_node[]"
+
+  [[types.methods]]
+  name = "parent"
+  description = "Returns the parent of the node."
+
+    [[types.methods.returns]]
+    type = "types.xml_node[]"
+
+[[types]]
+name = "xml_document"
+inherits = "types.xml_node"

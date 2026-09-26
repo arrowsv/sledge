@@ -1,0 +1,318 @@
+[[namespaces]]
+name = "gui"
+
+  [[namespaces.functions]]
+  name = "set_next_item_width"
+  description = "Sets the width of the next widget."
+
+    [[namespaces.functions.params]]
+    name = "width"
+    type = "number"
+
+  [[namespaces.functions]]
+  name = "push_item_width"
+  description = "Sets the width of all widgets until `pop_item_width` is called."
+
+    [[namespaces.functions.params]]
+    name = "width"
+    type = "number"
+
+  [[namespaces.functions]]
+  name = "pop_item_width"
+  description = "Restores the item width."
+
+  [[namespaces.functions]]
+  name = "get_available_space"
+  description = "Returns the available space in the window."
+
+    [[namespaces.functions.returns]]
+    name = "width"
+    type = "number"
+
+    [[namespaces.functions.returns]]
+    name = "height"
+    type = "number"
+
+  [[namespaces.functions]]
+  name = "separator"
+  description = "Creates a horizontal separator."
+
+    [[namespaces.functions.params]]
+    name = "label"
+    type = "string"
+
+  [[namespaces.functions]]
+  name = "same_line"
+  description = "Places the next widget on the same line."
+
+  [[namespaces.functions]]
+  name = "new_line"
+  description = "Forces a new line."
+
+  [[namespaces.functions]]
+  name = "spacing"
+  description = "Adds vertical spacing."
+
+  [[namespaces.functions]]
+  name = "indent"
+  description = "Moves the content position to the right."
+
+    [[namespaces.functions.params]]
+    name = "width"
+    type = "number"
+    optional = true
+  
+  [[namespaces.functions]]
+  name = "unindent"
+  description = "Moves the content position to the left."
+
+    [[namespaces.functions.params]]
+    name = "width"
+    type = "number"
+    optional = true
+  
+  [[namespaces.functions]]
+  name = "bullet"
+  description = "Creates a small circle and keeps the next widget on the same line."
+
+  [[namespaces.functions]]
+  name = "text"
+  description = "Creates text."
+
+    [[namespaces.functions.params]]
+    name = "text"
+    type = "string"
+
+  [[namespaces.functions]]
+  name = "text_disabled"
+  description = "Creates text with a disabled colour."
+
+    [[namespaces.functions.params]]
+    name = "text"
+    type = "string"
+
+  [[namespaces.functions]]
+  name = "text_wrapped"
+  description = "Creates text that wraps when it reaches the content's edge."
+
+    [[namespaces.functions.params]]
+    name = "text"
+    type = "string"
+
+  [[namespaces.functions]]
+  name = "text_bullet"
+  description = "Creates text next to a bullet."
+
+    [[namespaces.functions.params]]
+    name = "text"
+    type = "string"
+
+  [[namespaces.functions]]
+  name = "button"
+  description = "Creates a button."
+
+    [[namespaces.functions.params]]
+    name = "label"
+    type = "string"
+
+    [[namespaces.functions.params]]
+    name = "pressed"
+    type = "function"
+
+  [[namespaces.functions]]
+  name = "checkbox"
+  description = "Creates a checkbox."
+
+    [[namespaces.functions.params]]
+    name = "label"
+    type = "string"
+    optional = true
+
+    [[namespaces.functions.params]]
+    name = "value"
+    type = "boolean"
+
+    [[namespaces.functions.params]]
+    name = "changed"
+    type = "fun(new_value: boolean)"
+
+  [[namespaces.functions]]
+  name = "set_tooltip"
+  description = "Sets the previous widget's tooltip."
+
+    [[namespaces.functions.params]]
+    name = "text"
+    type = "string"
+
+  [[namespaces.functions]]
+  name = "tooltip"
+  description = "Sets the previous widget's tooltip."
+
+    [[namespaces.functions.params]]
+    name = "body"
+    type = "function"
+
+  [[namespaces.functions]]
+  name = "set_help_marker"
+  description = "Sets the previous widget's help marker."
+
+    [[namespaces.functions.params]]
+    name = "text"
+    type = "string"
+
+  [[namespaces.functions]]
+  name = "help_marker"
+  description = "Sets the previous widget's help marker."
+
+    [[namespaces.functions.params]]
+    name = "body"
+    type = "function"
+
+  [[namespaces.functions]]
+  name = "tab_bar"
+  description = "Creates a tab bar."
+
+    [[namespaces.functions.params]]
+    name = "id"
+    type = "string"
+
+    [[namespaces.functions.params]]
+    name = "body"
+    type = "function"
+
+  [[namespaces.functions]]
+  name = "tab_item"
+  description = "Creates a tab item."
+
+    [[namespaces.functions.params]]
+    name = "label"
+    type = "string"
+
+    [[namespaces.functions.params]]
+    name = "body"
+    type = "function"
+
+  [[namespaces.functions]]
+  name = "input_text"
+  description = "Creates a text input widget."
+
+    [[namespaces.functions.params]]
+    name = "label"
+    type = "string"
+    optional = true
+
+    [[namespaces.functions.params]]
+    name = "value"
+    type = "string"
+
+    [[namespaces.functions.params]]
+    name = "changed"
+    type = "fun(new_value: string)"
+
+  [[namespaces.functions]]
+  name = "input_int"
+  description = "Creates a integer input widget."
+
+    [[namespaces.functions.params]]
+    name = "label"
+    type = "string"
+    optional = true
+
+    [[namespaces.functions.params]]
+    name = "value"
+    type = "integer"
+
+    [[namespaces.functions.params]]
+    name = "changed"
+    type = "fun(new_value: integer)"
+
+  [[namespaces.functions]]
+  name = "input_float"
+  description = "Creates a floating-point input widget."
+
+    [[namespaces.functions.params]]
+    name = "label"
+    type = "string"
+    optional = true
+
+    [[namespaces.functions.params]]
+    name = "value"
+    type = "number"
+
+    [[namespaces.functions.params]]
+    name = "changed"
+    type = "fun(new_value: number)"
+
+  [[namespaces.functions]]
+  name = "slider_int"
+  description = "Creates a integer slider widget."
+
+    [[namespaces.functions.params]]
+    name = "label"
+    type = "string"
+    optional = true
+
+    [[namespaces.functions.params]]
+    name = "value"
+    type = "integer"
+
+    [[namespaces.functions.params]]
+    name = "minimum"
+    type = "integer"
+
+    [[namespaces.functions.params]]
+    name = "maximum"
+    type = "integer"
+
+    [[namespaces.functions.params]]
+    name = "changed"
+    type = "fun(new_value: integer)"
+
+  [[namespaces.functions]]
+  name = "slider_float"
+  description = "Creates a floating-point slider widget."
+
+    [[namespaces.functions.params]]
+    name = "label"
+    type = "string"
+    optional = true
+
+    [[namespaces.functions.params]]
+    name = "value"
+    type = "number"
+
+    [[namespaces.functions.params]]
+    name = "minimum"
+    type = "number"
+
+    [[namespaces.functions.params]]
+    name = "maximum"
+    type = "number"
+
+    [[namespaces.functions.params]]
+    name = "changed"
+    type = "fun(new_value: number)"
+
+  [[namespaces.functions]]
+  name = "property_table"
+  description = "Creates a property table."
+
+    [[namespaces.functions.params]]
+    name = "id"
+    type = "string"
+
+    [[namespaces.functions.params]]
+    name = "body"
+    type = "function"
+
+  [[namespaces.functions]]
+  name = "property_row"
+  description = "Creates a property table row. This must be called inside the body of a property table."
+
+    [[namespaces.functions.params]]
+    name = "label"
+    type = "string"
+
+    [[namespaces.functions.params]]
+    name = "body"
+    type = "function"

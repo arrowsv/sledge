@@ -1,0 +1,55 @@
+[[types]]
+name = "mod_info"
+
+  [[types.fields]]
+  name = "id"
+  type = "string"
+  description = "Identifier of the mod."
+
+  [[types.fields]]
+  name = "name"
+  type = "string"
+  description = "Name of the mod."
+
+  [[types.fields]]
+  name = "version"
+  type = "string"
+  description = "Version of the mod."
+
+  [[types.fields]]
+  name = "description"
+  type = "string"
+  description = "Description of the mod."
+
+  [[types.fields]]
+  name = "author"
+  type = "string"
+  description = "Author of the mod."
+
+  [[types.fields]]
+  name = "path"
+  type = "string"
+  description = "Path of the mod."
+
+  [[types.methods]]
+  name = "get_option"
+
+    [[types.methods.params]]
+    name = "name"
+    type = "string"
+
+    [[types.methods.returns]]
+    type = "string, boolean, defines.key, nil"
+
+  [[types.methods]]
+  name = "import"
+
+    [[types.methods.params]]
+    name = "name"
+    type = "string"
+
+    [[types.methods.returns]]
+    name = "result"
+    type = "any"
+
+  

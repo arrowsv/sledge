@@ -1,0 +1,18 @@
+[[types]]
+name = "object"
+
+  [[types.fields]]
+  name = "position"
+  type = "types.vector"
+
+  [[types.fields]]
+  name = "orientation"
+  type = "types.matrix"
+
+  [[types.methods]]
+  name = "set_visible"
+  description = "Sets whether the object and its children are visible."
+
+    [[types.methods.params]]
+    name = "visible"
+    type = "boolean"

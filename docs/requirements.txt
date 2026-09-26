@@ -1,4 +1,2 @@
-sphinx>=8.0
-sphinx-lua-ls
-sphinx-design
-shibuya
+mkdocs-material==9.7.7
+mkdocs-awesome-nav==3.3.0

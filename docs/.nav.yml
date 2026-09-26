@@ -1,0 +1,16 @@
+preserve_directory_names: true
+
+nav:
+  - index.md
+  - changelog.md
+  - Getting started:
+    - getting-started/installation.md
+    - getting-started/usage.md
+  - Guides:
+    - guides/creating-mods.md
+    # - guides/registering-events.md
+    # - guides/creating-panels.md
+    - guides/editing-files.md
+  - Lua:
+    - API:
+      - "lua/api/*"

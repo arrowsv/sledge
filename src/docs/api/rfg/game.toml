@@ -1,0 +1,246 @@
+[[defines]]
+name = "alert_level"
+
+  [[defines.fields]]
+  name = "green"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "yellow"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "orange"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "red"
+  type = "integer"
+
+[[types]]
+name = "game_clock"
+
+  [[types.fields]]
+  name = "year"
+  type = "number"
+
+  [[types.fields]]
+  name = "month"
+  type = "number"
+
+  [[types.fields]]
+  name = "day"
+  type = "number"
+
+  [[types.fields]]
+  name = "hours"
+  type = "number"
+
+  [[types.fields]]
+  name = "minutes"
+  type = "number"
+
+  [[types.fields]]
+  name = "seconds"
+  type = "number"
+
+  [[types.fields]]
+  name = "day_of_week"
+  type = "number"
+
+  [[types.fields]]
+  name = "time_scale"
+  type = "number"
+
+  [[types.fields]]
+  name = "current_day_ticks"
+  type = "number"
+  
+[[namespaces]]
+name = "game"
+
+  [[namespaces.fields]]
+  name = "overriding_camera_position"
+  type = "boolean"
+  description = "Whether the game is prevented from updating the camera position every frame."
+
+  [[namespaces.fields]]
+  name = "overriding_camera_orientation"
+  type = "boolean"
+  description = "Whether the game is prevented from updating the camera orientation every frame."
+
+  [[namespaces.fields]]
+  name = "time_frozen"
+  type = "boolean"
+  description = "Whether the time of day is frozen."
+
+  [[namespaces.fields]]
+  name = "unlimited_ammo"
+  type = "boolean"
+  description = "Whether unlimited ammo is enabled."
+
+  [[namespaces.fields]]
+  name = "unlimited_magazine_ammo"
+  type = "boolean"
+  description = "Whether unlimited magazine ammo is enabled."
+
+  [[namespaces.fields]]
+  name = "fog_visible"
+  type = "boolean"
+  description = "Whether fog is visible."
+
+  [[namespaces.fields]]
+  name = "hud_visible"
+  type = "boolean"
+  description = "Whether the HUD is visible."
+
+  [[namespaces.fields]]
+  name = "wind_visible"
+  type = "boolean"
+  description = "Whether wind is visible. If false, wind sounds are also disabled."
+
+  [[namespaces.functions]]
+  name = "get_player"
+  description = "Returns the player."
+
+    [[namespaces.functions.returns]]
+    type = "types.player, nil"
+  
+  [[namespaces.functions]]
+  name = "is_in_gameplay"
+  description = "Returns whether the player is currently in gameplay."
+
+    [[namespaces.functions.returns]]
+    type = "boolean"
+  
+  [[namespaces.functions]]
+  name = "get_camera"
+  description = "Returns the player's camera."
+
+    [[namespaces.functions.returns]]
+    type = "types.camera"
+
+  [[namespaces.functions]]
+  name = "get_time"
+  description = "Returns the current game clock state."
+
+    [[namespaces.functions.returns]]
+    type = "types.game_clock"
+
+  [[namespaces.functions]]
+  name = "get_time_of_day"
+  description = "Returns the current time of day."
+
+    [[namespaces.functions.returns]]
+    name = "hour"
+    type = "number"
+
+    [[namespaces.functions.returns]]
+    name = "minutes"
+    type = "number"
+
+    [[namespaces.functions.returns]]
+    name = "seconds"
+    type = "number"
+
+  [[namespaces.functions]]
+  name = "set_time_of_day"
+  description = "Sets the current time of day."
+
+    [[namespaces.functions.params]]
+    name = "hour"
+    type = "number"
+
+    [[namespaces.functions.params]]
+    name = "minutes"
+    type = "number"
+
+    [[namespaces.functions.params]]
+    name = "seconds"
+    type = "number"
+
+  [[namespaces.functions]]
+  name = "get_alert_level"
+  description = "Returns the current alert level."
+
+    [[namespaces.functions.returns]]
+    type = "defines.alert_level"
+
+  [[namespaces.functions]]
+  name = "set_alert_level"
+  description = "Sets the current alert level."
+
+    [[namespaces.functions.params]]
+    name = "level"
+    type = "defines.alert_level"
+
+  [[namespaces.functions]]
+  name = "get_alert_level_cap"
+  description = "Returns the current alert level cap."
+
+    [[namespaces.functions.returns]]
+    name = "minimum"
+    type = "defines.alert_level"
+
+    [[namespaces.functions.returns]]
+    name = "maximum"
+    type = "defines.alert_level"
+
+  [[namespaces.functions]]
+  name = "set_alert_level_cap"
+  description = "Sets the current alert level cap."
+
+    [[namespaces.functions.params]]
+    name = "minimum"
+    type = "defines.alert_level"
+
+    [[namespaces.functions.params]]
+    name = "maximum"
+    type = "defines.alert_level"
+
+  [[namespaces.functions]]
+  name = "release_alert_level_cap"
+  description = "Releases the current alert level cap."
+
+  
+  [[namespaces.functions]]
+  name = "show_message"
+  description = "Shows a message in the top-left of the screen. This message only shows while in gameplay."
+
+    [[namespaces.functions.params]]
+    name = "text"
+    type = "string"
+
+    [[namespaces.functions.params]]
+    name = "options"
+    type = "table"
+    optional = true
+
+      [[namespaces.functions.params.fields]]
+      name = "animated"
+      type = "boolean"
+      description = "If `true`, the message will have an animated background. This is used by the game when notifying the player about mission and handbook unlocks. Defaults to `false`."
+      optional = true
+
+      [[namespaces.functions.params.fields]]
+      name = "duration"
+      type = "number"
+      description = "Defaults to `3.0`."
+      optional = true
+
+  [[namespaces.functions]]
+  name = "is_key_down"
+  description = """
+  Returns whether a key is being held down in the current frame.
+
+  Scripts where smooth movement is necessary (e.g. freecam mod) can register to the `player_do_frame` event and use this function to check if a key is being held down.
+  
+  In all other cases, registering to the `key_down` event is recommended to reduce the amount of per-frame scripts.
+  """
+
+    [[namespaces.functions.params]]
+    name = "key"
+    type = "defines.key"
+
+    [[namespaces.functions.returns]]
+    type = "boolean"

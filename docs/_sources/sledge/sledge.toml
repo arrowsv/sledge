@@ -1,0 +1,81 @@
+[[namespaces]]
+name = "sledge"
+
+  [[namespaces.functions]]
+  name = "log"
+
+    [[namespaces.functions.params]]
+    name = "message"
+    type = "string"
+
+  [[namespaces.functions]]
+  name = "log_warn"
+
+    [[namespaces.functions.params]]
+    name = "message"
+    type = "string"
+
+  [[namespaces.functions]]
+  name = "log_error"
+
+    [[namespaces.functions.params]]
+    name = "message"
+    type = "string"
+
+  [[namespaces.functions]]
+  name = "register_window"
+
+    [[namespaces.functions.params]]
+    name = "title"
+    type = "string"
+
+    [[namespaces.functions.params]]
+    name = "callback"
+    type = "function"
+
+  [[namespaces.functions]]
+  name = "register_widget"
+
+    [[namespaces.functions.params]]
+    name = "title"
+    type = "string"
+
+    [[namespaces.functions.params]]
+    name = "callback"
+    type = "function"
+
+  [[namespaces.functions]]
+  name = "register_event"
+
+    [[namespaces.functions.params]]
+    name = "event"
+    type = "defines.event"
+
+    [[namespaces.functions.params]]
+    name = "callback"
+    type = "function"
+
+  [[namespaces.functions]]
+  name = "register_file"
+
+    [[namespaces.functions.params]]
+    name = "path"
+    type = "string"
+
+  [[namespaces.functions]]
+  name = "register_packfile"
+
+    [[namespaces.functions.params]]
+    name = "path"
+    type = "string"
+
+  [[namespaces.functions]]
+  name = "register_xml_edit"
+
+    [[namespaces.functions.params]]
+    name = "name"
+    type = "string"
+
+    [[namespaces.functions.params]]
+    name = "callback"
+    type = "function"

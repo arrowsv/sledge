@@ -1,0 +1,422 @@
+[[defines]]
+name = "key"
+
+  [[defines.fields]]
+  name = "none"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "mouse_left"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "mouse_right"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "mouse_middle"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "backspace"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "enter"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "tab"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "space"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "caps_lock"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "nav_insert"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "nav_del"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "nav_end"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "nav_home"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "nav_page_up"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "nav_page_down"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "arrow_left"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "arrow_up"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "arrow_right"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "arrow_down"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "shift"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "control"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "alt"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "semicolon"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "plus"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "comma"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "period"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "minus"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "forward_slash"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "tilde"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f1"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f2"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f3"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f4"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f5"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f6"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f7"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f8"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f9"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f10"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f11"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f12"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f13"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f14"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f15"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f16"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f17"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f18"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f19"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f20"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f21"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f22"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f23"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f24"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "numpad_0"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "numpad_1"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "numpad_2"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "numpad_3"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "numpad_4"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "numpad_5"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "numpad_6"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "numpad_7"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "numpad_8"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "numpad_9"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "numpad_multiply"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "numpad_add"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "numpad_subtract"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "numpad_separator"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "numpad_decimal"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "numpad_divide"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "num_0"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "num_1"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "num_2"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "num_3"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "num_4"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "num_5"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "num_6"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "num_7"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "num_8"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "num_9"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "a"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "b"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "c"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "d"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "e"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "f"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "g"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "h"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "i"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "j"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "k"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "l"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "m"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "n"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "o"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "p"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "q"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "r"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "s"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "t"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "u"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "v"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "w"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "x"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "y"
+  type = "integer"
+  
+  [[defines.fields]]
+  name = "z"
+  type = "integer"

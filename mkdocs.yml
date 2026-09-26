@@ -1,0 +1,30 @@
+site_name: Sledge
+site_url: https://sledge.readthedocs.io
+repo_url: https://github.com/arrowsv/sledge
+
+theme:
+  name: material
+  logo: assets/icon.png
+  favicon: assets/icon.png
+  palette:
+    scheme: slate
+    primary: black
+  font:
+    text: Roboto
+  features:
+    - search.suggest
+    - navigation.sections
+    - navigation.footer
+    - content.code.copy
+
+markdown_extensions:
+  - admonition
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight
+  - pymdownx.details
+  - pymdownx.superfences 
+
+plugins:
+  - search
+  - awesome-nav

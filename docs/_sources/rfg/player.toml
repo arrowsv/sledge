@@ -1,0 +1,19 @@
+[[types]]
+name = "player"
+inherits = "human"
+
+  [[types.fields]]
+  name = "jetpack_fuel_percent"
+  type = "number"
+
+  [[types.fields]]
+  name = "salvage"
+  type = "integer"
+
+  [[types.fields]]
+  name = "mining_count"
+  type = "integer"
+
+  [[types.fields]]
+  name = "supply_crate_count"
+  type = "integer"

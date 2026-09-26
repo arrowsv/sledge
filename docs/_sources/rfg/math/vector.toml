@@ -1,0 +1,15 @@
+[[types]]
+name = "vector"
+description = "Represents 3 floating-point numbers."
+
+  [[types.fields]]
+  name = "x"
+  type = "number"
+
+  [[types.fields]]
+  name = "y"
+  type = "number"
+
+  [[types.fields]]
+  name = "z"
+  type = "number"

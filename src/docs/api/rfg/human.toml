@@ -1,0 +1,77 @@
+[[defines]]
+name = "team"
+
+  [[defines.fields]]
+  name = "none"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "guerrilla"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "edf"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "civilian"
+  type = "integer"
+
+  [[defines.fields]]
+  name = "marauder"
+  type = "integer"
+
+[[types]]
+name = "human_flags"
+
+  [[types.fields]]
+  name = "invulnerable"
+  type = "boolean"
+
+  [[types.fields]]
+  name = "no_damage"
+  type = "boolean"
+
+  [[types.fields]]
+  name = "ignored_by_ai"
+  type = "boolean"
+
+  [[types.fields]]
+  name = "disallow_vehicle_exit"
+  type = "boolean"
+
+  [[types.fields]]
+  name = "in_vehicle_invisible"
+  type = "boolean"
+
+  [[types.fields]]
+  name = "disallow_flinches_and_ragdolls"
+  type = "boolean"
+
+[[types]]
+name = "human"
+inherits = "object"
+
+  [[types.fields]]
+  name = "flags"
+  type = "types.human_flags"
+
+  [[types.fields]]
+  name = "hit_points"
+  type = "number"
+
+  [[types.fields]]
+  name = "team"
+  type = "defines.team"
+
+  [[types.fields]]
+  name = "undercover_team"
+  type = "defines.team"
+
+  [[types.methods]]
+  name = "teleport"
+  description = "Teleports the human."
+
+    [[types.methods.params]]
+    name = "position"
+    type = "types.vector"

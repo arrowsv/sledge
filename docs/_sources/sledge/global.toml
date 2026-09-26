@@ -1,0 +1,7 @@
+[[namespaces]]
+name = "global"
+description = ""
+
+  [[namespaces.fields]]
+  name = "mod"
+  type = "types.mod_info"
