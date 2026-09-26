@@ -1,5 +1,5 @@
 site_name: Sledge
-site_url: https://sledge.readthedocs.io
+site_url: !ENV READTHEDOCS_CANONICAL_URL
 repo_url: https://github.com/arrowsv/sledge
 
 theme:
