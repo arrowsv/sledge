@@ -153,7 +153,11 @@ namespace mods {
                         }
                         case mod_option_type::checkbox: {
                             option.type = mod_option_type::checkbox;
-                            option.choice_default = tbl["default"].value_or("false");
+                            if (auto default_val = tbl["default"].as_boolean()) {
+                                option.choice_default = default_val->get() ? "true" : "false";
+                            } else {
+                                option.choice_default = "false";
+                            }
                             break;
                         }
                         case mod_option_type::multiple: {
