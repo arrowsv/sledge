@@ -161,8 +161,24 @@ namespace gui {
                                 }
                                 utils::imgui::end_property_row();
 
-                                if (has_tooltip) {
-                                    utils::imgui::set_tooltip(option.tooltip);
+                                if (has_tooltip || !option.choice_default.empty()) {
+                                    if (utils::imgui::begin_tooltip()) {
+                                        if (has_tooltip) {
+                                            ImGui::TextUnformatted(option.tooltip.c_str());
+                                        }
+
+                                        if (!option.choice_default.empty()) {
+                                            if (utils::imgui::begin_property_table("default")) {
+                                                utils::imgui::begin_property_row("Default");
+                                                ImGui::TextUnformatted(
+                                                    option.choice_default.c_str());
+                                                utils::imgui::end_property_row();
+                                                utils::imgui::end_property_table();
+                                            }
+                                        }
+
+                                        utils::imgui::end_tooltip();
+                                    }
                                 }
                             }
                             utils::imgui::end_property_table();
