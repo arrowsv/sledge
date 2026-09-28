@@ -58,6 +58,7 @@ target("launcher")
     add_rules("utils.bin2c", {extensions = {".png"}})
     add_files("src/launcher/assets/*.png")
 
+    add_files("src/launcher/assets/launcher.rc")
     add_files("src/launcher/**.cpp")
     add_files(
         "deps/imgui/backends/imgui_impl_glfw.cpp",
