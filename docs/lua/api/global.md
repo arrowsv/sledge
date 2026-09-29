@@ -4,5 +4,7 @@
 
 ### `mod`
 
-Type: `types.mod_info`
+**Returns**
+
+* `result` (<code>[types.mod_info](/lua/api/types/mod_info.md)</code>)
 

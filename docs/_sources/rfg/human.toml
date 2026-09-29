@@ -50,7 +50,7 @@ name = "human_flags"
 
 [[types]]
 name = "human"
-inherits = "object"
+inherits = "types.object"
 
   [[types.fields]]
   name = "flags"

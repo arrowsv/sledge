@@ -8,9 +8,11 @@ nav:
     - getting-started/usage.md
   - Guides:
     - guides/creating-mods.md
-    # - guides/registering-events.md
-    # - guides/creating-panels.md
-    - guides/editing-files.md
+    - guides/overriding-files.md
+    - guides/editing-xml-files.md
+    - guides/registering-events.md
   - Lua:
     - API:
       - "lua/api/*"
+    - Events:
+      - "lua/events/*"

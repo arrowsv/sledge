@@ -12,7 +12,7 @@ gui.set_next_item_width(width)
 
 **Parameters**
 
-* `width` (`number`)
+* `width` (<code>number</code>)
 
 ---
 
@@ -26,7 +26,7 @@ gui.push_item_width(width)
 
 **Parameters**
 
-* `width` (`number`)
+* `width` (<code>number</code>)
 
 ---
 
@@ -50,8 +50,8 @@ local width, height = gui.get_available_space()
 
 **Returns**
 
-* `width` (`number`)
-* `height` (`number`)
+* `width` (<code>number</code>)
+* `height` (<code>number</code>)
 
 ---
 
@@ -65,7 +65,7 @@ gui.separator(label?)
 
 **Parameters**
 
-* `label` (`string`, optional)
+* `label` (<code>string</code>, optional)
 
 ---
 
@@ -109,7 +109,7 @@ gui.indent(width?)
 
 **Parameters**
 
-* `width` (`number`, optional)
+* `width` (<code>number</code>, optional)
 
 ---
 
@@ -123,7 +123,7 @@ gui.unindent(width?)
 
 **Parameters**
 
-* `width` (`number`, optional)
+* `width` (<code>number</code>, optional)
 
 ---
 
@@ -147,7 +147,7 @@ gui.text(text)
 
 **Parameters**
 
-* `text` (`string`)
+* `text` (<code>string</code>)
 
 ---
 
@@ -161,7 +161,7 @@ gui.text_disabled(text)
 
 **Parameters**
 
-* `text` (`string`)
+* `text` (<code>string</code>)
 
 ---
 
@@ -175,7 +175,7 @@ gui.text_wrapped(text)
 
 **Parameters**
 
-* `text` (`string`)
+* `text` (<code>string</code>)
 
 ---
 
@@ -189,7 +189,7 @@ gui.text_bullet(text)
 
 **Parameters**
 
-* `text` (`string`)
+* `text` (<code>string</code>)
 
 ---
 
@@ -203,8 +203,8 @@ gui.button(label, pressed)
 
 **Parameters**
 
-* `label` (`string`)
-* `pressed` (`function`)
+* `label` (<code>string</code>)
+* `pressed` (<code>function</code>)
 
 ---
 
@@ -218,9 +218,9 @@ gui.checkbox(label?, value, changed)
 
 **Parameters**
 
-* `label` (`string`, optional)
-* `value` (`boolean`)
-* `changed` (`function(new_value: boolean)`)
+* `label` (<code>string</code>, optional)
+* `value` (<code>boolean</code>)
+* `changed` (<code>function(new_value: boolean)</code>)
 
 ---
 
@@ -234,7 +234,7 @@ gui.set_tooltip(text)
 
 **Parameters**
 
-* `text` (`string`)
+* `text` (<code>string</code>)
 
 ---
 
@@ -248,7 +248,7 @@ gui.tooltip(body)
 
 **Parameters**
 
-* `body` (`function`)
+* `body` (<code>function</code>)
 
 ---
 
@@ -262,7 +262,7 @@ gui.set_help_marker(text)
 
 **Parameters**
 
-* `text` (`string`)
+* `text` (<code>string</code>)
 
 ---
 
@@ -276,7 +276,7 @@ gui.help_marker(body)
 
 **Parameters**
 
-* `body` (`function`)
+* `body` (<code>function</code>)
 
 ---
 
@@ -290,8 +290,8 @@ gui.tab_bar(id, body)
 
 **Parameters**
 
-* `id` (`string`)
-* `body` (`function`)
+* `id` (<code>string</code>)
+* `body` (<code>function</code>)
 
 ---
 
@@ -305,8 +305,8 @@ gui.tab_item(label, body)
 
 **Parameters**
 
-* `label` (`string`)
-* `body` (`function`)
+* `label` (<code>string</code>)
+* `body` (<code>function</code>)
 
 ---
 
@@ -320,9 +320,9 @@ gui.input_text(label?, value, changed)
 
 **Parameters**
 
-* `label` (`string`, optional)
-* `value` (`string`)
-* `changed` (`function(new_value: string)`)
+* `label` (<code>string</code>, optional)
+* `value` (<code>string</code>)
+* `changed` (<code>function(new_value: string)</code>)
 
 ---
 
@@ -336,9 +336,9 @@ gui.input_int(label?, value, changed)
 
 **Parameters**
 
-* `label` (`string`, optional)
-* `value` (`integer`)
-* `changed` (`function(new_value: integer)`)
+* `label` (<code>string</code>, optional)
+* `value` (<code>integer</code>)
+* `changed` (<code>function(new_value: integer)</code>)
 
 ---
 
@@ -352,9 +352,9 @@ gui.input_float(label?, value, changed)
 
 **Parameters**
 
-* `label` (`string`, optional)
-* `value` (`number`)
-* `changed` (`function(new_value: number)`)
+* `label` (<code>string</code>, optional)
+* `value` (<code>number</code>)
+* `changed` (<code>function(new_value: number)</code>)
 
 ---
 
@@ -368,11 +368,11 @@ gui.slider_int(label?, value, minimum, maximum, changed)
 
 **Parameters**
 
-* `label` (`string`, optional)
-* `value` (`integer`)
-* `minimum` (`integer`)
-* `maximum` (`integer`)
-* `changed` (`function(new_value: integer)`)
+* `label` (<code>string</code>, optional)
+* `value` (<code>integer</code>)
+* `minimum` (<code>integer</code>)
+* `maximum` (<code>integer</code>)
+* `changed` (<code>function(new_value: integer)</code>)
 
 ---
 
@@ -386,11 +386,11 @@ gui.slider_float(label?, value, minimum, maximum, changed)
 
 **Parameters**
 
-* `label` (`string`, optional)
-* `value` (`number`)
-* `minimum` (`number`)
-* `maximum` (`number`)
-* `changed` (`function(new_value: number)`)
+* `label` (<code>string</code>, optional)
+* `value` (<code>number</code>)
+* `minimum` (<code>number</code>)
+* `maximum` (<code>number</code>)
+* `changed` (<code>function(new_value: number)</code>)
 
 ---
 
@@ -404,8 +404,8 @@ gui.property_table(id, body)
 
 **Parameters**
 
-* `id` (`string`)
-* `body` (`function`)
+* `id` (<code>string</code>)
+* `body` (<code>function</code>)
 
 ---
 
@@ -419,6 +419,6 @@ gui.property_row(label, body)
 
 **Parameters**
 
-* `label` (`string`)
-* `body` (`function`)
+* `label` (<code>string</code>)
+* `body` (<code>function</code>)
 

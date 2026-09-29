@@ -4,17 +4,21 @@
 
 ### `value`
 
-Type: `string`
-
 Value of the node.
+
+**Returns**
+
+* `result` (<code>string</code>)
 
 ---
 
 ### `name`
 
-Type: `string`
-
 Name of the node.
+
+**Returns**
+
+* `result` (<code>string</code>)
 
 ## Methods
 
@@ -23,12 +27,12 @@ Name of the node.
 Returns whether the node exists.
 
 ```lua
-local result = types.xml_node:exists()
+local result = object:exists()
 ```
 
 **Returns**
 
-* `result` (`boolean`)
+* `result` (<code>boolean</code>)
 
 ---
 
@@ -37,16 +41,16 @@ local result = types.xml_node:exists()
 Returns a node's child by its name.
 
 ```lua
-local result = types.xml_node:get(name)
+local result = object:get(name)
 ```
 
 **Parameters**
 
-* `name` (`string`)
+* `name` (<code>string</code>)
 
 **Returns**
 
-* `result` (`types.xml_node`)
+* `result` (<code>[types.xml_node](/lua/api/types/xml_node.md)</code>)
 
 ---
 
@@ -55,16 +59,16 @@ local result = types.xml_node:get(name)
 Returns the first node that matches the given XPath.
 
 ```lua
-local result = types.xml_node:get_from_path(query)
+local result = object:get_from_path(query)
 ```
 
 **Parameters**
 
-* `query` (`string`)
+* `query` (<code>string</code>)
 
 **Returns**
 
-* `result` (`types.xml_node`)
+* `result` (<code>[types.xml_node](/lua/api/types/xml_node.md)</code>)
 
 ---
 
@@ -73,16 +77,16 @@ local result = types.xml_node:get_from_path(query)
 Returns all nodes that match the given XPath.
 
 ```lua
-local result = types.xml_node:get_multiple_from_path(query)
+local result = object:get_multiple_from_path(query)
 ```
 
 **Parameters**
 
-* `query` (`string`)
+* `query` (<code>string</code>)
 
 **Returns**
 
-* `result` (`types.xml_node[]`)
+* `result` (<code>[types.xml_node](/lua/api/types/xml_node.md)[]</code>)
 
 ---
 
@@ -91,17 +95,17 @@ local result = types.xml_node:get_multiple_from_path(query)
 Adds a new child node.
 
 ```lua
-local result = types.xml_node:add(name, value?)
+local result = object:add(name, value?)
 ```
 
 **Parameters**
 
-* `name` (`string`)
-* `value` (`string`, optional)
+* `name` (<code>string</code>)
+* `value` (<code>string</code>, optional)
 
 **Returns**
 
-* `result` (`types.xml_node`)
+* `result` (<code>[types.xml_node](/lua/api/types/xml_node.md)</code>)
 
 ---
 
@@ -110,7 +114,7 @@ local result = types.xml_node:add(name, value?)
 Deletes the node.
 
 ```lua
-types.xml_node:delete()
+object:delete()
 ```
 
 ---
@@ -120,12 +124,12 @@ types.xml_node:delete()
 Returns all children of the node.
 
 ```lua
-local result = types.xml_node:children()
+local result = object:children()
 ```
 
 **Returns**
 
-* `result` (`types.xml_node[]`)
+* `result` (<code>[types.xml_node](/lua/api/types/xml_node.md)[]</code>)
 
 ---
 
@@ -134,10 +138,10 @@ local result = types.xml_node:children()
 Returns the parent of the node.
 
 ```lua
-local result = types.xml_node:parent()
+local result = object:parent()
 ```
 
 **Returns**
 
-* `result` (`types.xml_node[]`)
+* `result` (<code>[types.xml_node](/lua/api/types/xml_node.md)[]</code>)
 

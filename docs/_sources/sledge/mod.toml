@@ -13,7 +13,7 @@ name = "mod_info"
 
   [[types.fields]]
   name = "options"
-  type = "table<string, string|boolean|defines.key|nil>"
+  type = "table<string|boolean|defines.key|nil>"
   description = "Options of the mod."
 
   # [[types.methods]]

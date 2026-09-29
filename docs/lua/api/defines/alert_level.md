@@ -4,23 +4,31 @@
 
 ### `green`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `yellow`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `orange`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `red`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 

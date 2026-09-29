@@ -25,6 +25,10 @@ markdown_extensions:
   - pymdownx.details
   - pymdownx.superfences 
 
+validation:
+  links:
+    absolute_links: relative_to_docs
+    
 plugins:
   - search
   - awesome-nav

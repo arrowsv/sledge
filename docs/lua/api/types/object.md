@@ -4,13 +4,17 @@
 
 ### `position`
 
-Type: `types.vector`
+**Returns**
+
+* `result` (<code>[types.vector](/lua/api/types/vector.md)</code>)
 
 ---
 
 ### `orientation`
 
-Type: `types.matrix`
+**Returns**
+
+* `result` (<code>[types.matrix](/lua/api/types/matrix.md)</code>)
 
 ## Methods
 
@@ -19,10 +23,10 @@ Type: `types.matrix`
 Sets whether the object and its children are visible.
 
 ```lua
-types.object:set_visible(visible)
+object:set_visible(visible)
 ```
 
 **Parameters**
 
-* `visible` (`boolean`)
+* `visible` (<code>boolean</code>)
 

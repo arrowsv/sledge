@@ -3,12 +3,12 @@ name = "matrix"
 
   [[types.fields]]
   name = "right"
-  type = "vector"
+  type = "types.vector"
 
   [[types.fields]]
   name = "up"
-  type = "vector"
+  type = "types.vector"
 
   [[types.fields]]
   name = "forward"
-  type = "vector"
+  type = "types.vector"

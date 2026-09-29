@@ -10,7 +10,7 @@ sledge.log(message)
 
 **Parameters**
 
-* `message` (`string`)
+* `message` (<code>string</code>)
 
 ---
 
@@ -22,7 +22,7 @@ sledge.log_warn(message)
 
 **Parameters**
 
-* `message` (`string`)
+* `message` (<code>string</code>)
 
 ---
 
@@ -34,7 +34,7 @@ sledge.log_error(message)
 
 **Parameters**
 
-* `message` (`string`)
+* `message` (<code>string</code>)
 
 ---
 
@@ -46,8 +46,8 @@ sledge.register_window(title, callback)
 
 **Parameters**
 
-* `title` (`string`)
-* `callback` (`function`)
+* `title` (<code>string</code>)
+* `callback` (<code>function</code>)
 
 ---
 
@@ -59,8 +59,8 @@ sledge.register_widget(title, callback)
 
 **Parameters**
 
-* `title` (`string`)
-* `callback` (`function`)
+* `title` (<code>string</code>)
+* `callback` (<code>function</code>)
 
 ---
 
@@ -72,8 +72,8 @@ sledge.register_event(event, callback)
 
 **Parameters**
 
-* `event` (`defines.event`)
-* `callback` (`function`)
+* `event` (<code>[defines.event](/lua/api/defines/event.md)</code>)
+* `callback` (<code>function</code>)
 
 ---
 
@@ -85,7 +85,7 @@ sledge.register_file(path)
 
 **Parameters**
 
-* `path` (`string`)
+* `path` (<code>string</code>)
 
 ---
 
@@ -97,7 +97,7 @@ sledge.register_packfile(path)
 
 **Parameters**
 
-* `path` (`string`)
+* `path` (<code>string</code>)
 
 ---
 
@@ -109,6 +109,6 @@ sledge.register_xml_edit(name, callback)
 
 **Parameters**
 
-* `name` (`string`)
-* `callback` (`function`)
+* `name` (<code>string</code>)
+* `callback` (<code>function</code>)
 

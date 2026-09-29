@@ -1,79 +1,20 @@
-# Editing files
+# Editing XML files
 
-Files are edited by completely overriding files or editing certain parts of XML files.
-
-Unlike other mod managers, Sledge does not permanently overwrite the game's files or require backups. Mods can be instantly toggled through the launcher.
-
-## Adding or overriding files
-
-The [`sledge.register_file`](../lua/api/sledge.md#register_file) and [`sledge.register_packfile`](../lua/api/sledge.md#register_packfile) functions are used for adding or overriding files. These are akin to the `<Replace>` feature from the `modinfo.xml` format.
-
-These functions should be written at the root level of a script to ensure it is called immediately by Sledge at launch. While it is technically possible for these functions to be be called later, its results can be unpredictable.
-
-!!! warning
-
-    Overriding `.xtbl` files will cause compatibility issues between mods that override the same file and result in edits being overwritten. Instead, use the [`sledge.register_xml_edit`](#editing-xml-files) function.
-
-### sledge.register_file
-
-Registering with this function can either add a new file or override an existing file depending on whether the file name already exists in the game. Use the function by placing the file inside the mod's folder (alongside `mod.toml` and `mod.lua` or a subfolder) and pass the path to the file to the function.
-
-!!! note
-
-    If a file is registered that does not already exist in the game, it is considered "added", but it won't be used unless the game explicitly looks for a file with that name.
-
-To demonstrate, we will use the `No Tutorial` mod that replaces a `.scriptx` file:
-
-```
-📁 mods/
-└── 📁 No Tutorial/
-    ├── 📁 files/
-    │   └── 📄 terr01_tutorial.scriptx
-    ├── 📄 mod.toml
-    └── 📄 mod.lua
-```
-
-```lua title="mod.lua"
-sledge.register_file("files/terr01_tutorial.scriptx")
-```
-
-### sledge.register_packfile
-
-!!! note
-
-    Files registered with `sledge.register_file` always take precedence over files registered with `sledge.register_packfile`, even if the packfile was registered after. This may change in the future.
-
-Registering with this function is identical to `sledge.register_file` but only allows `.vpp_pc` files. All files within the packfile will be added to the game. For example:
-
-```
-📁 mods/
-└── 📁 My Mod/
-    ├── 📁 files/
-    │   └── 📄 custom.vpp_pc
-    ├── 📄 mod.toml
-    └── 📄 mod.lua
-```
-
-```lua title="mod.lua"
-sledge.register_packfile("files/custom.vpp_pc")
-```
-
-## Editing XML files
-
-The [`sledge.register_xml_edit`](../lua/api/sledge.md#register_xml_edit) function is used for editing XML files. This is akin to the `<Edit>` feature from the `modinfo.xml` format, allowing multiple mods to edit XML files without overwriting each other. The following file formats are supported for XML editing:
+Use the [`sledge.register_xml_edit`](/lua/api/sledge.md#register_xml_edit) function to edit XML files. This is akin to the `<Edit>` feature from the `modinfo.xml` format, allowing multiple mods to edit XML files without overwriting each other. The following file formats are supported for XML editing:
 
 - `.xtbl`
 - `.dtodx`
 - `.gtodx`
 
-!!! note
+!!! warning
 
-    `.scriptx` files are not supported as they have a non-standard XML format made specifically for the game's scripting system. Use the `sledge.register_file` function instead and fully replace the file with any desired edits.
+    `.scriptx` files are not supported as they have a non-standard XML format made specifically for the game's scripting system. Instead, use the [`sledge.register_file`](overriding-files.md) function and fully replace the file with any desired edits.
 
-The `sledge.register_xml_edit` function requires the name of the file to edit and a callback function that takes a [`types.xml_node`](../lua/api/types/xml_node.md) parameter:
+The `sledge.register_xml_edit` function requires the name of the file to edit and a callback function that takes a [`types.xml_node`](/lua/api/types/xml_node.md) parameter:
 
 ```lua title="mod.lua"
-sledge.register_xml_edit("character.xtbl", function(document) end)
+sledge.register_xml_edit("character.xtbl", function(document) 
+end)
 ```
 
 Sledge will pass the XML document to the callback function as a `types.xml_node`, allowing the script to modify its contents before it is sent back to the game.
@@ -122,11 +63,11 @@ We will use a snippet of `spawn_group_vehicle.xtbl` to demonstrate navigating an
 ### Retrieving nodes
 XML nodes are retrieved using the following functions:
 
-- [`types.xml_node:get`](../lua/api/types/xml_node.md#get)
-- [`types.xml_node:get_from_path`](../lua/api/types/xml_node.md#get_from_path)
-- [`types.xml_node:get_multiple_from_path`](../lua/api/types/xml_node.md#get_multiple_from_path)
-- [`types.xml_node:children`](../lua/api/types/xml_node.md#children)
-- [`types.xml_node:parent`](../lua/api/types/xml_node.md#parent)
+- [`types.xml_node:get`](/lua/api/types/xml_node.md#get)
+- [`types.xml_node:get_from_path`](/lua/api/types/xml_node.md#get_from_path)
+- [`types.xml_node:get_multiple_from_path`](/lua/api/types/xml_node.md#get_multiple_from_path)
+- [`types.xml_node:children`](/lua/api/types/xml_node.md#children)
+- [`types.xml_node:parent`](/lua/api/types/xml_node.md#parent)
 
 !!! info
 
@@ -171,9 +112,10 @@ end)
 ### Modifying nodes
 XML nodes are modified using the following fields and functions:
 
-- [`types.xml_node.value`](../lua/api/types/xml_node.md#value)
-- [`types.xml_node:add`](../lua/api/types/xml_node.md#add)
-- [`types.xml_node:delete`](../lua/api/types/xml_node.md#delete)
+- [`types.xml_node.name`](/lua/api/types/xml_node.md#name)
+- [`types.xml_node.value`](/lua/api/types/xml_node.md#value)
+- [`types.xml_node:add`](/lua/api/types/xml_node.md#add)
+- [`types.xml_node:delete`](/lua/api/types/xml_node.md#delete)
 
 ```lua title="mod.lua"
 sledge.register_xml_edit("spawn_group_vehicle.xtbl", function(document) 

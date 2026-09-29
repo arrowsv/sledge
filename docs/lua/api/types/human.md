@@ -1,30 +1,38 @@
 # types.human
 
-> Inherits from [`types.object`](object.md)
+> Inherits from: <code>[types.object](/lua/api/types/object.md)</code>
 
 ## Fields
 
 ### `flags`
 
-Type: `types.human_flags`
+**Returns**
+
+* `result` (<code>[types.human_flags](/lua/api/types/human_flags.md)</code>)
 
 ---
 
 ### `hit_points`
 
-Type: `number`
+**Returns**
+
+* `result` (<code>number</code>)
 
 ---
 
 ### `team`
 
-Type: `defines.team`
+**Returns**
+
+* `result` (<code>[defines.team](/lua/api/defines/team.md)</code>)
 
 ---
 
 ### `undercover_team`
 
-Type: `defines.team`
+**Returns**
+
+* `result` (<code>[defines.team](/lua/api/defines/team.md)</code>)
 
 ## Methods
 
@@ -33,10 +41,10 @@ Type: `defines.team`
 Teleports the human.
 
 ```lua
-types.human:teleport(position)
+object:teleport(position)
 ```
 
 **Parameters**
 
-* `position` (`types.vector`)
+* `position` (<code>[types.vector](/lua/api/types/vector.md)</code>)
 

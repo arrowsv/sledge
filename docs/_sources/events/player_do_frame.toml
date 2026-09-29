@@ -1,0 +1,7 @@
+[[events]]
+name = "player_do_frame"
+description = "This event is triggered every single frame the player is processed. This will not be triggered when the game is paused or in the main menu."
+
+    [[events.data]]
+    name = "player"
+    type = "types.player"

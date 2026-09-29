@@ -1,0 +1,19 @@
+[[events]]
+name = "mouse_wheel"
+description = "This event is triggered when the mouse is scrolled."
+
+    [[events.data]]
+    name = "delta"
+    type = "integer"
+
+    [[events.data]]
+    name = "shift_down"
+    type = "boolean"
+
+    [[events.data]]
+    name = "control_down"
+    type = "boolean"
+
+    [[events.data]]
+    name = "alt_down"
+    type = "boolean"

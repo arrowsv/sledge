@@ -4,11 +4,15 @@
 
 ### `position`
 
-Type: `types.vector`
+**Returns**
+
+* `result` (<code>[types.vector](/lua/api/types/vector.md)</code>)
 
 ---
 
 ### `orientation`
 
-Type: `types.matrix`
+**Returns**
+
+* `result` (<code>[types.matrix](/lua/api/types/matrix.md)</code>)
 

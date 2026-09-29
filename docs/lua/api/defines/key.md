@@ -4,629 +4,839 @@
 
 ### `none`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `mouse_left`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `mouse_right`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `mouse_middle`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `backspace`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `enter`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `tab`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `space`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `caps_lock`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `nav_insert`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `nav_del`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `nav_end`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `nav_home`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `nav_page_up`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `nav_page_down`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `arrow_left`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `arrow_up`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `arrow_right`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `arrow_down`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `shift`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `control`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `alt`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `semicolon`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `plus`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `comma`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `period`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `minus`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `forward_slash`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `tilde`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f1`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f2`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f3`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f4`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f5`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f6`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f7`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f8`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f9`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f10`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f11`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f12`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f13`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f14`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f15`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f16`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f17`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f18`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f19`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f20`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f21`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f22`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f23`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f24`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `numpad_0`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `numpad_1`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `numpad_2`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `numpad_3`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `numpad_4`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `numpad_5`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `numpad_6`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `numpad_7`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `numpad_8`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `numpad_9`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `numpad_multiply`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `numpad_add`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `numpad_subtract`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `numpad_separator`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `numpad_decimal`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `numpad_divide`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `num_0`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `num_1`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `num_2`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `num_3`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `num_4`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `num_5`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `num_6`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `num_7`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `num_8`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `num_9`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `a`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `b`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `c`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `d`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `e`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `f`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `g`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `h`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `i`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `j`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `k`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `l`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `m`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `n`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `o`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `p`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `q`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `r`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `s`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `t`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `u`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `v`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `w`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `x`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `y`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `z`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 

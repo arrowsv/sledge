@@ -13,3 +13,35 @@ description = "Represents 3 floating-point numbers."
   [[types.fields]]
   name = "z"
   type = "number"
+
+  [[types.functions]]
+  name = "new"
+  description = "Creates a new vector."
+
+    [[types.functions.params]]
+    name = "x"
+    type = "number"
+
+    [[types.functions.params]]
+    name = "y"
+    type = "number"
+
+    [[types.functions.params]]
+    name = "z"
+    type = "number"
+
+    [[types.functions.returns]]
+    name = "vector"
+    type = "types.vector"
+
+  [[types.functions]]
+  name = "new"
+  description = "Creates a new vector."
+
+    [[types.functions.params]]
+    name = "vector"
+    type = "types.vector"
+
+    [[types.functions.returns]]
+    name = "vector"
+    type = "types.vector"

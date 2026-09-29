@@ -4,53 +4,71 @@
 
 ### `year`
 
-Type: `number`
+**Returns**
+
+* `result` (<code>number</code>)
 
 ---
 
 ### `month`
 
-Type: `number`
+**Returns**
+
+* `result` (<code>number</code>)
 
 ---
 
 ### `day`
 
-Type: `number`
+**Returns**
+
+* `result` (<code>number</code>)
 
 ---
 
 ### `hours`
 
-Type: `number`
+**Returns**
+
+* `result` (<code>number</code>)
 
 ---
 
 ### `minutes`
 
-Type: `number`
+**Returns**
+
+* `result` (<code>number</code>)
 
 ---
 
 ### `seconds`
 
-Type: `number`
+**Returns**
+
+* `result` (<code>number</code>)
 
 ---
 
 ### `day_of_week`
 
-Type: `number`
+**Returns**
+
+* `result` (<code>number</code>)
 
 ---
 
 ### `time_scale`
 
-Type: `number`
+**Returns**
+
+* `result` (<code>number</code>)
 
 ---
 
 ### `current_day_ticks`
 
-Type: `number`
+**Returns**
+
+* `result` (<code>number</code>)
 

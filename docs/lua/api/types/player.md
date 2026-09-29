@@ -1,28 +1,36 @@
 # types.player
 
-> Inherits from [`types.human`](human.md)
+> Inherits from: <code>[types.human](/lua/api/types/human.md)</code>
 
 ## Fields
 
 ### `jetpack_fuel_percent`
 
-Type: `number`
+**Returns**
+
+* `result` (<code>number</code>)
 
 ---
 
 ### `salvage`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `mining_count`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `supply_crate_count`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 

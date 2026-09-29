@@ -4,17 +4,23 @@
 
 ### `right`
 
-Type: `vector`
+**Returns**
+
+* `result` (<code>[types.vector](/lua/api/types/vector.md)</code>)
 
 ---
 
 ### `up`
 
-Type: `vector`
+**Returns**
+
+* `result` (<code>[types.vector](/lua/api/types/vector.md)</code>)
 
 ---
 
 ### `forward`
 
-Type: `vector`
+**Returns**
+
+* `result` (<code>[types.vector](/lua/api/types/vector.md)</code>)
 

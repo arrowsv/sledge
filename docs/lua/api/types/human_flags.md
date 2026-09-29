@@ -4,35 +4,47 @@
 
 ### `invulnerable`
 
-Type: `boolean`
+**Returns**
+
+* `result` (<code>boolean</code>)
 
 ---
 
 ### `no_damage`
 
-Type: `boolean`
+**Returns**
+
+* `result` (<code>boolean</code>)
 
 ---
 
 ### `ignored_by_ai`
 
-Type: `boolean`
+**Returns**
+
+* `result` (<code>boolean</code>)
 
 ---
 
 ### `disallow_vehicle_exit`
 
-Type: `boolean`
+**Returns**
+
+* `result` (<code>boolean</code>)
 
 ---
 
 ### `in_vehicle_invisible`
 
-Type: `boolean`
+**Returns**
+
+* `result` (<code>boolean</code>)
 
 ---
 
 ### `disallow_flinches_and_ragdolls`
 
-Type: `boolean`
+**Returns**
+
+* `result` (<code>boolean</code>)
 

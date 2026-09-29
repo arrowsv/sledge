@@ -1,0 +1,11 @@
+[[events]]
+name = "alert_level_changed"
+description = "This event is triggered when the alert level has changed."
+
+    [[events.data]]
+    name = "previous_alert_level"
+    type = "defines.alert_level"
+
+    [[events.data]]
+    name = "new_alert_level"
+    type = "defines.alert_level"

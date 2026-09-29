@@ -4,35 +4,47 @@
 
 ### `player_do_frame`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `alert_level_changed`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `save_loaded`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `key_down`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `key_up`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `mouse_wheel`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 

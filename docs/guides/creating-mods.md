@@ -35,7 +35,7 @@ Mods can define options that the user can configure within the launcher. The fol
 - `tooltip` - The tooltip that appears when hovering over the option.
 - `type` - The type of the option. The following types are available:
     - `multiple` - A multiple choice box with defined values.
-    - `key` - A multiple choice box with [`defines.key`](../lua/api/defines/key.md) values.
+    - `key` - A multiple choice box with [`defines.key`](/lua/api/defines/key.md) values.
     - `checkbox` - A checkbox that allows a `true` or `false` value.
     - `custom` - A text box that allows a custom value.
 - `default` - The default choice of the option. If it is not defined, it will default to empty or the first value in the multiple choice box.
@@ -171,7 +171,7 @@ This file is used as the entry point for the mod. It is executed in its entirety
 
 Code that modifies game variables and objects (e.g. `game.get_player().salvage = 100000`) cannot be written directly into the script as they will not be valid at the time that Sledge runs it, resulting in errors. Instead, a callback function can be registered to specific game events. When a game event is triggered, the callback function will be run and execute the code inside it.
 
-For example, to properly edit the player's salvage, an event that guarantees the player will be valid must be chosen, such as [`defines.event.save_loaded`](../lua/api/defines/event.md#save_loaded):
+For example, to properly edit the player's salvage, an event that guarantees the player will be valid must be chosen, such as [`defines.event.save_loaded`](/lua/api/defines/event.md#save_loaded):
 
 ```lua title="mod.lua"
 -- The function that will be called when the save_loaded event is triggered.
@@ -191,9 +191,9 @@ sledge.register_event(defines.event.save_loaded, save_loaded_callback)
 
 Use the following functions to log messages:
 
-- [`sledge.log`](../lua/api/sledge.md#log)
-- [`sledge.log_warn`](../lua/api/sledge.md#log)
-- [`sledge.log_error`](../lua/api/sledge.md#log)
+- [`sledge.log`](/lua/api/sledge.md#log)
+- [`sledge.log_warn`](/lua/api/sledge.md#log)
+- [`sledge.log_error`](/lua/api/sledge.md#log)
 
 All log messages are automatically prefixed by the mod's ID and written to the `sledge.log` file:
 
@@ -211,11 +211,11 @@ sledge.log_error("My message.")
 
 ### Retrieving options
 
-!!! note
+!!! info
 
-    All mods have a [`mod`](../lua/api/global.md#mod) variable of the [`types.mod_info`](../lua/api/types/mod_info.md) type in their script environments. Use this variable to access the metadata of the script's associated mod.
+    All mods have a [`mod`](/lua/api/global.md#mod) variable of the [`types.mod_info`](/lua/api/types/mod_info.md) type in their script environments. Use this variable to access the metadata of the script's associated mod.
 
-If a mod has defined options in its metadata, access it through the [`types.mod_info.options`](../lua/api/types/mod_info.md#options) table, using the option's name as a key. Its return value will depend on the type of option it was defined as, where `checkbox` returns a `boolean`, `key` returns a [`defines.key`](../lua/api/defines/key.md), and `multiple` and `custom` return a `string`.
+If a mod has defined options in its metadata, access it through the [`types.mod_info.options`](/lua/api/types/mod_info.md#options) table, using the option's name as a key. Its return value will depend on the type of option it was defined as, where `checkbox` returns a `boolean`, `key` returns a [`defines.key`](/lua/api/defines/key.md), and `multiple` and `custom` return a `string`.
 
 For example, here is how to define all four types of options in the metadata and retrieve them in Lua:
 
@@ -233,7 +233,7 @@ default = false
 [[options]]
 name = "Key choice"
 type = "key"
-choices = "Parker"
+default = "f5"
 
 [[options]]
 name = "Multiple choice"

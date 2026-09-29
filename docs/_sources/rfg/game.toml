@@ -104,7 +104,7 @@ name = "game"
   description = "Returns the player."
 
     [[namespaces.functions.returns]]
-    type = "types.player, nil"
+    type = "types.player|nil"
   
   [[namespaces.functions]]
   name = "is_in_gameplay"

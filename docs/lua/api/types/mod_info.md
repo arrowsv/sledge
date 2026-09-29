@@ -4,23 +4,29 @@
 
 ### `id`
 
-Type: `string`
-
 Identifier of the mod.
+
+**Returns**
+
+* `result` (<code>string</code>)
 
 ---
 
 ### `name`
 
-Type: `string`
-
 Name of the mod.
+
+**Returns**
+
+* `result` (<code>string</code>)
 
 ---
 
 ### `options`
 
-Type: `table<string, string|boolean|defines.key|nil>`
-
 Options of the mod.
+
+**Returns**
+
+* `result` (<code>table&lt;string, boolean, [defines.key](/lua/api/defines/key.md), nil></code>)
 

@@ -14,5 +14,5 @@ build/
 # MacOS cache
 .DS_Store
 
-# Sphinx documentation
-docs/build
+# Python cache
+docs/_scripts/__pycache__

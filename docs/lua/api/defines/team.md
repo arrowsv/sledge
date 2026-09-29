@@ -4,29 +4,39 @@
 
 ### `none`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `guerrilla`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `edf`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `civilian`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 
 ---
 
 ### `marauder`
 
-Type: `integer`
+**Returns**
+
+* `result` (<code>integer</code>)
 

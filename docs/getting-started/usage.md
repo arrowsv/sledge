@@ -1,33 +1,36 @@
 # Usage
 
-After installation, run the `launcher.exe` file in the `sledge` folder. 
+After installation, run the `launcher.exe` file.
 
-On its first run, a `sledge.toml` file will be generated which stores config values. It is not recommended to manually edit this file as the launcher provides an interface for doing so.
+## Launcher
 
-## Changing options
+### Changing options
 
 Show the options modal by clicking the `Options` button. The main option to note is `Overlay key`, which will allow you to open the overlay while in-game and access windows and widgets. By default, it is set to the `f1` key. It is recommended to use a key that is not commonly used and out of the way.
 
 Click the `Apply` button to save any changes.
 
-## Enabling mods
+### Toggling mods
 
-Show the mods modal by clicking the `Mods` button. Currently installed mods are listed in the left panel with checkboxes denoting whether they are enabled. To enable or disable a mod, click the checkbox next to the mod's name. To view a mod's information in the right panel, click on the mod's name. Depending on the mod, options are available to change under the `Options` heading in the right panel.
+Show the mods modal by clicking the `Mods` button. 
 
-Click the `Apply` button to save any changes, or the `Rescan` button in case any mods have been added/removed/changed while the launcher has been open.
+Mods that are present in the `mods` folder are shown in the left panel. Click the checkbox next to a mod's name to enable or disable it.
 
-## Launching the game
+Click on a mod's name to view its information in the right panel. If a mod defines options, they will appear in the right panel under an `Options` heading. Hovering over each option's interactable box will show its default value and, if defined by the mod author, a description of the option.
 
-To play, click the `Play` button. To play without Sledge being active, click the `Play (vanilla)` button. Depending on the game version, it will attempt to launch the game:
+Click the `Apply` button to save any changes, or the `Rescan` button in case the mod folder has been modified while the launcher is open.
 
-- For the Steam version, it will run the `steam://run/667720` URI command. Steam must be open for the game to run.
-- For the GOG version, it will find the `rfg.exe` executable and manually create the process.
+### Launching the game
+
+Click the `Play` button to launch the game. Click the `Play (vanilla)` button to launch the game without Sledge active.
+
+If the Steam version is detected, it will run the `steam://run/667720` URI command. Steam must be open for the game to run. If the GOG version is detected, the `rfg.exe` process will be manually created.
 
 !!! note
 
-    The game will start with Sledge active even if the game wasn't run through the dedicated launcher, as it is currently designed to be opt-out. If this isn't desired, add the `--vanilla` argument to the game to force it to run without activating Sledge.
+    Sledge will be active even if the game wasn't run through the launcher. Passing the `--vanilla` flag to the game will override the launcher and force it to run without Sledge.
 
-## Using the overlay
+## In-game
 
 Toggle the overlay by pressing the key set in the `Overlay key` option. While the overlay is active, input to the game is blocked and the OS' cursor will be visible, allowing you to click the Sledge menu bar at the top.
 

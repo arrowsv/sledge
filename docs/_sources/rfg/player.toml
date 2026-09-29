@@ -1,6 +1,6 @@
 [[types]]
 name = "player"
-inherits = "human"
+inherits = "types.human"
 
   [[types.fields]]
   name = "jetpack_fuel_percent"

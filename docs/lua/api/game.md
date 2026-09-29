@@ -4,65 +4,81 @@
 
 ### `overriding_camera_position`
 
-Type: `boolean`
-
 Whether the game is prevented from updating the camera position every frame.
+
+**Returns**
+
+* `result` (<code>boolean</code>)
 
 ---
 
 ### `overriding_camera_orientation`
 
-Type: `boolean`
-
 Whether the game is prevented from updating the camera orientation every frame.
+
+**Returns**
+
+* `result` (<code>boolean</code>)
 
 ---
 
 ### `time_frozen`
 
-Type: `boolean`
-
 Whether the time of day is frozen.
+
+**Returns**
+
+* `result` (<code>boolean</code>)
 
 ---
 
 ### `unlimited_ammo`
 
-Type: `boolean`
-
 Whether unlimited ammo is enabled.
+
+**Returns**
+
+* `result` (<code>boolean</code>)
 
 ---
 
 ### `unlimited_magazine_ammo`
 
-Type: `boolean`
-
 Whether unlimited magazine ammo is enabled.
+
+**Returns**
+
+* `result` (<code>boolean</code>)
 
 ---
 
 ### `fog_visible`
 
-Type: `boolean`
-
 Whether fog is visible.
+
+**Returns**
+
+* `result` (<code>boolean</code>)
 
 ---
 
 ### `hud_visible`
 
-Type: `boolean`
-
 Whether the HUD is visible.
+
+**Returns**
+
+* `result` (<code>boolean</code>)
 
 ---
 
 ### `wind_visible`
 
-Type: `boolean`
-
 Whether wind is visible. If false, wind sounds are also disabled.
+
+**Returns**
+
+* `result` (<code>boolean</code>)
 
 ## Functions
 
@@ -76,7 +92,7 @@ local result = game.get_player()
 
 **Returns**
 
-* `result` (`types.player, nil`)
+* `result` (<code>[types.player](/lua/api/types/player.md), nil</code>)
 
 ---
 
@@ -90,7 +106,7 @@ local result = game.is_in_gameplay()
 
 **Returns**
 
-* `result` (`boolean`)
+* `result` (<code>boolean</code>)
 
 ---
 
@@ -104,7 +120,7 @@ local result = game.get_camera()
 
 **Returns**
 
-* `result` (`types.camera`)
+* `result` (<code>[types.camera](/lua/api/types/camera.md)</code>)
 
 ---
 
@@ -118,7 +134,7 @@ local result = game.get_time()
 
 **Returns**
 
-* `result` (`types.game_clock`)
+* `result` (<code>[types.game_clock](/lua/api/types/game_clock.md)</code>)
 
 ---
 
@@ -132,9 +148,9 @@ local hour, minutes, seconds = game.get_time_of_day()
 
 **Returns**
 
-* `hour` (`number`)
-* `minutes` (`number`)
-* `seconds` (`number`)
+* `hour` (<code>number</code>)
+* `minutes` (<code>number</code>)
+* `seconds` (<code>number</code>)
 
 ---
 
@@ -148,9 +164,9 @@ game.set_time_of_day(hour, minutes, seconds)
 
 **Parameters**
 
-* `hour` (`number`)
-* `minutes` (`number`)
-* `seconds` (`number`)
+* `hour` (<code>number</code>)
+* `minutes` (<code>number</code>)
+* `seconds` (<code>number</code>)
 
 ---
 
@@ -164,7 +180,7 @@ local result = game.get_alert_level()
 
 **Returns**
 
-* `result` (`defines.alert_level`)
+* `result` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
 
 ---
 
@@ -178,7 +194,7 @@ game.set_alert_level(level)
 
 **Parameters**
 
-* `level` (`defines.alert_level`)
+* `level` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
 
 ---
 
@@ -192,8 +208,8 @@ local minimum, maximum = game.get_alert_level_cap()
 
 **Returns**
 
-* `minimum` (`defines.alert_level`)
-* `maximum` (`defines.alert_level`)
+* `minimum` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
+* `maximum` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
 
 ---
 
@@ -207,8 +223,8 @@ game.set_alert_level_cap(minimum, maximum)
 
 **Parameters**
 
-* `minimum` (`defines.alert_level`)
-* `maximum` (`defines.alert_level`)
+* `minimum` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
+* `maximum` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
 
 ---
 
@@ -232,10 +248,10 @@ game.show_message(text, options?)
 
 **Parameters**
 
-* `text` (`string`)
-* `options` (`table`, optional)
-  * `animated` (`boolean`, optional) - If `true`, the message will have an animated background. This is used by the game when notifying the player about mission and handbook unlocks. Defaults to `false`.
-  * `duration` (`number`, optional) - Defaults to `3.0`.
+* `text` (<code>string</code>)
+* `options` (<code>table</code>, optional)
+    * `animated` (<code>boolean</code>, optional) - If `true`, the message will have an animated background. This is used by the game when notifying the player about mission and handbook unlocks. Defaults to `false`.
+    * `duration` (<code>number</code>, optional) - Defaults to `3.0`.
 
 ---
 
@@ -254,9 +270,9 @@ local result = game.is_key_down(key)
 
 **Parameters**
 
-* `key` (`defines.key`)
+* `key` (<code>[defines.key](/lua/api/defines/key.md)</code>)
 
 **Returns**
 
-* `result` (`boolean`)
+* `result` (<code>boolean</code>)
 
