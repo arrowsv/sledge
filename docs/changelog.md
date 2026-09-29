@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0
+
+### Added
+* Icon for launcher executable.
+* `xml_warnings_enabled` config option.
+
 ## 0.1.0-beta.3 (2026-09-26)
 
 ### Added

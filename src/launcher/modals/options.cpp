@@ -12,15 +12,15 @@ namespace {
     void draw_general_options() {
         if (utils::imgui::begin_property_table("general_options")) {
             utils::imgui::begin_property_row("Overlay key");
-            utils::imgui::key_combobox("##overlay_key", &temp_config.sledge.overlay_key);
+            utils::imgui::key_combobox("##", &temp_config.sledge.overlay_key);
             utils::imgui::end_property_row();
 
             utils::imgui::begin_property_row("Keep launcher open");
-            ImGui::Checkbox("##keep_open", &temp_config.sledge.keep_launcher_open);
+            ImGui::Checkbox("##", &temp_config.sledge.keep_launcher_open);
             utils::imgui::end_property_row();
 
             utils::imgui::begin_property_row("Skip startup videos");
-            ImGui::Checkbox("##skip_videos", &temp_config.game.skip_startup_videos);
+            ImGui::Checkbox("##", &temp_config.game.skip_startup_videos);
             utils::imgui::end_property_row();
 
             utils::imgui::end_property_table();
@@ -29,12 +29,17 @@ namespace {
 
     void draw_debug_options() {
         if (utils::imgui::begin_property_table("debug_options")) {
-            utils::imgui::begin_property_row("Enable debug logs");
-            ImGui::Checkbox("##enable_debug_logs", &temp_config.sledge.debug_logs_enabled);
+            utils::imgui::begin_property_row("Debug logs enabled");
+            ImGui::Checkbox("##", &temp_config.sledge.debug_logs_enabled);
+            utils::imgui::end_property_row();
+
+            utils::imgui::begin_property_row("XML warnings enabled");
+            ImGui::Checkbox("##", &temp_config.sledge.xml_warnings_enabled);
+            utils::imgui::set_help_marker("Logs a warning message when a script tries to find an XML node or path that doesn't exist.");
             utils::imgui::end_property_row();
 
             utils::imgui::begin_property_row("ImGui demo window");
-            ImGui::Checkbox("##imgui_demo_window", &temp_config.sledge.imgui_demo_window);
+            ImGui::Checkbox("##", &temp_config.sledge.imgui_demo_window);
             utils::imgui::end_property_row();
 
             utils::imgui::end_property_table();
@@ -71,7 +76,8 @@ namespace gui {
             float sidebar_width = ImGui::GetContentRegionAvail().x * 0.25;
 
             if (ImGui::BeginChild("options_sidebar", {sidebar_width, child_height},
-                                  ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX, ImGuiWindowFlags_HorizontalScrollbar)) {
+                                  ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX,
+                                  ImGuiWindowFlags_HorizontalScrollbar)) {
                 for (const auto& category : categories) {
                     if (ImGui::Selectable(category.name, selected_category == category.name)) {
                         selected_category = category.name;

@@ -16,6 +16,7 @@ struct sledge_config {
     bool keep_launcher_open = true;
     utils::os::key overlay_key = utils::os::key::f1;
     bool debug_logs_enabled = false;
+    bool xml_warnings_enabled = true;
     bool imgui_demo_window = false;
 };
 

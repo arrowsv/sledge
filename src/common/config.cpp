@@ -29,8 +29,13 @@ void config::load_from_file() {
     auto sledge_tbl = tbl["sledge"];
     sledge.keep_launcher_open =
         sledge_tbl["keep_launcher_open"].value_or(sledge.keep_launcher_open);
+
     sledge.debug_logs_enabled =
         sledge_tbl["debug_logs_enabled"].value_or(sledge.debug_logs_enabled);
+
+    sledge.xml_warnings_enabled =
+        sledge_tbl["xml_warnings_enabled"].value_or(sledge.xml_warnings_enabled);
+
     sledge.imgui_demo_window = sledge_tbl["imgui_demo_window"].value_or(sledge.imgui_demo_window);
 
     std::string overlay_key_str =
@@ -64,6 +69,7 @@ void config::save() {
     sledge_tbl.insert("keep_launcher_open", sledge.keep_launcher_open);
     sledge_tbl.insert("overlay_key", key_to_string(sledge.overlay_key));
     sledge_tbl.insert("debug_logs_enabled", sledge.debug_logs_enabled);
+    sledge_tbl.insert("xml_warnings_enabled", sledge.xml_warnings_enabled);
     sledge_tbl.insert("imgui_demo_window", sledge.imgui_demo_window);
 
     toml::table mods_tbl;

@@ -1,7 +1,9 @@
 #include "xml.hpp"
+#include "common/config.hpp"
 
 #include <pugixml.hpp>
 #include <sol/sol.hpp>
+#include <spdlog/spdlog.h>
 
 namespace lua::bindings::sledge {
     void bind_xml(sol::state_view& lua) {
@@ -21,18 +23,34 @@ namespace lua::bindings::sledge {
 
         xml_node["get"] = [](pugi::xml_node& node, const std::string& name) -> pugi::xml_node {
             auto child = node.child(name);
+            if (config::get().sledge.xml_warnings_enabled && child.empty() && !node.empty()) {
+                spdlog::warn("Failed to find XML node: '{}' has no child named '{}'.", node.name(),
+                             name);
+            }
             return child;
         };
 
         xml_node["get_from_path"] = [](pugi::xml_node& node,
                                        const std::string& query) -> pugi::xml_node {
             pugi::xpath_node found_node = node.select_node(query.c_str());
+
+            if (config::get().sledge.xml_warnings_enabled && found_node.node().empty() &&
+                !node.empty()) {
+                spdlog::warn("Failed to find XML node: '{}' has no match for path '{}'.",
+                             node.name(), query);
+            }
+
             return found_node.node();
         };
 
         xml_node["get_multiple_from_path"] = [&lua](pugi::xml_node& node,
                                                     const std::string& query) -> sol::table {
             pugi::xpath_node_set found_nodes = node.select_nodes(query.c_str());
+
+            if (config::get().sledge.xml_warnings_enabled && found_nodes.empty() && !node.empty()) {
+                spdlog::warn("Failed to find XML nodes: '{}' has no matches for path '{}'.",
+                             node.name(), query);
+            }
 
             sol::table list = lua.create_table();
 
