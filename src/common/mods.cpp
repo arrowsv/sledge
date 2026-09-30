@@ -78,6 +78,10 @@ namespace mods {
             }
             list.push_back(mod.value());
         }
+
+        std::sort(list.begin(), list.end(),
+                  [](const mod_info& a, const mod_info& b) { return a.name < b.name; });
+
         return list;
     }
 
