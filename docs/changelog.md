@@ -12,6 +12,9 @@
 ### Changed
 * Display mods alphabetically.
 
+### Removed
+* `types.mod_info:import` method.
+
 ## 0.1.0-beta.3 (2026-09-26)
 
 ### Added

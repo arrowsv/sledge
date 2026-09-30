@@ -1,14 +1,11 @@
 #include "mod.hpp"
 #include "common/config.hpp"
-#include "patch/lua/manager.hpp"
 
-#include <filesystem>
 #include <spdlog/spdlog.h>
 #include <imgui.h>
 #include <sol/sol.hpp>
 
 namespace lua::bindings::sledge {
-
     void bind_mod(sol::state_view& lua) {
         auto types = lua["types"].get_or_create<sol::table>();
 
@@ -61,28 +58,6 @@ namespace lua::bindings::sledge {
 
             return options_table;
         });
-
-        mod_info["import"] = [lua](sol::this_environment this_env, const mods::mod_info& mod_info,
-                                   const std::string& module_name) {
-            std::string relative = module_name;
-            std::replace(relative.begin(), relative.end(), '.', '/');
-            std::filesystem::path script_path =
-                std::filesystem::path(mod_info.path) / (relative + ".lua");
-
-            if (!std::filesystem::exists(script_path)) {
-                throw sol::error("Module '" + module_name + "' not found at '" +
-                                 script_path.string() + "'");
-            }
-
-            sol::environment& env = this_env;
-            auto result = lua::manager::get().execute_script_file(script_path.string(), env);
-            if (!result.valid()) {
-                sol::error err = result;
-                throw sol::error("Error loading module '" + module_name + "': " + err.what());
-            }
-
-            return result;
-        };
     }
 
     void bind_mod_environment(sol::state_view& lua, sol::environment& environment,
