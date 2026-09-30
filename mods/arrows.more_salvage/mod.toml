@@ -3,6 +3,7 @@ name = "More Salvage"
 authors = ["arrows"]
 description = "Increases the amount of salvage given when it is picked up."
 version = "1.0.0"
+sledge_version = "^0.1.0"
 
 [[options]]
 name = "Metal"

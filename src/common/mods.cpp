@@ -1,10 +1,12 @@
 #include "mods.hpp"
 
+#include "common/constants.hpp"
 #include "config.hpp"
 
 #include <magic_enum.hpp>
 #include <toml++/toml.hpp>
 #include <spdlog/spdlog.h>
+#include <semver.hpp>
 
 namespace mods {
     void manager::initialize(const std::filesystem::path& mods_directory) {
@@ -99,8 +101,7 @@ namespace mods {
 
             mod.name = tbl["name"].value_or("");
             if (mod.name.empty()) {
-                spdlog::error("Skipped mod '{}': field 'name' is missing.",
-                              mod_config_path.string());
+                spdlog::error("Skipped mod '{}': field 'name' is missing.", mod.id);
                 return std::nullopt;
             }
 
@@ -109,10 +110,49 @@ namespace mods {
                     auto author_str = node.as_string();
                     mod.authors.push_back(author_str->get());
                 }
+            } else {
+                spdlog::error("Skipped mod '{}': field 'authors' is missing or not an array.",
+                              mod.id);
+                return std::nullopt;
             }
-            
+
             mod.description = tbl["description"].value_or("");
+
             mod.version = tbl["version"].value_or("");
+            if (mod.version.empty()) {
+                spdlog::error("Skipped mod '{}': field 'version' is missing.", mod.id);
+                return std::nullopt;
+            }
+
+            if (!semver::try_parse(mod.version)) {
+                spdlog::error("Skipped mod '{}': version '{}' does not adhere to the Semantic "
+                              "Versioning specification (https://semver.org/).",
+                              mod.id, mod.version);
+                return std::nullopt;
+            }
+
+            mod.sledge_version = tbl["sledge_version"].value_or("");
+            if (mod.sledge_version.empty()) {
+                spdlog::warn("Mod '{}' does not specify field 'sledge_version'. Assuming "
+                             "compatibility with current Sledge version '{}'.",
+                             mod.id, constants::version);
+            } else {
+                if (const auto range = semver::try_parse_range(mod.sledge_version)) {
+                    if (const auto current_ver = semver::try_parse(constants::version)) {
+                        if (!range->contains(current_ver.value())) {
+                            spdlog::warn("Mod '{}' requires Sledge version '{}', but current "
+                                         "version is '{}'. Mod may not function correctly.",
+                                         mod.id, mod.sledge_version, constants::version);
+                        }
+                    }
+                } else {
+                    spdlog::warn(
+                        "Field 'sledge_version' for mod '{}' does not adhere to the Semantic "
+                        "Versioning specification (https://semver.org/). Assuming "
+                        "compatibility with Sledge {}.",
+                        mod.id, constants::version);
+                }
+            }
 
             if (auto options = tbl["options"].as_array()) {
                 for (auto&& node : *options) {

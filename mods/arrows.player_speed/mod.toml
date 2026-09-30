@@ -2,6 +2,7 @@ id = "arrows.player_speed"
 name = "Player Speed"
 authors = ["arrows"]
 version = "1.0.0"
+sledge_version = "^0.1.0"
 
 [[options]]
 name = "Speed"

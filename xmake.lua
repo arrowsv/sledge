@@ -14,6 +14,7 @@ add_requires("magic_enum 0.9.8")
 add_requires("nativefiledialog-extended 1.3.0")
 add_requires("toml++ 3.4.0")
 add_requires("spdlog 1.17.0")
+add_requires("semver v1.0.0")
 
 -- requires: launcher
 add_requires("glfw 3.4")
@@ -35,7 +36,7 @@ add_cxflags("-Wunused-variable", "-Wunused-function")
 -- targets
 target("common")
     set_kind("static")
-    add_packages("spdlog", "picosha2", "nativefiledialog-extended", "magic_enum", "toml++")
+    add_packages("spdlog", "picosha2", "nativefiledialog-extended", "magic_enum", "toml++", "semver")
     
     add_files("src/common/**.cpp")
     add_files("deps/imgui/*.cpp")

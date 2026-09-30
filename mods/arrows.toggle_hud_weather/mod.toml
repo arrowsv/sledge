@@ -2,6 +2,7 @@ id = "arrows.toggle_hud_weather"
 name = "Toggle HUD/Weather"
 authors = ["arrows"]
 version = "1.0.0"
+sledge_version = "^0.1.0"
 
 [[options]]
 name = "HUD key"

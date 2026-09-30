@@ -27,6 +27,7 @@ namespace mods {
         std::vector<std::string> authors;
         std::string description;
         std::string version;
+        std::string sledge_version;
         std::vector<mod_option> options;
         std::string path;
     };

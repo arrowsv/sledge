@@ -2,3 +2,4 @@ id = "rast1234.original_load_screen"
 name = "Original Load Screen"
 authors = ["rast1234"]
 version = "1.0.0"
+sledge_version = "^0.1.0"

@@ -1,6 +1,6 @@
 direction = { forward = 1, back = 2, left = 3, right = 4, up = 5, down = 6 }
 
-function lerp(a, b, t)
+local function lerp(a, b, t)
     return a + (b - a) * t
 end
 
@@ -87,10 +87,10 @@ sledge.register_event(defines.event.player_do_frame, function(e)
 end)
 
 sledge.register_event(defines.event.key_down, function(e)
-    if not game.is_in_gameplay() then return end
-
     local player = game.get_player()
-    if not player then return end
+    if not player or not game.is_in_gameplay() then 
+        return 
+    end
 
     if e.key == state.freecam_toggle_key then
         state.freecam_enabled = not state.freecam_enabled

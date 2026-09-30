@@ -3,6 +3,7 @@ name = "Safehouse Vehicle Selector"
 authors = ["arrows"]
 description = "Select which vehicle spawns at each safehouse."
 version = "1.0.0"
+sledge_version = "^0.1.0"
 
 [[options]]
 name = "Parker"

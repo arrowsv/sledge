@@ -1,0 +1,14 @@
+id = "arrows.freecam"
+name = "Freecam"
+authors = ["arrows"]
+description = """Adds a freecam mode and a window for further configuration.
+
+While enabled, hold 'shift' to speed up, 'control' to slow down, and scroll to modify the current speed.
+"""
+version = "1.0.0"
+sledge_version = "^0.1.0"
+
+[[options]]
+name = "Freecam key"
+type = "key"
+default = "f2"
