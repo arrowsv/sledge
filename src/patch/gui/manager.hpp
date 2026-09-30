@@ -10,35 +10,27 @@ namespace gui {
 
     enum class panel_anchor { top_left, top_right, bottom_left, bottom_right };
 
+    struct panel_options {
+        ImGuiWindowFlags flags = ImGuiWindowFlags_None;
+        ImVec2 default_size = {500, 300};
+        bool open = false;
+        bool requires_gameplay = false;
+        panel_anchor anchor = panel_anchor::top_right;
+        std::optional<sol::protected_function> draw_function = std::nullopt;
+    };
+
     class panel {
       public:
         std::string title;
-        bool open = false;
-        ImGuiWindowFlags flags;
-        ImVec2 default_size;
-
         std::optional<mods::mod_info> mod_info;
-        std::optional<sol::protected_function> draw_function;
 
-        panel_anchor anchor = panel_anchor::top_right;
-        const float padding = 10.0f;
+        panel_options options;
 
         ~panel() = default;
-
-        panel(const std::string& title, ImGuiWindowFlags flags = 0,
-              ImVec2 default_size = {400, 300})
-            : title(title), flags(flags), default_size(default_size) {};
-
-        panel(const std::string& title, sol::protected_function draw_function,
-              ImGuiWindowFlags flags = 0, ImVec2 default_size = {400, 300})
-            : title(title), flags(flags), default_size(default_size),
-              draw_function(std::move(draw_function)) {}
-
-        panel(const std::string& title, mods::mod_info mod_info,
-              sol::protected_function draw_function, ImGuiWindowFlags flags = 0,
-              ImVec2 default_size = {400, 300})
-            : title(title + "##" + mod_info.id), flags(flags), default_size(default_size),
-              mod_info(std::move(mod_info)), draw_function(std::move(draw_function)) {}
+        panel(std::string title, panel_options opts = {})
+            : title(std::move(title)), options(std::move(opts)) {}
+        panel(const std::string& title, mods::mod_info info, panel_options opts = {})
+            : title(title + "##" + info.id), mod_info(std::move(info)), options(std::move(opts)) {}
 
         virtual void draw();
     };

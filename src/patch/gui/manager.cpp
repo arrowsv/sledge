@@ -13,6 +13,8 @@
 #include <vector>
 #include <spdlog/spdlog.h>
 
+const float widget_padding = 10.0f;
+
 namespace gui {
     void manager::initialize() {
         register_widget(std::make_shared<fps_widget>());
@@ -45,7 +47,7 @@ namespace gui {
                 }
 
                 for (const auto& window : windows) {
-                    ImGui::MenuItem(window->title.c_str(), "", &window->open);
+                    ImGui::MenuItem(window->title.c_str(), "", &window->options.open);
 
                     if (window->mod_info) {
                         if (utils::imgui::begin_tooltip()) {
@@ -65,22 +67,22 @@ namespace gui {
             if (ImGui::BeginMenu("Widgets")) {
                 for (const auto& widget : widgets) {
                     if (ImGui::BeginMenu(widget->title.c_str())) {
-                        ImGui::MenuItem("Visible", "", &widget->open);
+                        ImGui::MenuItem("Visible", "", &widget->options.open);
 
                         ImGui::SeparatorText("Anchor");
 
                         if (ImGui::RadioButton("Top left",
-                                               widget->anchor == panel_anchor::top_left))
-                            widget->anchor = panel_anchor::top_left;
+                                               widget->options.anchor == panel_anchor::top_left))
+                            widget->options.anchor = panel_anchor::top_left;
                         if (ImGui::RadioButton("Top right",
-                                               widget->anchor == panel_anchor::top_right))
-                            widget->anchor = panel_anchor::top_right;
+                                               widget->options.anchor == panel_anchor::top_right))
+                            widget->options.anchor = panel_anchor::top_right;
                         if (ImGui::RadioButton("Bottom left",
-                                               widget->anchor == panel_anchor::bottom_left))
-                            widget->anchor = panel_anchor::bottom_left;
-                        if (ImGui::RadioButton("Bottom right",
-                                               widget->anchor == panel_anchor::bottom_right))
-                            widget->anchor = panel_anchor::bottom_right;
+                                               widget->options.anchor == panel_anchor::bottom_left))
+                            widget->options.anchor = panel_anchor::bottom_left;
+                        if (ImGui::RadioButton("Bottom right", widget->options.anchor ==
+                                                                   panel_anchor::bottom_right))
+                            widget->options.anchor = panel_anchor::bottom_right;
 
                         ImGui::EndMenu();
                     }
@@ -119,34 +121,34 @@ namespace gui {
             {panel_anchor::bottom_right, viewport->WorkPos.y + viewport->WorkSize.y - 10.0f}};
 
         for (const auto& widget : widgets) {
-            if (!widget->open) {
+            if (!widget->options.open) {
                 continue;
             }
 
-            ImVec2 pos(0.0f, vertical_offsets[widget->anchor]);
+            ImVec2 pos(0.0f, vertical_offsets[widget->options.anchor]);
             ImVec2 pivot(0.0f, 0.0f);
 
-            switch (widget->anchor) {
+            switch (widget->options.anchor) {
                 case panel_anchor::top_left:
-                    pos.x = viewport->WorkPos.x + widget->padding;
+                    pos.x = viewport->WorkPos.x + widget_padding;
                     pivot = ImVec2(0.0f, 0.0f);
                     break;
                 case panel_anchor::top_right:
-                    pos.x = viewport->WorkPos.x + viewport->WorkSize.x - widget->padding;
+                    pos.x = viewport->WorkPos.x + viewport->WorkSize.x - widget_padding;
                     pivot = ImVec2(1.0f, 0.0f);
                     break;
                 case panel_anchor::bottom_left:
-                    pos.x = viewport->WorkPos.x + widget->padding;
+                    pos.x = viewport->WorkPos.x + widget_padding;
                     pivot = ImVec2(0.0f, 1.0f);
                     break;
                 case panel_anchor::bottom_right:
-                    pos.x = viewport->WorkPos.x + viewport->WorkSize.x - widget->padding;
+                    pos.x = viewport->WorkPos.x + viewport->WorkSize.x - widget_padding;
                     pivot = ImVec2(1.0f, 1.0f);
                     break;
             }
 
             ImGui::SetNextWindowPos(pos, ImGuiCond_Always, pivot);
-            if (ImGui::Begin(widget->title.c_str(), &widget->open,
+            if (ImGui::Begin(widget->title.c_str(), &widget->options.open,
                              ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove |
                                  ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_NoBackground |
                                  ImGuiWindowFlags_NoInputs)) {
@@ -154,11 +156,11 @@ namespace gui {
             }
 
             float height = ImGui::GetWindowSize().y;
-            if (widget->anchor == panel_anchor::top_left ||
-                widget->anchor == panel_anchor::top_right) {
-                vertical_offsets[widget->anchor] += height;
+            if (widget->options.anchor == panel_anchor::top_left ||
+                widget->options.anchor == panel_anchor::top_right) {
+                vertical_offsets[widget->options.anchor] += height;
             } else {
-                vertical_offsets[widget->anchor] -= height;
+                vertical_offsets[widget->options.anchor] -= height;
             }
 
             ImGui::End();
@@ -167,15 +169,15 @@ namespace gui {
 
     void manager::draw_windows() {
         for (const auto& window : windows) {
-            if (!window->open)
+            if (!window->options.open)
                 continue;
 
             auto center = ImGui::GetMainViewport()->GetCenter();
             ImGui::SetNextWindowPos(center, ImGuiCond_Once, ImVec2(0.5f, 0.5f));
-            ImGui::SetNextWindowSize(window->default_size, ImGuiCond_FirstUseEver);
+            ImGui::SetNextWindowSize(window->options.default_size, ImGuiCond_FirstUseEver);
 
-            if (ImGui::Begin(window->title.c_str(), &window->open,
-                             window->flags | ImGuiWindowFlags_NoCollapse)) {
+            if (ImGui::Begin(window->title.c_str(), &window->options.open,
+                             window->options.flags | ImGuiWindowFlags_NoCollapse)) {
                 window->draw();
             }
             ImGui::End();
@@ -220,16 +222,21 @@ namespace gui {
     }
 
     void panel::draw() {
-        if (!draw_function || !draw_function->valid() || lua::manager::get().is_loading() ||
-            *rfg::g_multiplayer()) {
+        if (!options.draw_function || !options.draw_function->valid() ||
+            lua::manager::get().is_loading() || *rfg::g_multiplayer()) {
             return;
         }
 
-        auto result = lua::manager::get().execute_function(*draw_function);
+        if (options.requires_gameplay && rfg::gameseq_get_state() != rfg::GS_GAMEPLAY) {
+            ImGui::TextDisabled("This panel requires the player to be in gameplay.");
+            return;
+        }
+
+        auto result = lua::manager::get().execute_function(*options.draw_function);
         if (!result.valid()) {
             sol::error err = result;
             spdlog::error("[{}] Failed to draw panel: {}", title, err.what());
-            this->open = false;
+            this->options.open = false;
         }
     }
 }

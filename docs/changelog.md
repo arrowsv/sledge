@@ -4,7 +4,8 @@
 
 ### Added
 * Icon for launcher executable.
-* `xml_warnings_enabled` config option.
+* `xml_warnings_enabled` config option to log warnings when an XML node or path doesn't exist.
+* `requires_gameplay` option for panels to prevent drawing elements when player isn't in gameplay.
 
 ## 0.1.0-beta.3 (2026-09-26)
 

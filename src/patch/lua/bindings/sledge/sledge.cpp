@@ -13,17 +13,12 @@
 #include <sol/sol.hpp>
 
 namespace lua::bindings::sledge {
-
-    std::shared_ptr<gui::panel> create_panel(std::string title,
-                                             sol::optional<mods::mod_info> mod_info,
-                                             sol::protected_function draw_function,
-                                             ImGuiWindowFlags flags, float width, float height) {
+    std::shared_ptr<gui::panel> create_panel(std::string title, gui::panel_options opts,
+                                             sol::optional<mods::mod_info> mod_info) {
         if (mod_info) {
-            return std::make_shared<gui::panel>(title, mod_info.value(), std::move(draw_function),
-                                                flags, ImVec2{width, height});
+            return std::make_shared<gui::panel>(title, mod_info.value(), opts);
         } else {
-            return std::make_shared<gui::panel>(title, std::move(draw_function), flags,
-                                                ImVec2{width, height});
+            return std::make_shared<gui::panel>(title, opts);
         }
     }
 
@@ -81,31 +76,63 @@ namespace lua::bindings::sledge {
 
         sledge["register_window"] = [&lua](sol::this_environment this_env, const std::string& title,
                                            sol::protected_function draw_func,
-                                           sol::optional<sol::table> options) {
-            sol::table options_table = options ? options.value() : lua.create_table();
+                                           sol::optional<sol::table> opts) {
+            gui::panel_options panel_opts{};
 
-            float width = options_table.get_or("width", 500.0f);
-            float height = options_table.get_or("height", 300.0f);
+            if (opts) {
+                sol::table opts_table = opts.value();
 
-            ImGuiWindowFlags flags = ImGuiWindowFlags_None;
+                sol::optional<float> width = opts_table["width"];
+                if (width) {
+                    panel_opts.default_size.x = width.value();
+                }
 
-            if (options_table.get_or("auto_resize", false))
-                flags |= ImGuiWindowFlags_AlwaysAutoResize;
+                sol::optional<float> height = opts_table["height"];
+                if (height) {
+                    panel_opts.default_size.y = height.value();
+                }
 
-            if (options_table.get_or("no_resize", false))
-                flags |= ImGuiWindowFlags_NoResize;
+                sol::optional<bool> auto_resize = opts_table["auto_resize"];
+                if (auto_resize && auto_resize.value()) {
+                    panel_opts.flags |= ImGuiWindowFlags_AlwaysAutoResize;
+                }
 
+                sol::optional<bool> no_resize = opts_table["no_resize"];
+                if (no_resize && no_resize.value()) {
+                    panel_opts.flags |= ImGuiWindowFlags_NoResize;
+                }
+
+                sol::optional<bool> requires_gameplay = opts_table["requires_gameplay"];
+                if (requires_gameplay && requires_gameplay.value()) {
+                    panel_opts.requires_gameplay = requires_gameplay.value();
+                }
+            }
+
+            panel_opts.draw_function = draw_func;
             auto mod_info = api::utils::get_env_mod(this_env);
 
-            auto window = create_panel(title, mod_info, draw_func, flags, width, height);
+            auto window = create_panel(title, panel_opts, mod_info);
             gui::manager::get().register_window(window);
         };
 
         sledge["register_widget"] = [&lua](sol::this_environment this_env, const std::string& title,
-                                           sol::protected_function draw_func) {
+                                           sol::protected_function draw_func,
+                                           sol::optional<sol::table> opts) {
+            gui::panel_options panel_opts{};
+
+            if (opts) {
+                sol::table opts_table = opts.value();
+
+                sol::optional<bool> requires_gameplay = opts_table["requires_gameplay"];
+                if (requires_gameplay && requires_gameplay.value()) {
+                    panel_opts.requires_gameplay = requires_gameplay.value();
+                }
+            }
+
+            panel_opts.draw_function = draw_func;
             auto mod_info = api::utils::get_env_mod(this_env);
-            auto widget =
-                create_panel(title, mod_info, draw_func, ImGuiWindowFlags_None, 500.0f, 300.0f);
+            
+            auto widget = create_panel(title, panel_opts, mod_info);
             gui::manager::get().register_widget(widget);
         };
 

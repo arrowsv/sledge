@@ -148,11 +148,6 @@ sledge.register_event(defines.event.mouse_wheel, function(e)
 end)
 
 sledge.register_window("Freecam", function()
-    if not game.is_in_gameplay() then
-        gui.text("A save must be loaded before using this menu.")
-        return
-    end
-
     gui.property_table("Options", function()
         gui.property_row("Speed", function()
             gui.slider_float(state.freecam_speed, state.freecam_speed_minimum, state.freecam_speed_maximum, function(v)
@@ -188,4 +183,4 @@ sledge.register_window("Freecam", function()
             gui.set_tooltip("Returns the player to their original position after disabling the freecam.")
         end)
     end)
-end, { width = 500, height = 200 })
+end, { width = 500, height = 200, requires_gameplay = true })

@@ -1,14 +1,7 @@
 local state = { infinite_jetpack = false, desired_alert_level = defines.alert_level.green, lock_alert_level = false }
 
 sledge.register_window("Cheats", function()
-    if not game.is_in_gameplay() then
-        gui.text("A save must be loaded before using this menu.")
-        return
-    end
-
     local player = game.get_player()
-    if not player then return end
-
     gui.tab_bar("Cheats", function()
         gui.tab_item("Info", function()
             gui.separator("Position")
@@ -209,7 +202,7 @@ sledge.register_window("Cheats", function()
             end)
         end)
     end)
-end)
+end, { requires_gameplay = true })
 
 sledge.register_event(defines.event.player_do_frame, function(e)
     if state.infinite_jetpack then

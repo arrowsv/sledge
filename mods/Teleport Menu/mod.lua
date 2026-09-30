@@ -2,14 +2,7 @@ local teleports = mod:import("teleports")
 local position = types.vector.new(0, 0, 0)
 
 sledge.register_window("Teleports", function()
-    if not game.is_in_gameplay() then
-        gui.text('A save must be loaded before using this menu.')
-        return
-    end
-
     local player = game.get_player()
-    if not player then return end
-
     gui.property_table('Position', function()
         gui.property_row('X', function()
             local width = gui.get_available_space()
@@ -64,4 +57,4 @@ sledge.register_window("Teleports", function()
             end)
         end
     end)
-end)
+end, { requires_gameplay = true })
