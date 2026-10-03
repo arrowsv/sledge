@@ -120,6 +120,21 @@ name = "gui"
     name = "pressed"
     type = "function"
 
+    [[namespaces.functions.params]]
+    name = "options"
+    type = "table"
+    optional = true
+
+      [[namespaces.functions.params.fields]]
+      name = "width"
+      type = "number"
+      optional = true
+
+      [[namespaces.functions.params.fields]]
+      name = "height"
+      type = "number"
+      optional = true
+
   [[namespaces.functions]]
   name = "checkbox"
   description = "Creates a checkbox."

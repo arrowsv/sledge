@@ -8,7 +8,7 @@ Use the [`sledge.register_xml_edit`](/lua/api/sledge.md#register_xml_edit) funct
 
 !!! warning
 
-    `.scriptx` files are not supported as they have a non-standard XML format made specifically for the game's scripting system. Instead, use the [`sledge.register_file`](overriding-files.md) function and fully replace the file with any desired edits.
+    `.scriptx` files are not supported because they have a non-standard XML format made specifically for the game's scripting system. Instead, use the [`sledge.register_file`](overriding-files.md) function and fully replace the file with any desired edits.
 
 The `sledge.register_xml_edit` function requires the name of the file to edit and a callback function that takes a [`types.xml_node`](/lua/api/types/xml_node.md) parameter:
 
@@ -317,23 +317,19 @@ The following examples show existing mods made in the `modinfo.xml` format and t
 
     ```lua
     sledge.register_xml_edit("weapons.xtbl", function(document)
-        local nano_rifle = document:get_from_path("//Weapon[Unique_ID='17']")
+        local nano_rifle = document:get_from_path("//Weapon[Name = 'nano_rifle' and _Editor/Category = 'Entries:Guerilla']")
         nano_rifle:get("Trigger_Type").value = "automatic"
-        nano_rifle:get("Magazine_Size").value = "60"
-        nano_rifle:get("Max_Rounds").value = "250"
-        nano_rifle:get("Range_Max").value = "150"
-        nano_rifle:get("Range_Red").value = "250"
-        nano_rifle:get("Default_Refire_Delay").value = "100"
-        nano_rifle:get("Ammo_Box_Restock").value = "150"
-        nano_rifle:get("Num_Magazines").value = "6"
-        nano_rifle:get("Reload_Delay").value = "200"
+        nano_rifle:get("Magazine_Size").value = 60
+        nano_rifle:get("Max_Rounds").value = 250
+        nano_rifle:get("Range_Max").value = 150
+        nano_rifle:get("Range_Red").value = 250
+        nano_rifle:get("Default_Refire_Delay").value = 100
+        nano_rifle:get("Ammo_Box_Restock").value = 150
+        nano_rifle:get("Num_Magazines").value = 6
+        nano_rifle:get("Reload_Delay").value = 200
     end)
     ```
-
-    !!! note
-
-        The `nano_rifle` `<Weapon>` node is retrieved using its `<Unique_ID>` value because most weapons have a duplicate entry with an indentical `<Name>` value that is used only for the multiplayer version of a weapon.
-
+    
 ??? note "Snippet of weapons.xtbl"
 
     ```xml

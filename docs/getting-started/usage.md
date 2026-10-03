@@ -22,7 +22,7 @@ Click the `Apply` button to save any changes, or the `Rescan` button in case the
 
 ### Launching the game
 
-Click the `Play` button to launch the game. Click the `Play (vanilla)` button to launch the game without Sledge active.
+Click the `Play` button to launch the game. To launch the game without Sledge active, change the `Play` dropdown to `Vanilla`.
 
 If the Steam version is detected, it will run the `steam://run/667720` URI command. Steam must be open for the game to run. If the GOG version is detected, the `rfg.exe` process will be manually created.
 

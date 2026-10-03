@@ -11,6 +11,7 @@ nav:
     - guides/overriding-files.md
     - guides/editing-xml-files.md
     - guides/registering-events.md
+    - guides/creating-panels.md
   - Lua:
     - API:
       - "lua/api/*"

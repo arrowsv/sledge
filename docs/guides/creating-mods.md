@@ -1,10 +1,12 @@
 # Creating mods
 
-Create a folder with the name of the mod in the `sledge/mods` folder. Inside the newly created mod folder, create two files named `mod.toml` and `mod.lua`.
+Create a folder inside `mods` named `author.name` using only lowercase characters `a-z`, numbers `0-9`, and the symbol `_`. For example: `my_name.my_mod`.
+
+Inside the newly created mod folder, create two files named `mod.toml` and `mod.lua`.
 
 ```
 📁 mods/
-└── 📁 My Mod/
+└── 📁 my_name.my_mod/
     ├── 📄 mod.toml
     └── 📄 mod.lua
 ```
@@ -13,16 +15,16 @@ Create a folder with the name of the mod in the `sledge/mods` folder. Inside the
 
 This file is used to define the mod's metadata. The following fields are available:
 
-- `id` - The identifier of the mod. Write in all lowercase, no special characters, and replace spaces with underscores. Format the identifier as `"<author>.<name>"`.
+- `id` - The unique identifier of the mod. This has the same requirements as the folder's name and should ideally be the same.
 - `name` - The display name of the mod.
 - `authors` - The authors of the mod as an array.
 - `description` - The description of the mod.
-- `version` - The version of the mod. Follow the `<major>.<minor>.<patch>` format from the [Semantic Versioning](https://semver.org) specification. For an initial release, start at `1.0.0` (major is `1`, minor is `0`, patch is `0`). Increment the major version when a breaking change is made, the minor version when a new feature is added, and the patch version when a bug is fixed without adding a new feature.
+- `version` - The version of the mod. Follow the `major.minor.patch` format from the [Semantic Versioning](https://semver.org) specification. For an initial release, start at `1.0.0`, where major is `1`, minor is `0`, and patch is `0`. Increment the major version when breaking changes are made, the minor version when new features are added, and the patch version when bug fixes are made.
 
 ```toml title="mod.toml"
 id = "my_name.my_mod"
 name = "My Mod"
-authors = ["my_name"]
+authors = ["my_name", "another_name"]
 description = "A description of my mod."
 version = "1.0.0"
 ```

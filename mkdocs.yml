@@ -15,12 +15,15 @@ theme:
     - search.suggest
     - navigation.sections
     - navigation.footer
+    - navigation.top
     - content.code.copy
 
 markdown_extensions:
   - admonition
   - pymdownx.tabbed:
       alternate_style: true
+  - toc:
+      permalink: true
   - pymdownx.highlight
   - pymdownx.details
   - pymdownx.superfences 
