@@ -99,6 +99,14 @@ namespace mods {
                 return std::nullopt;
             }
 
+            if (std ::any_of(mod.id.begin(), mod.id.end(),
+                             [](unsigned char c) { return std::isspace(c) || std::isupper(c); })) {
+                spdlog::error(
+                    "Skipped mod '{}': field 'id' must not contain spaces or uppercase letters.",
+                    mod_config_path.string());
+                return std::nullopt;
+            }
+
             mod.name = tbl["name"].value_or("");
             if (mod.name.empty()) {
                 spdlog::error("Skipped mod '{}': field 'name' is missing.", mod.id);
