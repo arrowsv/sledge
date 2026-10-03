@@ -1,5 +1,5 @@
 sledge.register_xml_edit("weapons.xtbl", function(document)
-    local nano_rifle = document:get_from_path("//Weapon[Name='nano_rifle']")
+    local nano_rifle = document:get_from_path("//Weapon[Name = 'nano_rifle' and _Editor/Category = 'Entries:Guerilla']")
     nano_rifle:get("Trigger_Type").value = "automatic"
     nano_rifle:get("Magazine_Size").value = 60
     nano_rifle:get("Max_Rounds").value = 250

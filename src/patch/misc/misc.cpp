@@ -51,7 +51,7 @@ namespace misc {
     }
 
     void apply_patches() {
-        // Enables saving while cheats are active
+        // Enable saving while cheats are active.
         utils::memory::write_value<uint8_t>(OFFSET(0x7EADED, 0x7EAD9D), 0);
 
         post_event_apply();

@@ -36,7 +36,7 @@
 * Show the operating system's cursor when the overlay is enabled instead of drawing a fake cursor.
 * Rename the `open_key` config option to `overlay_key`.
 * Make the `Position` widget show `0` for each coordinate when the player isn't valid instead of drawing nothing.
-* Move the `types.mod_info:register_event`, `types.mod_info:register_widget`, `types.mod_info:register_window`, `types.mod_info:log`, `types.mod_info:log_warn`, and `types.mod_info:log_error` functions to the `sledge` namespace.
+* Move the `types.mod_info:register_event`, `types.mod_info:register_widget`, `types.mod_info:register_window`, `types.mod_info:log`, `types.mod_info:log_warn`, and `types.mod_info:log_error` methods to the `sledge` namespace.
 * Functions in the `gui` namespace now use callback function parameters instead of returning multiple values.
 
 ### Removed
@@ -44,9 +44,9 @@
 * `author` field in mod metadata.
 * `Sledge` -> `Demo window` item in the overlay menu bar.
 * `defines.event.parse_xml` event.
-* `types.xml_node:value`, and `types.xml_node:set` functions.
+* `types.xml_node:value`, and `types.xml_node:set` methods.
 * `gui.separator_text`, `gui.begin_tooltip`, `gui.end_tooltip`, `gui.begin_help_marker`, `gui.end_help_marker`, `gui.begin_tab_bar`, `gui.end_tab_bar`, `gui.begin_tab_item`, `gui.end_tab_item`, `gui.input_text_hint`, `gui.input_int_1/2/3/4`, `gui.input_float_1/2/3/4`, `gui.drag_int`, and `gui.drag_float` functions.
-* `types.mod_info:get_option` function and `types.mod_info.version`, `types.mod_info.description`, `types.mod_info.author`, and `types.mod_info.path` fields.
+* `types.mod_info:get_option` method and `types.mod_info.version`, `types.mod_info.description`, `types.mod_info.author`, and `types.mod_info.path` fields.
 
 ### Fixed
 * `game.get_alert_level` function referencing the wrong offset for Steam.

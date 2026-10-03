@@ -1,5 +1,5 @@
 name: "New feature or behaviour change"
-description: "Suggest a new feature or enhancement to an existing one"
+description: "Suggest a new feature or enhancement to an existing one."
 labels: ["enhancement"]
 body:
 - type: "textarea"

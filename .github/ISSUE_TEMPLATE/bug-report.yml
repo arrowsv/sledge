@@ -1,5 +1,5 @@
 name: "Bug report"
-description: "Report something not working correctly in the game."
+description: "Report something not working correctly."
 labels: ["bug"]
 body:
 - type: "textarea"
