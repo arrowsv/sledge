@@ -3,4 +3,3 @@ name = "No FFZ Artillery"
 authors = ["moneyl"]
 description = "Disables the Free Fire Zone artillery."
 version = "1.0.0"
-sledge_version = "^0.1.0"

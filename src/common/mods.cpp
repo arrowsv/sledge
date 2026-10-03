@@ -132,11 +132,7 @@ namespace mods {
             }
 
             mod.sledge_version = tbl["sledge_version"].value_or("");
-            if (mod.sledge_version.empty()) {
-                spdlog::warn("Mod '{}' does not specify field 'sledge_version'. Assuming "
-                             "compatibility with current Sledge version '{}'.",
-                             mod.id, constants::version);
-            } else {
+            if (!mod.sledge_version.empty()) {
                 if (const auto range = semver::try_parse_range(mod.sledge_version)) {
                     if (const auto current_ver = semver::try_parse(constants::version)) {
                         if (!range->contains(current_ver.value())) {
@@ -148,8 +144,7 @@ namespace mods {
                 } else {
                     spdlog::warn(
                         "Field 'sledge_version' for mod '{}' does not adhere to the Semantic "
-                        "Versioning specification (https://semver.org/). Assuming "
-                        "compatibility with Sledge {}.",
+                        "Versioning specification (https://semver.org/). Skipping field.",
                         mod.id, constants::version);
                 }
             }

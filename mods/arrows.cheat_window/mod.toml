@@ -1,13 +1,5 @@
 id = "arrows.cheat_window"
 name = "Cheat Window"
 authors = ["arrows"]
-description = """Adds a cheat window that exposes various variables for viewing/editing:
-
-- Statistics
-- Team
-- Flags
-- Time of day
-- Alert level
-"""
+description = "Adds a cheat window that exposes various variables for viewing/editing, such as statistics, teams, flags, time of day, and alert level."
 version = "1.0.0"
-sledge_version = "^0.1.0"

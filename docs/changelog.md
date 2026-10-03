@@ -6,8 +6,7 @@
 * Icon for launcher executable.
 * `xml_warnings_enabled` config option to log warnings when an XML node or path doesn't exist.
 * `requires_gameplay` option for panels to prevent drawing elements when player isn't in gameplay.
-* `sledge_version` field in mod metadata to specify range of which Sledge versions the mod will be compatible with.
-* Semantic Versioning validation for `version` and `sledge_version` fields in mod metadata.
+* Semantic Versioning validation for `version` field in mod metadata.
 
 ### Changed
 * Display mods alphabetically.
