@@ -11,6 +11,7 @@
 
 ### Changed
 * Display mods alphabetically.
+* Redesign launcher UI.
 
 ### Removed
 * `types.mod_info:import` method.

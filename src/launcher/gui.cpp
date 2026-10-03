@@ -20,6 +20,13 @@ namespace {
 #include "background_overlay.png.h"
     };
 
+    enum class play_choices { sledge, vanilla, count };
+
+    const char* play_choices_names[] = {"Sledge", "Vanilla"};
+    play_choices selected_play_choice = play_choices::sledge;
+
+    float column_height = 0.0f;
+
     GLuint background_overlay_id = 0;
     GLuint background_picture_id = 0;
 
@@ -79,36 +86,84 @@ namespace gui {
                          ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground);
         ImGui::PopStyleVar(2);
 
-        float available_height = ImGui::GetContentRegionAvail().y;
-        ImGui::SetCursorPosY(ImGui::GetCursorPosY() + available_height - ImGui::GetFrameHeight());
+        bool open_options = false;
+        bool open_mods = false;
 
-        if (ImGui::Button(ICON_MD_PLAY_ARROW " Play")) {
-            launch();
+        ImGuiIO& io = ImGui::GetIO();
+        ImGui::SetCursorPos({io.DisplaySize.x * 0.11f, (io.DisplaySize.y - column_height) * 0.5f});
+        ImGui::BeginChild("##column", {227, 0}, ImGuiChildFlags_AutoResizeY,
+                          ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar);
+
+        const float full = -FLT_MIN;
+        const float half =
+            (ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x) * 0.5f;
+
+        ImGui::SetNextItemWidth(full);
+
+        std::string selected_play_choice_str =
+            "Profile: " + std::string(play_choices_names[(int)selected_play_choice]);
+        if (ImGui::BeginCombo("##Play choice", selected_play_choice_str.c_str())) {
+            for (int n = 0; n < (int)play_choices::count; n++) {
+                bool is_selected = ((int)selected_play_choice == n);
+                if (ImGui::Selectable(play_choices_names[n], is_selected)) {
+                    selected_play_choice = (play_choices)n;
+                }
+
+                if (is_selected) {
+                    ImGui::SetItemDefaultFocus();
+                }
+            }
+            ImGui::EndCombo();
+        }
+
+        if (ImGui::Button(ICON_MD_PLAY_ARROW " Play", {full, 52})) {
+            if (selected_play_choice == play_choices::sledge) {
+                launch();
+            } else {
+                launch(true);
+            }
+        }
+
+        if (ImGui::Button(ICON_MD_SETTINGS " Options", {half, 34})) {
+            open_options = true;
         }
         ImGui::SameLine();
-        if (ImGui::Button(ICON_MD_PLAY_ARROW " Play (vanilla)")) {
-            launch(true);
+        if (ImGui::Button(ICON_MD_EXTENSION " Mods", {half, 34})) {
+            open_mods = true;
         }
-        ImGui::SameLine();
-        if (ImGui::Button(ICON_MD_SETTINGS " Options")) {
+
+        if (ImGui::Button(ICON_MD_OPEN_IN_NEW " Documentation", {full, 24})) {
+            std::string readthedocs_link =
+                std::format("https://sledge.readthedocs.io/en/{}/", constants::version);
+            ShellExecuteA(0, "open", readthedocs_link.c_str(), NULL, NULL, SW_SHOWDEFAULT);
+        }
+
+        if (ImGui::Button(ICON_MD_OPEN_IN_NEW " FactionFiles mods", {full, 24})) {
+            ShellExecuteA(0, "open",
+                          "https://www.factionfiles.com/ff.php?action=files&file_category=45", NULL,
+                          NULL, SW_SHOWDEFAULT);
+        }
+
+        if (ImGui::Button(ICON_MD_OPEN_IN_NEW " Discord", {full, 24})) {
+            ShellExecuteA(0, "open", "https://discord.gg/factionfiles", NULL, NULL, SW_SHOWDEFAULT);
+        }
+
+        ImGui::EndChild();
+
+        column_height = ImGui::GetItemRectSize().y;
+
+        auto version_size = ImGui::CalcTextSize(constants::version);
+        ImGui::SetCursorPos(
+            {io.DisplaySize.x - version_size.x - 12, io.DisplaySize.y - version_size.y - 12});
+        ImGui::TextDisabled(constants::version);
+
+        if (open_options) {
             ImGui::OpenPopup("Options");
         }
-        ImGui::SameLine();
-        if (ImGui::Button(ICON_MD_EXTENSION " Mods")) {
+
+        if (open_mods) {
             ImGui::OpenPopup("Mods");
         }
-        ImGui::SameLine();
-        if (ImGui::Button(ICON_MD_OPEN_IN_BROWSER " GitHub")) {
-            ShellExecuteW(0, L"open", L"https://github.com/arrowsv/sledge", NULL, NULL,
-                          SW_SHOWDEFAULT);
-        }
-
-        auto version_size = ImGui::CalcTextSize(constants::version).x;
-
-        ImGui::SameLine();
-        ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetContentRegionAvail().x -
-                             version_size);
-        ImGui::TextDisabled(constants::version);
 
         draw_options_modal();
         draw_mods_modal();
