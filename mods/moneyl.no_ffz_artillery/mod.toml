@@ -1,5 +1,0 @@
-id = "moneyl.no_ffz_artillery"
-name = "No FFZ Artillery"
-authors = ["moneyl"]
-description = "Disables the Free Fire Zone artillery."
-version = "1.0.0"
