@@ -96,7 +96,7 @@ namespace gui {
 
         const float full = -FLT_MIN;
         const float half =
-            (ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.x) * 0.5f;
+            (ImGui::GetContentRegionAvail().x - ImGui::GetStyle().ItemSpacing.y) * 0.5f;
 
         ImGui::SetNextItemWidth(full);
 
@@ -127,7 +127,7 @@ namespace gui {
         if (ImGui::Button(ICON_MD_SETTINGS " Options", {half, 34})) {
             open_options = true;
         }
-        ImGui::SameLine();
+        ImGui::SameLine(0.0, ImGui::GetStyle().ItemSpacing.y);
         if (ImGui::Button(ICON_MD_EXTENSION " Mods", {half, 34})) {
             open_mods = true;
         }
@@ -140,7 +140,7 @@ namespace gui {
 
         if (ImGui::Button(ICON_MD_OPEN_IN_NEW " FactionFiles mods", {full, 24})) {
             ShellExecuteA(0, "open",
-                          "https://www.factionfiles.com/ff.php?action=files&file_category=45", NULL,
+                          "https://www.factionfiles.com/ff.php?action=files&file_category=52", NULL,
                           NULL, SW_SHOWDEFAULT);
         }
 
