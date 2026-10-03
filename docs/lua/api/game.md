@@ -2,9 +2,19 @@
 
 ## Fields
 
-### `overriding_camera_position`
+### `fog_visible`
 
-Whether the game is prevented from updating the camera position every frame.
+Whether fog is visible.
+
+**Returns**
+
+* `result` (<code>boolean</code>)
+
+---
+
+### `hud_visible`
+
+Whether the HUD is visible.
 
 **Returns**
 
@@ -15,6 +25,16 @@ Whether the game is prevented from updating the camera position every frame.
 ### `overriding_camera_orientation`
 
 Whether the game is prevented from updating the camera orientation every frame.
+
+**Returns**
+
+* `result` (<code>boolean</code>)
+
+---
+
+### `overriding_camera_position`
+
+Whether the game is prevented from updating the camera position every frame.
 
 **Returns**
 
@@ -52,26 +72,6 @@ Whether unlimited magazine ammo is enabled.
 
 ---
 
-### `fog_visible`
-
-Whether fog is visible.
-
-**Returns**
-
-* `result` (<code>boolean</code>)
-
----
-
-### `hud_visible`
-
-Whether the HUD is visible.
-
-**Returns**
-
-* `result` (<code>boolean</code>)
-
----
-
 ### `wind_visible`
 
 Whether wind is visible. If false, wind sounds are also disabled.
@@ -82,31 +82,32 @@ Whether wind is visible. If false, wind sounds are also disabled.
 
 ## Functions
 
-### `get_player`
+### `get_alert_level`
 
-Returns the player.
+Returns the current alert level.
 
 ```lua
-local result = game.get_player()
+local result = game.get_alert_level()
 ```
 
 **Returns**
 
-* `result` (<code>[types.player](/lua/api/types/player.md), nil</code>)
+* `result` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
 
 ---
 
-### `is_in_gameplay`
+### `get_alert_level_cap`
 
-Returns whether the player is currently in gameplay.
+Returns the current alert level cap.
 
 ```lua
-local result = game.is_in_gameplay()
+local minimum, maximum = game.get_alert_level_cap()
 ```
 
 **Returns**
 
-* `result` (<code>boolean</code>)
+* `minimum` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
+* `maximum` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
 
 ---
 
@@ -121,6 +122,20 @@ local result = game.get_camera()
 **Returns**
 
 * `result` (<code>[types.camera](/lua/api/types/camera.md)</code>)
+
+---
+
+### `get_player`
+
+Returns the player.
+
+```lua
+local result = game.get_player()
+```
+
+**Returns**
+
+* `result` (<code>[types.player](/lua/api/types/player.md), nil</code>)
 
 ---
 
@@ -154,104 +169,17 @@ local hour, minutes, seconds = game.get_time_of_day()
 
 ---
 
-### `set_time_of_day`
+### `is_in_gameplay`
 
-Sets the current time of day.
-
-```lua
-game.set_time_of_day(hour, minutes, seconds)
-```
-
-**Parameters**
-
-* `hour` (<code>number</code>)
-* `minutes` (<code>number</code>)
-* `seconds` (<code>number</code>)
-
----
-
-### `get_alert_level`
-
-Returns the current alert level.
+Returns whether the player is currently in gameplay.
 
 ```lua
-local result = game.get_alert_level()
+local result = game.is_in_gameplay()
 ```
 
 **Returns**
 
-* `result` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
-
----
-
-### `set_alert_level`
-
-Sets the current alert level.
-
-```lua
-game.set_alert_level(level)
-```
-
-**Parameters**
-
-* `level` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
-
----
-
-### `get_alert_level_cap`
-
-Returns the current alert level cap.
-
-```lua
-local minimum, maximum = game.get_alert_level_cap()
-```
-
-**Returns**
-
-* `minimum` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
-* `maximum` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
-
----
-
-### `set_alert_level_cap`
-
-Sets the current alert level cap.
-
-```lua
-game.set_alert_level_cap(minimum, maximum)
-```
-
-**Parameters**
-
-* `minimum` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
-* `maximum` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
-
----
-
-### `release_alert_level_cap`
-
-Releases the current alert level cap.
-
-```lua
-game.release_alert_level_cap()
-```
-
----
-
-### `show_message`
-
-Shows a message in the top-left of the screen. This message only shows while in gameplay.
-
-```lua
-game.show_message(text, options?)
-```
-
-**Parameters**
-
-* `text` (<code>string</code>)
-* `options` (<code>table</code>, optional)
-    * `animated` (<code>boolean</code>, optional) - If `true`, the message will have an animated background. This is used by the game when notifying the player about mission and handbook unlocks. Defaults to `false`.
-    * `duration` (<code>number</code>, optional) - Defaults to `3.0`.
+* `result` (<code>boolean</code>)
 
 ---
 
@@ -275,4 +203,76 @@ local result = game.is_key_down(key)
 **Returns**
 
 * `result` (<code>boolean</code>)
+
+---
+
+### `release_alert_level_cap`
+
+Releases the current alert level cap.
+
+```lua
+game.release_alert_level_cap()
+```
+
+---
+
+### `set_alert_level`
+
+Sets the current alert level.
+
+```lua
+game.set_alert_level(level)
+```
+
+**Parameters**
+
+* `level` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
+
+---
+
+### `set_alert_level_cap`
+
+Sets the current alert level cap.
+
+```lua
+game.set_alert_level_cap(minimum, maximum)
+```
+
+**Parameters**
+
+* `minimum` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
+* `maximum` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
+
+---
+
+### `set_time_of_day`
+
+Sets the current time of day.
+
+```lua
+game.set_time_of_day(hour, minutes, seconds)
+```
+
+**Parameters**
+
+* `hour` (<code>number</code>)
+* `minutes` (<code>number</code>)
+* `seconds` (<code>number</code>)
+
+---
+
+### `show_message`
+
+Shows a message in the top-left of the screen. This message only shows while in gameplay.
+
+```lua
+game.show_message(text, options?)
+```
+
+**Parameters**
+
+* `text` (<code>string</code>)
+* `options` (<code>table</code>, optional)
+    * `animated` (<code>boolean</code>, optional) - If `true`, the message will have an animated background. This is used by the game when notifying the player about mission and handbook unlocks. Defaults to `false`.
+    * `duration` (<code>number</code>, optional) - Defaults to `3.0`.
 

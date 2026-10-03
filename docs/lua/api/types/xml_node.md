@@ -2,16 +2,6 @@
 
 ## Fields
 
-### `value`
-
-Value of the node.
-
-**Returns**
-
-* `result` (<code>string</code>)
-
----
-
 ### `name`
 
 Name of the node.
@@ -20,7 +10,60 @@ Name of the node.
 
 * `result` (<code>string</code>)
 
+---
+
+### `value`
+
+Value of the node.
+
+**Returns**
+
+* `result` (<code>string</code>)
+
 ## Methods
+
+### `add`
+
+Adds a new child node.
+
+```lua
+local result = object:add(name, value?)
+```
+
+**Parameters**
+
+* `name` (<code>string</code>)
+* `value` (<code>string</code>, optional)
+
+**Returns**
+
+* `result` (<code>[types.xml_node](/lua/api/types/xml_node.md)</code>)
+
+---
+
+### `children`
+
+Returns all children of the node.
+
+```lua
+local result = object:children()
+```
+
+**Returns**
+
+* `result` (<code>[types.xml_node](/lua/api/types/xml_node.md)[]</code>)
+
+---
+
+### `delete`
+
+Deletes the node.
+
+```lua
+object:delete()
+```
+
+---
 
 ### `exists`
 
@@ -83,49 +126,6 @@ local result = object:get_multiple_from_path(query)
 **Parameters**
 
 * `query` (<code>string</code>)
-
-**Returns**
-
-* `result` (<code>[types.xml_node](/lua/api/types/xml_node.md)[]</code>)
-
----
-
-### `add`
-
-Adds a new child node.
-
-```lua
-local result = object:add(name, value?)
-```
-
-**Parameters**
-
-* `name` (<code>string</code>)
-* `value` (<code>string</code>, optional)
-
-**Returns**
-
-* `result` (<code>[types.xml_node](/lua/api/types/xml_node.md)</code>)
-
----
-
-### `delete`
-
-Deletes the node.
-
-```lua
-object:delete()
-```
-
----
-
-### `children`
-
-Returns all children of the node.
-
-```lua
-local result = object:children()
-```
 
 **Returns**
 

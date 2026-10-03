@@ -6,7 +6,7 @@ from typing import Any, List
 
 from classes import DefineDoc, FieldDoc, FunctionDoc, NamespaceDoc, ParameterDoc, ReturnDoc, TypeDoc, EventDoc, EventDataDoc
 from globals import defines, types, namespaces, events
-from utils import format_type_links, assign_qualified_names
+from utils import format_type_links, assign_qualified_names_and_sort
 
 def parse_field(tbl: dict[str, Any]) -> FieldDoc:
     return FieldDoc(
@@ -254,7 +254,8 @@ def parse_api(api_path: Path, output_path: Path) -> None:
     for file_path in api_path.rglob("*.toml"):
         parse_toml(file_path)
 
-    assign_qualified_names()
+    assign_qualified_names_and_sort()
+
     write_docs(output_path)
 
 def main():

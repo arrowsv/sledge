@@ -2,23 +2,7 @@
 
 ## Fields
 
-### `invulnerable`
-
-**Returns**
-
-* `result` (<code>boolean</code>)
-
----
-
-### `no_damage`
-
-**Returns**
-
-* `result` (<code>boolean</code>)
-
----
-
-### `ignored_by_ai`
+### `disallow_flinches_and_ragdolls`
 
 **Returns**
 
@@ -34,6 +18,14 @@
 
 ---
 
+### `ignored_by_ai`
+
+**Returns**
+
+* `result` (<code>boolean</code>)
+
+---
+
 ### `in_vehicle_invisible`
 
 **Returns**
@@ -42,7 +34,15 @@
 
 ---
 
-### `disallow_flinches_and_ragdolls`
+### `invulnerable`
+
+**Returns**
+
+* `result` (<code>boolean</code>)
+
+---
+
+### `no_damage`
 
 **Returns**
 

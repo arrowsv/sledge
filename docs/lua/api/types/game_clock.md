@@ -2,15 +2,7 @@
 
 ## Fields
 
-### `year`
-
-**Returns**
-
-* `result` (<code>number</code>)
-
----
-
-### `month`
+### `current_day_ticks`
 
 **Returns**
 
@@ -19,6 +11,14 @@
 ---
 
 ### `day`
+
+**Returns**
+
+* `result` (<code>number</code>)
+
+---
+
+### `day_of_week`
 
 **Returns**
 
@@ -42,7 +42,7 @@
 
 ---
 
-### `seconds`
+### `month`
 
 **Returns**
 
@@ -50,7 +50,7 @@
 
 ---
 
-### `day_of_week`
+### `seconds`
 
 **Returns**
 
@@ -66,7 +66,7 @@
 
 ---
 
-### `current_day_ticks`
+### `year`
 
 **Returns**
 

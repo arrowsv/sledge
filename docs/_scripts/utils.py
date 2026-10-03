@@ -1,6 +1,7 @@
 from globals import types, defines, namespaces
 
-def assign_qualified_names() -> None:
+
+def assign_qualified_names_and_sort() -> None:
     for t in types:
         path = f"types.{t.name}"
         for f in t.fields:
@@ -9,6 +10,9 @@ def assign_qualified_names() -> None:
             m.qualified_name = f"{path}.{m.name}"
         for m in t.methods:
             m.qualified_name = f"object:{m.name}"
+        t.fields.sort(key=lambda f: f.name)
+        t.functions.sort(key=lambda f: f.name)
+        t.methods.sort(key=lambda m: m.name)
 
     for d in defines:
         for f in d.fields:
@@ -19,6 +23,8 @@ def assign_qualified_names() -> None:
             f.qualified_name = f"{ns.name}.{f.name}"
         for func in ns.functions:
             func.qualified_name = f"{ns.name}.{func.name}"
+        ns.fields.sort(key=lambda f: f.name)
+        ns.functions.sort(key=lambda f: f.name)
 
 def format_type_links(type_str: str) -> str:
     if not type_str:

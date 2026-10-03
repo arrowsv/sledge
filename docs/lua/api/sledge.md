@@ -14,18 +14,6 @@ sledge.log(message)
 
 ---
 
-### `log_warn`
-
-```lua
-sledge.log_warn(message)
-```
-
-**Parameters**
-
-* `message` (<code>string</code>)
-
----
-
 ### `log_error`
 
 ```lua
@@ -38,29 +26,15 @@ sledge.log_error(message)
 
 ---
 
-### `register_window`
+### `log_warn`
 
 ```lua
-sledge.register_window(title, callback)
+sledge.log_warn(message)
 ```
 
 **Parameters**
 
-* `title` (<code>string</code>)
-* `callback` (<code>function</code>)
-
----
-
-### `register_widget`
-
-```lua
-sledge.register_widget(title, callback)
-```
-
-**Parameters**
-
-* `title` (<code>string</code>)
-* `callback` (<code>function</code>)
+* `message` (<code>string</code>)
 
 ---
 
@@ -98,6 +72,40 @@ sledge.register_packfile(path)
 **Parameters**
 
 * `path` (<code>string</code>)
+
+---
+
+### `register_widget`
+
+```lua
+sledge.register_widget(title, callback, options?)
+```
+
+**Parameters**
+
+* `title` (<code>string</code>)
+* `callback` (<code>function</code>)
+* `options` (<code>table</code>, optional)
+    * `requires_gameplay` (<code>boolean</code>, optional) - If `true`, the widget will only draw its contents if the user is in gameplay. Recommended for panels that access objects only valid in gameplay, such as [`types.player`](/lua/api/types/player.md).
+
+---
+
+### `register_window`
+
+```lua
+sledge.register_window(title, callback, options?)
+```
+
+**Parameters**
+
+* `title` (<code>string</code>)
+* `callback` (<code>function</code>)
+* `options` (<code>table</code>, optional)
+    * `width` (<code>number</code>, optional)
+    * `height` (<code>number</code>, optional)
+    * `auto_resize` (<code>boolean</code>, optional) - If `true`, the window will automatically resize to its contents, ignore any provided width or height, and remove the ability for users to manually resize it.
+    * `no_resize` (<code>boolean</code>, optional) - If `true`, the window will remove the ability for users to manually resize it.
+    * `requires_gameplay` (<code>boolean</code>, optional) - If `true`, the window will only draw its contents if the user is in gameplay. Recommended for panels that access objects only valid in gameplay, such as [`types.player`](/lua/api/types/player.md).
 
 ---
 

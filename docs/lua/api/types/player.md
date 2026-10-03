@@ -12,7 +12,7 @@
 
 ---
 
-### `salvage`
+### `mining_count`
 
 **Returns**
 
@@ -20,7 +20,7 @@
 
 ---
 
-### `mining_count`
+### `salvage`
 
 **Returns**
 
