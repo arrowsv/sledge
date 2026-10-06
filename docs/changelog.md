@@ -1,8 +1,14 @@
 # Changelog
 
 ## 0.2.0
+
+### Fixed
+- `Documentation` button in the launcher opening the wrong page.
+
 ### Changed
 - Move the documentation from MkDocs to Zensical.
+- Move `FactionFiles mods` button to the `Mods` window in the launcher and rename it to `FactionFiles`.
+
 ### Removed
 - Bundled mods. They are now available on FactionFiles.
 

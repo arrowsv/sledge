@@ -133,17 +133,9 @@ namespace gui {
         }
 
         if (ImGui::Button(ICON_MD_OPEN_IN_NEW " Documentation", {full, 24})) {
-            std::string readthedocs_link =
-                std::format("https://sledge.readthedocs.io/en/{}/", constants::version);
-            ShellExecuteA(0, "open", readthedocs_link.c_str(), NULL, NULL, SW_SHOWDEFAULT);
+            ShellExecuteA(0, "open", "https://sledge.readthedocs.io/", NULL, NULL, SW_SHOWDEFAULT);
         }
-
-        if (ImGui::Button(ICON_MD_OPEN_IN_NEW " FactionFiles mods", {full, 24})) {
-            ShellExecuteA(0, "open",
-                          "https://www.factionfiles.com/ff.php?action=files&file_category=52", NULL,
-                          NULL, SW_SHOWDEFAULT);
-        }
-
+        
         if (ImGui::Button(ICON_MD_OPEN_IN_NEW " Discord", {full, 24})) {
             ShellExecuteA(0, "open", "https://discord.gg/factionfiles", NULL, NULL, SW_SHOWDEFAULT);
         }

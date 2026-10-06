@@ -1,5 +1,6 @@
 #include "mods.hpp"
 
+#include "common/assets/fonts/icons.hpp"
 #include "common/config.hpp"
 #include "common/mods.hpp"
 #include "common/utils/imgui.hpp"
@@ -62,11 +63,6 @@ namespace gui {
                 if (mod_it != discovered_mods.end()) {
                     const mods::mod_info& mod = *mod_it;
 
-                    // ImGui::TextUnformatted(mod.name.c_str());
-
-                    // ImGui::Separator();
-                    // ImGui::Spacing();
-
                     if (utils::imgui::begin_property_table("mod_info")) {
                         utils::imgui::begin_property_row("ID");
                         ImGui::TextUnformatted(mod.id.c_str());
@@ -87,7 +83,7 @@ namespace gui {
                             author_str += author;
                             is_first = false;
                         }
-                        
+
                         ImGui::TextUnformatted(author_str.c_str());
                         utils::imgui::end_property_row();
 
@@ -190,7 +186,7 @@ namespace gui {
             }
             ImGui::EndChild();
 
-            int button_count = 3;
+            int button_count = 4;
             float button_width = (ImGui::GetContentRegionAvail().x -
                                   (ImGui::GetStyle().ItemSpacing.x * (button_count - 1))) /
                                  button_count;
@@ -203,7 +199,8 @@ namespace gui {
             }
 
             ImGui::SameLine();
-            if (ImGui::Button("Rescan", {button_width, 0})) {
+
+            if (ImGui::Button(ICON_MD_REFRESH " Rescan", {button_width, 0})) {
                 auto sledge_dir = utils::os::get_module_directory(nullptr);
 
                 config::get().initialize(sledge_dir);
@@ -211,6 +208,14 @@ namespace gui {
                 selected_mod_id = "";
                 temp_config = config::get();
             }
+
+            ImGui::SameLine();
+            if (ImGui::Button(ICON_MD_OPEN_IN_NEW " FactionFiles", {button_width, 0})) {
+                ShellExecuteA(0, "open",
+                              "https://www.factionfiles.com/ff.php?action=files&file_category=52",
+                              NULL, NULL, SW_SHOWDEFAULT);
+            }
+            
             ImGui::SameLine();
             if (ImGui::Button("Cancel", {button_width, 0})) {
                 ImGui::CloseCurrentPopup();
