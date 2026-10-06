@@ -1,6 +1,6 @@
 # types.human
 
-> Inherits from: <code>[types.object](/lua/api/types/object.md)</code>
+> Inherits from: <code>[types.object](/lua/api/types/object)</code>
 
 ## Fields
 
@@ -8,7 +8,7 @@
 
 **Returns**
 
-* `result` (<code>[types.human_flags](/lua/api/types/human_flags.md)</code>)
+* `result` (<code>[types.human_flags](/lua/api/types/human_flags)</code>)
 
 ---
 
@@ -24,7 +24,7 @@
 
 **Returns**
 
-* `result` (<code>[defines.team](/lua/api/defines/team.md)</code>)
+* `result` (<code>[defines.team](/lua/api/defines/team)</code>)
 
 ---
 
@@ -32,7 +32,7 @@
 
 **Returns**
 
-* `result` (<code>[defines.team](/lua/api/defines/team.md)</code>)
+* `result` (<code>[defines.team](/lua/api/defines/team)</code>)
 
 ## Methods
 
@@ -46,5 +46,5 @@ object:teleport(position)
 
 **Parameters**
 
-* `position` (<code>[types.vector](/lua/api/types/vector.md)</code>)
+* `position` (<code>[types.vector](/lua/api/types/vector)</code>)
 

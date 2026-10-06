@@ -1,8 +1,21 @@
-# About
+# Index
 
 Sledge is a modification and modding tool for Red Faction: Guerrilla Re-Mars-tered.
 
-<img src="assets/0.1.0_screenshot.png" width="500" alt="Launcher screenshot"/>
+<div class="grid cards" markdown>
+
+-   :lucide-scroll-text:{ .top } __For players__ [<small><span style="float: right;">Read more :octicons-arrow-right-24:{ .middle }</span></small>](guides/players/installing-sledge)
+
+    Information for players on how to install and use Sledge.
+    
+-   :lucide-hammer:{ .top } __For developers__ [<small><span style="float: right;">Read more :octicons-arrow-right-24:{ .middle }</span></small>](guides/developers/creating-your-mod/)
+
+    Information for developers on how to create, convert, and publish mods.
+
+</div>
+
+<img src="assets/0.1.0_screenshot.png" alt="Launcher screenshot"/>
+
 
 ## Key features
 

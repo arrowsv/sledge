@@ -6,7 +6,7 @@
 
 **Returns**
 
-* `result` (<code>[types.vector](/lua/api/types/vector.md)</code>)
+* `result` (<code>[types.vector](/lua/api/types/vector)</code>)
 
 ---
 
@@ -14,7 +14,7 @@
 
 **Returns**
 
-* `result` (<code>[types.vector](/lua/api/types/vector.md)</code>)
+* `result` (<code>[types.vector](/lua/api/types/vector)</code>)
 
 ---
 
@@ -22,5 +22,5 @@
 
 **Returns**
 
-* `result` (<code>[types.vector](/lua/api/types/vector.md)</code>)
+* `result` (<code>[types.vector](/lua/api/types/vector)</code>)
 

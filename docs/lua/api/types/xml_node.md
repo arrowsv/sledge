@@ -33,11 +33,11 @@ local result = object:add(name, value?)
 **Parameters**
 
 * `name` (<code>string</code>)
-* `value` (<code>string</code>, optional)
+* `value` (<code>string</code>) <small>optional</small> 
 
 **Returns**
 
-* `result` (<code>[types.xml_node](/lua/api/types/xml_node.md)</code>)
+* `result` (<code>[types.xml_node](/lua/api/types/xml_node)</code>)
 
 ---
 
@@ -51,7 +51,7 @@ local result = object:children()
 
 **Returns**
 
-* `result` (<code>[types.xml_node](/lua/api/types/xml_node.md)[]</code>)
+* `result` (<code>[types.xml_node](/lua/api/types/xml_node)[]</code>)
 
 ---
 
@@ -93,7 +93,7 @@ local result = object:get(name)
 
 **Returns**
 
-* `result` (<code>[types.xml_node](/lua/api/types/xml_node.md)</code>)
+* `result` (<code>[types.xml_node](/lua/api/types/xml_node)</code>)
 
 ---
 
@@ -111,7 +111,7 @@ local result = object:get_from_path(query)
 
 **Returns**
 
-* `result` (<code>[types.xml_node](/lua/api/types/xml_node.md)</code>)
+* `result` (<code>[types.xml_node](/lua/api/types/xml_node)</code>)
 
 ---
 
@@ -129,7 +129,7 @@ local result = object:get_multiple_from_path(query)
 
 **Returns**
 
-* `result` (<code>[types.xml_node](/lua/api/types/xml_node.md)[]</code>)
+* `result` (<code>[types.xml_node](/lua/api/types/xml_node)[]</code>)
 
 ---
 
@@ -143,5 +143,5 @@ local result = object:parent()
 
 **Returns**
 
-* `result` (<code>[types.xml_node](/lua/api/types/xml_node.md)[]</code>)
+* `result` (<code>[types.xml_node](/lua/api/types/xml_node)[]</code>)
 

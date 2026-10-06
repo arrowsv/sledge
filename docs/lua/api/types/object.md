@@ -6,7 +6,7 @@
 
 **Returns**
 
-* `result` (<code>[types.matrix](/lua/api/types/matrix.md)</code>)
+* `result` (<code>[types.matrix](/lua/api/types/matrix)</code>)
 
 ---
 
@@ -14,7 +14,7 @@
 
 **Returns**
 
-* `result` (<code>[types.vector](/lua/api/types/vector.md)</code>)
+* `result` (<code>[types.vector](/lua/api/types/vector)</code>)
 
 ## Methods
 

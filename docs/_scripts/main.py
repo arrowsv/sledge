@@ -124,11 +124,11 @@ def write_fields(file, fields_list: List[FieldDoc]) -> None:
 
 def write_parameter(file, param: ParameterDoc, depth: int = 0) -> None:
     indent = "    " * depth
-    opt = ", optional" if param.optional else ""
+    opt = " <small>optional</small> " if param.optional else ""
     desc = f" - {param.description}" if param.description else ""
 
     formatted_type = format_type_links(param.type)
-    file.write(f"{indent}* `{param.name}` ({formatted_type}{opt}){desc}\n")
+    file.write(f"{indent}* `{param.name}` ({formatted_type}){opt}{desc}\n")
 
     for f_param in param.fields:
         write_parameter(file, f_param, depth + 1)

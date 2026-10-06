@@ -3,17 +3,39 @@ preserve_directory_names: true
 nav:
   - index.md
   - changelog.md
-  - Getting started:
-    - getting-started/installation.md
-    - getting-started/usage.md
   - Guides:
-    - guides/creating-mods.md
-    - guides/overriding-files.md
-    - guides/editing-xml-files.md
-    - guides/registering-events.md
-    - guides/creating-panels.md
+
+    - Players:
+      - Installing Sledge: guides/players/installing-sledge.md
+      - Using Sledge: guides/players/using-sledge.md
+      - Updating Sledge: guides/players/updating.md
+      - Managing your mods: guides/players/managing-mods.md
+
+    - Developers:
+
+      - Creating your mod:
+        - Overview: guides/developers/creating-your-mod/index.md
+        - The metadata file: guides/developers/creating-your-mod/metadata.md
+        - The script file: guides/developers/creating-your-mod/script.md
+
+      - Editing files:
+        - Overview: guides/developers/editing-files/index.md
+        - Editing XML files: guides/developers/editing-files/editing-xml-files.md
+        - Overriding files: guides/developers/editing-files/overriding-files.md
+        - Converting legacy mods: guides/developers/editing-files/legacy-mods.md
+
+      - Creating panels:
+        - Overview: guides/developers/creating-panels/index.md
+        - Drawing elements: guides/developers/creating-panels/drawing-elements.md
+        - Preventing script errors: guides/developers/creating-panels/script-errors.md
+  
+      - Testing your mod: guides/developers/testing.md
+      - Publishing your mod: guides/developers/publishing.md
+
   - Lua:
+
     - API:
       - "lua/api/*"
+
     - Events:
       - "lua/events/*"

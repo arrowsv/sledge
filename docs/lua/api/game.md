@@ -92,7 +92,7 @@ local result = game.get_alert_level()
 
 **Returns**
 
-* `result` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
+* `result` (<code>[defines.alert_level](/lua/api/defines/alert_level)</code>)
 
 ---
 
@@ -106,8 +106,8 @@ local minimum, maximum = game.get_alert_level_cap()
 
 **Returns**
 
-* `minimum` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
-* `maximum` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
+* `minimum` (<code>[defines.alert_level](/lua/api/defines/alert_level)</code>)
+* `maximum` (<code>[defines.alert_level](/lua/api/defines/alert_level)</code>)
 
 ---
 
@@ -121,7 +121,7 @@ local result = game.get_camera()
 
 **Returns**
 
-* `result` (<code>[types.camera](/lua/api/types/camera.md)</code>)
+* `result` (<code>[types.camera](/lua/api/types/camera)</code>)
 
 ---
 
@@ -135,7 +135,7 @@ local result = game.get_player()
 
 **Returns**
 
-* `result` (<code>[types.player](/lua/api/types/player.md), nil</code>)
+* `result` (<code>[types.player](/lua/api/types/player), nil</code>)
 
 ---
 
@@ -149,7 +149,7 @@ local result = game.get_time()
 
 **Returns**
 
-* `result` (<code>[types.game_clock](/lua/api/types/game_clock.md)</code>)
+* `result` (<code>[types.game_clock](/lua/api/types/game_clock)</code>)
 
 ---
 
@@ -198,7 +198,7 @@ local result = game.is_key_down(key)
 
 **Parameters**
 
-* `key` (<code>[defines.key](/lua/api/defines/key.md)</code>)
+* `key` (<code>[defines.key](/lua/api/defines/key)</code>)
 
 **Returns**
 
@@ -226,7 +226,7 @@ game.set_alert_level(level)
 
 **Parameters**
 
-* `level` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
+* `level` (<code>[defines.alert_level](/lua/api/defines/alert_level)</code>)
 
 ---
 
@@ -240,8 +240,8 @@ game.set_alert_level_cap(minimum, maximum)
 
 **Parameters**
 
-* `minimum` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
-* `maximum` (<code>[defines.alert_level](/lua/api/defines/alert_level.md)</code>)
+* `minimum` (<code>[defines.alert_level](/lua/api/defines/alert_level)</code>)
+* `maximum` (<code>[defines.alert_level](/lua/api/defines/alert_level)</code>)
 
 ---
 
@@ -272,7 +272,7 @@ game.show_message(text, options?)
 **Parameters**
 
 * `text` (<code>string</code>)
-* `options` (<code>table</code>, optional)
-    * `animated` (<code>boolean</code>, optional) - If `true`, the message will have an animated background. This is used by the game when notifying the player about mission and handbook unlocks. Defaults to `false`.
-    * `duration` (<code>number</code>, optional) - Defaults to `3.0`.
+* `options` (<code>table</code>) <small>optional</small> 
+    * `animated` (<code>boolean</code>) <small>optional</small>  - If `true`, the message will have an animated background. This is used by the game when notifying the player about mission and handbook unlocks. Defaults to `false`.
+    * `duration` (<code>number</code>) <small>optional</small>  - Defaults to `3.0`.
 

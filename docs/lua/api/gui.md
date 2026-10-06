@@ -24,9 +24,9 @@ gui.button(label, pressed, options?)
 
 * `label` (<code>string</code>)
 * `pressed` (<code>function</code>)
-* `options` (<code>table</code>, optional)
-    * `width` (<code>number</code>, optional)
-    * `height` (<code>number</code>, optional)
+* `options` (<code>table</code>) <small>optional</small> 
+    * `width` (<code>number</code>) <small>optional</small> 
+    * `height` (<code>number</code>) <small>optional</small> 
 
 ---
 
@@ -40,7 +40,7 @@ gui.checkbox(label?, value, changed)
 
 **Parameters**
 
-* `label` (<code>string</code>, optional)
+* `label` (<code>string</code>) <small>optional</small> 
 * `value` (<code>boolean</code>)
 * `changed` (<code>function(new_value: boolean)</code>)
 
@@ -85,7 +85,7 @@ gui.indent(width?)
 
 **Parameters**
 
-* `width` (<code>number</code>, optional)
+* `width` (<code>number</code>) <small>optional</small> 
 
 ---
 
@@ -99,7 +99,7 @@ gui.input_float(label?, value, changed)
 
 **Parameters**
 
-* `label` (<code>string</code>, optional)
+* `label` (<code>string</code>) <small>optional</small> 
 * `value` (<code>number</code>)
 * `changed` (<code>function(new_value: number)</code>)
 
@@ -115,7 +115,7 @@ gui.input_int(label?, value, changed)
 
 **Parameters**
 
-* `label` (<code>string</code>, optional)
+* `label` (<code>string</code>) <small>optional</small> 
 * `value` (<code>integer</code>)
 * `changed` (<code>function(new_value: integer)</code>)
 
@@ -131,7 +131,7 @@ gui.input_text(label?, value, changed)
 
 **Parameters**
 
-* `label` (<code>string</code>, optional)
+* `label` (<code>string</code>) <small>optional</small> 
 * `value` (<code>string</code>)
 * `changed` (<code>function(new_value: string)</code>)
 
@@ -221,7 +221,7 @@ gui.separator(label?)
 
 **Parameters**
 
-* `label` (<code>string</code>, optional)
+* `label` (<code>string</code>) <small>optional</small> 
 
 ---
 
@@ -277,7 +277,7 @@ gui.slider_float(label?, value, minimum, maximum, changed)
 
 **Parameters**
 
-* `label` (<code>string</code>, optional)
+* `label` (<code>string</code>) <small>optional</small> 
 * `value` (<code>number</code>)
 * `minimum` (<code>number</code>)
 * `maximum` (<code>number</code>)
@@ -295,7 +295,7 @@ gui.slider_int(label?, value, minimum, maximum, changed)
 
 **Parameters**
 
-* `label` (<code>string</code>, optional)
+* `label` (<code>string</code>) <small>optional</small> 
 * `value` (<code>integer</code>)
 * `minimum` (<code>integer</code>)
 * `maximum` (<code>integer</code>)
@@ -423,5 +423,5 @@ gui.unindent(width?)
 
 **Parameters**
 
-* `width` (<code>number</code>, optional)
+* `width` (<code>number</code>) <small>optional</small> 
 

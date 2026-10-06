@@ -1,0 +1,38 @@
+[project]
+site_name = "Sledge"
+site_url = "https://sledge.readthedocs.io"
+site_description = "A modification and modding tool for Red Faction: Guerrilla Re-Mars-tered."
+site_author = "arrowsv"
+repo_url = "https://github.com/arrowsv/sledge"
+
+[project.theme]
+logo = "assets/icon.png"
+favicon = "assets/icon.png"
+features = [
+    "navigation.sections",
+    "navigation.top",
+    "navigation.tabs",
+    "navigation.tabs.sticky",
+    "navigation.footer",
+    "navigation.indexes",
+    "navigation.path",
+    "content.code.copy"
+]
+palette.scheme = "slate"
+palette.primary = "orange"
+palette.accent = "orange"
+
+[project.markdown_extensions]
+admonition = {}
+def_list = {}
+toc.permalink = "🔗"
+pymdownx.tabbed.alternate_style = true
+pymdownx.highlight = {}
+pymdownx.details = {}
+pymdownx.superfences = {}
+attr_list = {}
+md_in_html = {}
+pymdownx.emoji.emoji_generator = "zensical.extensions.emoji.to_svg"
+pymdownx.emoji.emoji_index = "zensical.extensions.emoji.twemoji"
+
+[project.plugins.awesome-nav]

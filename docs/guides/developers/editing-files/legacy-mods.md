@@ -1,154 +1,23 @@
-# Editing XML files
-
-Use the [`sledge.register_xml_edit`](/lua/api/sledge.md#register_xml_edit) function to edit XML files. This is akin to the `<Edit>` feature from the `modinfo.xml` format, allowing multiple mods to edit XML files without overwriting each other. The following file formats are supported for XML editing:
-
-- `.xtbl`
-- `.dtodx`
-- `.gtodx`
-
-!!! warning
-
-    `.scriptx` files are not supported because they have a non-standard XML format made specifically for the game's scripting system. Instead, use the [`sledge.register_file`](overriding-files.md) function and fully replace the file with any desired edits.
-
-The `sledge.register_xml_edit` function requires the name of the file to edit and a callback function that takes a [`types.xml_node`](/lua/api/types/xml_node.md) parameter:
-
-```lua title="mod.lua"
-sledge.register_xml_edit("character.xtbl", function(document) 
-end)
-```
-
-Sledge will pass the XML document to the callback function as a `types.xml_node`, allowing the script to modify its contents before it is sent back to the game.
-
-We will use a snippet of `spawn_group_vehicle.xtbl` to demonstrate navigating and modifying the document:
-
-```xml title="spawn_group_vehicle.xtbl"
-<root>
-<Table>
-    <spawn_group_vehicle>
-        <Name>Amb_Parker</Name>
-        <vehicle_list>
-            <vehicle_type>Min_LightPickup_1</vehicle_type>
-            <vehicle_type>Min_LightPickup_2</vehicle_type>
-            <vehicle_type>Min_LightPickup_3</vehicle_type>
-            <vehicle_type>Col_Mini_Hauler_1</vehicle_type>
-            <vehicle_type>Col_Mini_Hauler_2</vehicle_type>
-            <vehicle_type>Col_Mini_Hauler_3</vehicle_type>
-            <vehicle_type>Min_DumpTruck_1</vehicle_type>
-            <vehicle_type>Min_DumpTruck_2</vehicle_type>
-            <vehicle_type>Min_DumpTruck_3</vehicle_type>
-            <vehicle_type>Min_SupplyTruck_1</vehicle_type>
-            <vehicle_type>Min_SupplyTruck_2</vehicle_type>
-            <vehicle_type>Min_SupplyTruck_3</vehicle_type>
-        </vehicle_list>
-    </spawn_group_vehicle>
-    <spawn_group_vehicle>
-        <Name>Amb_Manufacturing</Name>
-        <vehicle_list>
-            <vehicle_type>Min_Rover-A_1</vehicle_type>
-            <vehicle_type>Min_Rover-A_2</vehicle_type>
-            <vehicle_type>Min_Rover-A_3</vehicle_type>
-            <vehicle_type>Min_SupplyTruck_1</vehicle_type>
-            <vehicle_type>Min_SupplyTruck_2</vehicle_type>
-            <vehicle_type>Min_SupplyTruck_3</vehicle_type>
-            <vehicle_type>Col_TrashTruck_1</vehicle_type>
-            <vehicle_type>Col_Mini_Hauler_1</vehicle_type>
-            <vehicle_type>Col_Mini_Hauler_2</vehicle_type>
-            <vehicle_type>Col_Mini_Hauler_3</vehicle_type>
-        </vehicle_list>
-    </spawn_group_vehicle>
-</Table>
-</root>
-```
-
-### Retrieving nodes
-XML nodes are retrieved using the following functions:
-
-- [`types.xml_node:get`](/lua/api/types/xml_node.md#get)
-- [`types.xml_node:get_from_path`](/lua/api/types/xml_node.md#get_from_path)
-- [`types.xml_node:get_multiple_from_path`](/lua/api/types/xml_node.md#get_multiple_from_path)
-- [`types.xml_node:children`](/lua/api/types/xml_node.md#children)
-- [`types.xml_node:parent`](/lua/api/types/xml_node.md#parent)
+The following examples show existing mods made in the older `modinfo.xml` format alongside their `mod.toml` and `mod.lua` equivalents. 
 
 !!! info
 
-    The `types.xml_node:get_from_path` and `types.xml_node:get_multiple_from_path` functions use an XPath string to find nodes. Learn more about the XPath syntax [here](https://www.w3schools.com/xml/xpath_syntax.asp).
+    Ensure you have read the [`sledge.register_xml_edit`](editing-xml-files) and [`sledge.register_file`](overriding-files) pages before continuing.
 
-```lua title="mod.lua"
-sledge.register_xml_edit("spawn_group_vehicle.xtbl", function(document) 
-    -- Get the <spawn_group_vehicle> node with the <Name> "Amb_Parker".
-    --
-    -- Note that "//" is placed at the beginning of the XPath string. This
-    -- finds nodes from the current node that match the selection no matter
-    -- where they are. In this case, we haven't retrieved the <root><Table> 
-    -- nodes yet to get to the <spawn_group_vehicle> nodes, but 
-    -- using "//" will bypass them and search through the entire document.
-    local group = document:get_from_path("//spawn_group_vehicle[Name='Amb_Parker']")
+## Differences
 
-    -- Get the <Name> node and log its value, which will be "Amb_Parker".
-    local group_name = group:get("Name").value
-    sledge.log("Group name: " .. group_name)
+- **File names** - A `modinfo.xml` edit gives the file's full path, such as `data\misc.vpp_pc\salvage.xtbl`. `sledge.register_xml_edit` only needs the file's name, such as `salvage.xtbl`.
+- **Matching entries** - The `LIST_ACTION` attribute tells the game how to match entries in the file. For example, `COMBINE_BY_FIELD:Name` means "find the entry whose `Name` matches, and edit it". In Lua you do this yourself by finding the node with an XPath, such as `Material[Name = 'metal']`, and then changing its values. When `LIST_ACTION` lists several fields, such as `Name,_Editor\Category`, combine them in the XPath with `and`, such as `Weapon[Name = 'nano_rifle' and _Editor/Category = 'Entries:Guerilla']`.
 
-    -- Get the <vehicle_list> node.
-    local vehicle_list = group:get("vehicle_list")
+## Examples
 
-    -- Get the children of <vehicle_list> as a table and log the value of each.
-    local vehicle_types = vehicle_list:children()
-    sledge.log("Vehicle list (children):")
-    for _, type in ipairs(vehicle_types) do
-        sledge.log("Vehicle type: " .. type.value)
-    end
+### [More Salvage](https://www.factionfiles.com/ff.php?action=file&id=7725)
 
-    -- The <vehicle_type> nodes can also be retrieved using the
-    -- get_multiple_from_path function, even though the children
-    -- function does what we want.
-    local vehicle_types = group:get_multiple_from_path("vehicle_list/vehicle_type")
-    sledge.log("Vehicle list (get_multiple_from_path):")
-    for _, type in ipairs(vehicle_types) do
-        sledge.log("Vehicle type: " .. type.value)
-    end
-end)
-```
+This mod changes how much salvage the player gets from three materials. Each amount is an option the player can configure, and the script reads the options and applies them to the matching materials.
 
-### Modifying nodes
-XML nodes are modified using the following fields and functions:
+=== "Old"
 
-- [`types.xml_node.name`](/lua/api/types/xml_node.md#name)
-- [`types.xml_node.value`](/lua/api/types/xml_node.md#value)
-- [`types.xml_node:add`](/lua/api/types/xml_node.md#add)
-- [`types.xml_node:delete`](/lua/api/types/xml_node.md#delete)
-
-```lua title="mod.lua"
-sledge.register_xml_edit("spawn_group_vehicle.xtbl", function(document) 
-    -- Get the <spawn_group_vehicle> node with the <Name> "Amb_Manufacturing".
-    local group = document:get_from_path("//spawn_group_vehicle[Name='Amb_Manufacturing']")
-
-    -- Get the existing <vehicle_list> node and delete it.
-    group:get("vehicle_list"):delete()
-
-    -- Create a new <vehicle_list> node.
-    local vehicle_list = group:add("vehicle_list")
-    
-    -- Add new <vehicle_type> nodes to the <vehicle_list> node.
-    local first_vehicle = vehicle_list:add("vehicle_type", "Col_FuelTanker_1")
-    local second_vehicle = vehicle_list:add("vehicle_type", "Col_FixedFlatbed")
-
-    -- Change the first vehicle's value to "Min_Emergency_1".
-    first_vehicle.value = "Min_Emergency_1"
-
-    -- Find the second vehicle we added and delete it.
-    vehicle_list:get_from_path("vehicle_type='Col_FixedFlatbed'"):delete()
-end)
-```
-
-### More examples
-
-The following examples show existing mods made in the `modinfo.xml` format and their `mod.toml` and `mod.lua` equivalents.
-
-#### [More Salvage](https://www.factionfiles.com/ff.php?action=file&id=7725)
-
-=== "modinfo.xml"
-
-    ```xml
+    ```xml title="modinfo.xml"
     <Mod Name="More Salvage">
         <Author>arrows</Author>
         <Description>Increases the amount of salvage gathered when picked up. Does not affect mission completion rewards.</Description>
@@ -171,9 +40,15 @@ The following examples show existing mods made in the `modinfo.xml` format and t
     </Mod>
     ```
 
-=== "mod.toml"
+    ```
+    📁 mods/
+    └── 📁 More Salvage/
+        └── 📄 modinfo.xml
+    ```
 
-    ```toml
+=== "New"
+
+    ```toml title="mod.toml"
     id = "arrows.more_salvage"
     name = "More Salvage"
     authors = ["arrows"]
@@ -196,9 +71,7 @@ The following examples show existing mods made in the `modinfo.xml` format and t
     default = "45"
     ```
 
-=== "mod.lua"
-
-    ```lua
+    ```lua title="mod.lua"
     local metal_amount = mod.options["Metal"]
     local ore_amount = mod.options["Ore"]
     local chemical_amount = mod.options["Chemical"]
@@ -207,20 +80,21 @@ The following examples show existing mods made in the `modinfo.xml` format and t
         local table = document:get("root"):get("Table")
 
         local metal = table:get_from_path("Material[Name='metal']")
-        if metal:exists() then
-            metal:get("Value").value = metal_amount
-        end
+        metal:get("Value").value = metal_amount
 
         local ore = table:get_from_path("Material[Name='ore']")
-        if ore:exists() then
-            ore:get("Value").value = ore_amount
-        end
+        ore:get("Value").value = ore_amount
 
         local chemical = table:get_from_path("Material[Name='chemical']")
-        if chemical:exists() then
-            chemical:get("Value").value = chemical_amount
-        end
+        chemical:get("Value").value = chemical_amount
     end)
+    ```
+
+    ```
+    📁 mods/
+    └── 📁 arrows.more_salvage/
+        ├── 📄 mod.toml
+        └── 📄 mod.lua
     ```
 
 ??? note "Snippet of salvage.xtbl"
@@ -232,7 +106,7 @@ The following examples show existing mods made in the `modinfo.xml` format and t
             <Name>metal</Name>
             <_Editor>
                 <Category>Entries</Category>
-                </_Editor>
+            </_Editor>
             <Item_list>
                 <Item_3d>spawned_salvage</Item_3d>
                 <Item_3d>spawned_salvage2</Item_3d>
@@ -242,38 +116,40 @@ The following examples show existing mods made in the `modinfo.xml` format and t
                 <Item_3d>spawned_salvage6</Item_3d>
                 <Item_3d>spawned_salvage7</Item_3d>
                 <Item_3d>spawned_salvage8</Item_3d>
-                </Item_list>
+            </Item_list>
             <Value>1</Value>
-            </Material>
+        </Material>
         <Material>
             <Name>ore</Name>
             <_Editor>
                 <Category>Entries</Category>
-                </_Editor>
+            </_Editor>
             <Item_list>
                 <Item_3d>ore_salvage_1</Item_3d>
-                </Item_list>
+            </Item_list>
             <Value>5</Value>
-            </Material>
+        </Material>
         <Material>
             <Name>chemical</Name>
             <_Editor>
                 <Category>Entries</Category>
-                </_Editor>
+            </_Editor>
             <Item_list>
                 <Item_3d>placed_salvage</Item_3d>
-                </Item_list>
+            </Item_list>
             <Value>2</Value>
-            </Material>
-        </Table>
+        </Material>
+    </Table>
     </root>
     ```
 
-#### [Nano Assault Rifle](https://www.factionfiles.com/ff.php?action=file&id=2839)
+### [Nano Assault Rifle](https://www.factionfiles.com/ff.php?action=file&id=2839)
 
-=== "modinfo.xml"
+This mod edits several fields on one weapon. In `modinfo.xml`, `COMBINE_BY_FIELD:Name,_Editor\Category` matches the weapon by both its `Name` and its `_Editor/Category`. In Lua, the same match is written as one XPath with both conditions joined by `and`. This is needed because the file contains more than one weapon named `nano_rifle`, and only the one in the `Entries:Guerilla` category should be edited.
 
-    ```xml
+=== "Old"
+
+    ```xml title="modinfo.xml"
     <Mod Name="Nano Assault Rifle">
         <Author>Ace Spacer</Author>
         <Description>Turn the Nano rifle in to more of an assault rifle!</Description>
@@ -291,7 +167,7 @@ The following examples show existing mods made in the `modinfo.xml` format and t
                 <Default_Refire_Delay>100</Default_Refire_Delay>
                 <_Editor>
                     <Category>Entries:Guerilla</Category>
-                    </_Editor>
+                </_Editor>
                 <Ammo_Box_Restock>150</Ammo_Box_Restock>
                 <Num_Magazines>6</Num_Magazines>
                 <Reload_Delay>200</Reload_Delay>
@@ -303,9 +179,15 @@ The following examples show existing mods made in the `modinfo.xml` format and t
     </Mod>
     ```
 
-=== "mod.toml"
+    ```
+    📁 mods/
+    └── 📁 Nano Assault Rifle/
+        └── 📄 modinfo.xml
+    ```
 
-    ```toml
+=== "New"
+
+    ```toml title="mod.toml"
     id = "acespacer.nano_assault_rifle"
     name = "Nano Assault Rifle"
     authors = ["Ace Spacer"]
@@ -313,11 +195,11 @@ The following examples show existing mods made in the `modinfo.xml` format and t
     version = "1.0.0"
     ```
 
-=== "mod.lua"
-
-    ```lua
+    ```lua title="mod.lua"
     sledge.register_xml_edit("weapons.xtbl", function(document)
+        -- Match the weapon by both its <Name> and its <_Editor><Category>.
         local nano_rifle = document:get_from_path("//Weapon[Name = 'nano_rifle' and _Editor/Category = 'Entries:Guerilla']")
+
         nano_rifle:get("Trigger_Type").value = "automatic"
         nano_rifle:get("Magazine_Size").value = 60
         nano_rifle:get("Max_Rounds").value = 250
@@ -329,7 +211,14 @@ The following examples show existing mods made in the `modinfo.xml` format and t
         nano_rifle:get("Reload_Delay").value = 200
     end)
     ```
-    
+
+    ```
+    📁 mods/
+    └── 📁 acespacer.nano_assault_rifle/
+        ├── 📄 mod.toml
+        └── 📄 mod.lua
+    ```
+
 ??? note "Snippet of weapons.xtbl"
 
     ```xml
@@ -430,4 +319,51 @@ The following examples show existing mods made in the `modinfo.xml` format and t
         </Weapon>
     </Table>
     </root>
+    ```
+
+### [Extreme Hammer](https://www.factionfiles.com/ff.php?action=file&id=4695)
+
+This mod replaces the `melee.xtbl` file using `<Replace>` to increase the Sledgehammer's impact level. Ideally, the mod would have used `<Edit>` to make its changes because it is an `.xtbl` file, but this is for demonstration purposes.
+
+=== "Old"
+
+    ```xml
+    <Mod Name="Extreme Hammer">
+        <Author>SimpleArrows</Author>
+        <Description> Increases the impact of the hammer on NPC's and vehicles to an extreme level!</Description>
+        <Changes>
+            <Replace File="data\misc.vpp\melee.xtbl" NewFile="file\melee.xtbl" />
+        </Changes>
+    </Mod>
+    ```
+
+    ```
+    📁 mods/
+    └── 📁 Extreme Hammer/
+        ├── 📁 file/
+        │   └── 📄 melee.xtbl
+        └── 📄 modinfo.xml
+    ```
+
+=== "New"
+
+    ```toml title="mod.toml"
+    id = "arrows.extreme_hammer"
+    name = "Extreme Hammer"
+    authors = ["arrows"]
+    description = "Increases the impact of the hammer on NPC's and vehicles to an extreme level!"
+    version = "1.0.0"
+    ```
+
+    ```lua title="mod.lua"
+    sledge.register_file("files/melee.xtbl")
+    ```
+
+    ```
+    📁 mods/
+    └── 📁 arrows.extreme_hammer/
+        ├── 📁 files/
+        │   └── 📄 melee.xtbl
+        ├── 📄 mod.toml
+        └── 📄 mod.lua
     ```

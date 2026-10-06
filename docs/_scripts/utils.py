@@ -53,12 +53,12 @@ def format_type_links(type_str: str) -> str:
         if token.startswith("types."):
             parts = token.split(".")
             type_name = parts[1] if len(parts) > 1 else token
-            formatted_tokens.append(f"[{token}](/lua/api/types/{type_name}.md)")
+            formatted_tokens.append(f"[{token}](/lua/api/types/{type_name})")
 
         elif token.startswith("defines."):
             parts = token.split(".")
             define_name = parts[1] if len(parts) > 1 else token
-            formatted_tokens.append(f"[{token}](/lua/api/defines/{define_name}.md)")
+            formatted_tokens.append(f"[{token}](/lua/api/defines/{define_name})")
 
         else:
             formatted_tokens.append(f"{token}")
