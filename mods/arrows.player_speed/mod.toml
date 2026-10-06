@@ -1,9 +1,0 @@
-id = "arrows.player_speed"
-name = "Player Speed"
-authors = ["arrows"]
-version = "1.0.0"
-
-[[options]]
-name = "Speed"
-type = "custom"
-default = "5"

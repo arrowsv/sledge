@@ -1,5 +1,0 @@
-id = "arrows.teleport_window"
-name = "Teleport Window"
-authors = ["arrows"]
-description = "Adds a window to allow the player to teleport to a custom position or choose from a list of preset locations."
-version = "1.0.0"

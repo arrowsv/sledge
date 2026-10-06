@@ -1,5 +1,0 @@
-id = "arrows.cheat_window"
-name = "Cheat Window"
-authors = ["arrows"]
-description = "Adds a cheat window that exposes various variables for viewing/editing, such as statistics, teams, flags, time of day, and alert level."
-version = "1.0.0"

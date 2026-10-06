@@ -3,6 +3,8 @@
 ## 0.2.0
 ### Changed
 - Move the documentation from MkDocs to Zensical.
+### Removed
+- Bundled mods. They are now available on FactionFiles.
 
 ## 0.1.0 (2026-10-03)
 
