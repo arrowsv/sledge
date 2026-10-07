@@ -35,7 +35,15 @@ nav:
   - Lua:
 
     - API:
-      - "lua/api/*"
+    
+      - Namespaces:
+        - "lua/api/namespaces.*"
 
-    - Events:
-      - "lua/events/*"
+      - Types:
+        - "lua/api/types.*"
+
+      - Defines:
+        - "lua/api/defines.*"
+
+      - Events:
+        - "lua/api/events.*"

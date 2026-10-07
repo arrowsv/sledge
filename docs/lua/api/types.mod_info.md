@@ -28,5 +28,4 @@ Options of the mod.
 
 **Returns**
 
-* `result` (<code>table&lt;string, boolean, [defines.key](/lua/api/defines/key), nil></code>)
-
+* `result` (<code>table&lt;string|boolean|[defines.key](defines.key.md)|nil&gt;</code>)

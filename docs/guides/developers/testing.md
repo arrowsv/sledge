@@ -1,8 +1,8 @@
 ## Checking the log
  
-Use [`sledge.log`](/lua/api/sledge#log), [`sledge.log_warn`](/lua/api/sledge#log_warn), and [`sledge.log_error`](/lua/api/sledge#log_error) to write messages to the `sledge.log` file, located alongside the launcher. This can be useful for checking the state of a variable at a certain point in your script.
+Use [`sledge.log`](../../lua/api/namespaces.sledge.md#log), [`sledge.log_warn`](../../lua/api/namespaces.sledge.md#log_warn), and [`sledge.log_error`](../../lua/api/namespaces.sledge.md#log_error) to write messages to the `sledge.log` file, located alongside the launcher. This can be useful for checking the state of a variable at a certain point in your script.
 
-See [Writing log messages](creating-your-mod/script#writing-log-messages) for more information.
+See [Writing log messages](creating-your-mod/script.md#writing-log-messages) for more information.
  
 ## Reloading mods
  

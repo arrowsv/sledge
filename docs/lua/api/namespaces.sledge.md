@@ -46,7 +46,7 @@ sledge.register_event(event, callback)
 
 **Parameters**
 
-* `event` (<code>[defines.event](/lua/api/defines/event)</code>)
+* `event` (<code>[defines.event](defines.event.md)</code>)
 * `callback` (<code>function</code>)
 
 ---
@@ -85,8 +85,8 @@ sledge.register_widget(title, callback, options?)
 
 * `title` (<code>string</code>)
 * `callback` (<code>function</code>)
-* `options` (<code>table</code>) <small>optional</small> 
-    * `requires_gameplay` (<code>boolean</code>) <small>optional</small>  - If `true`, the widget will only draw its contents if the user is in gameplay. Recommended for panels that access objects only valid in gameplay, such as [`types.player`](/lua/api/types/player).
+* `options` (<code>table</code>) <small>optional</small>
+    * `requires_gameplay` (<code>boolean</code>) <small>optional</small> - If `true`, the widget will only draw its contents if the user is in gameplay. Recommended for panels that access objects only valid in gameplay, such as [`types.player`](types.player.md).
 
 ---
 
@@ -100,12 +100,12 @@ sledge.register_window(title, callback, options?)
 
 * `title` (<code>string</code>)
 * `callback` (<code>function</code>)
-* `options` (<code>table</code>) <small>optional</small> 
-    * `width` (<code>number</code>) <small>optional</small> 
-    * `height` (<code>number</code>) <small>optional</small> 
-    * `auto_resize` (<code>boolean</code>) <small>optional</small>  - If `true`, the window will automatically resize to its contents, ignore any provided width or height, and remove the ability for users to manually resize it.
-    * `no_resize` (<code>boolean</code>) <small>optional</small>  - If `true`, the window will remove the ability for users to manually resize it.
-    * `requires_gameplay` (<code>boolean</code>) <small>optional</small>  - If `true`, the window will only draw its contents if the user is in gameplay. Recommended for panels that access objects only valid in gameplay, such as [`types.player`](/lua/api/types/player).
+* `options` (<code>table</code>) <small>optional</small>
+    * `width` (<code>number</code>) <small>optional</small>
+    * `height` (<code>number</code>) <small>optional</small>
+    * `auto_resize` (<code>boolean</code>) <small>optional</small> - If `true`, the window will automatically resize to its contents, ignore any provided width or height, and remove the ability for users to manually resize it.
+    * `no_resize` (<code>boolean</code>) <small>optional</small> - If `true`, the window will remove the ability for users to manually resize it.
+    * `requires_gameplay` (<code>boolean</code>) <small>optional</small> - If `true`, the window will only draw its contents if the user is in gameplay. Recommended for panels that access objects only valid in gameplay, such as [`types.player`](types.player.md).
 
 ---
 
@@ -119,4 +119,3 @@ sledge.register_xml_edit(name, callback)
 
 * `name` (<code>string</code>)
 * `callback` (<code>function</code>)
-

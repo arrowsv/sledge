@@ -1,8 +1,8 @@
-# defines.team
+# defines.alert_level
 
 ## Fields
 
-### `none`
+### `green`
 
 **Returns**
 
@@ -10,7 +10,7 @@
 
 ---
 
-### `guerrilla`
+### `yellow`
 
 **Returns**
 
@@ -18,7 +18,7 @@
 
 ---
 
-### `edf`
+### `orange`
 
 **Returns**
 
@@ -26,17 +26,8 @@
 
 ---
 
-### `civilian`
+### `red`
 
 **Returns**
 
 * `result` (<code>integer</code>)
-
----
-
-### `marauder`
-
-**Returns**
-
-* `result` (<code>integer</code>)
-

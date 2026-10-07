@@ -11,5 +11,5 @@ sledge.register_event(defines.event.alert_level_changed, alert_level_changed_cal
 
 ## Event data
 
-* `previous_alert_level` (<code>[defines.alert_level](/lua/api/defines/alert_level)</code>)
-* `new_alert_level` (<code>[defines.alert_level](/lua/api/defines/alert_level)</code>)
+* `previous_alert_level` (<code>[defines.alert_level](defines.alert_level.md)</code>)
+* `new_alert_level` (<code>[defines.alert_level](defines.alert_level.md)</code>)

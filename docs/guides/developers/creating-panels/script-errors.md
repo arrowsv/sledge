@@ -1,6 +1,6 @@
-Some game objects, such as [`types.player`](/lua/api/types/player), only exist at certain times. Using one before it's valid causes a script error. For example, calling [`game.get_player()`](/lua/api/game#get_player) before the player has loaded returns `nil`.
+Some game objects, such as [`types.player`](../../../lua/api/types.player.md), only exist at certain times. Using one before it's valid causes a script error. For example, calling [`game.get_player()`](../../../lua/api/namespaces.game.md#get_player) before the player has loaded returns `nil`.
 
-Panels are especially prone to this because the player can open them at any time, including from the main menu. The same applies to [event callbacks](mod_lua#running-code-with-events), where each event guarantees different things about the state of the game.
+Panels are especially prone to this because the player can open them at any time, including from the main menu. The same applies to event callbacks, where each event guarantees different things about the state of the game.
 
 There are three ways to guard a panel. Which one to use depends on what the panel should do when the objects aren't available.
 
@@ -30,7 +30,7 @@ When `requires_gameplay` is `true`, Sledge intercepts the callback and shows the
 
 ## Checking for gameplay
 
-[`game.is_in_gameplay`](/lua/api/game#is_in_gameplay) lets you do the same check yourself. This is equivalent to `requires_gameplay`, but you control what's shown instead:
+[`game.is_in_gameplay`](../../../lua/api/namespaces.game.md#is_in_gameplay) lets you do the same check yourself. This is equivalent to `requires_gameplay`, but you control what's shown instead:
 
 ```lua title="mod.lua"
 sledge.register_window("My Window", function()

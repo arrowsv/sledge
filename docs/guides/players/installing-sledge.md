@@ -33,4 +33,4 @@
             └── 📄 rfg.exe
         ```
 
-Once Sledge is installed, see how to [use Sledge](using-sledge) and [install mods](managing-mods).
+Once Sledge is installed, see how to [use Sledge](using-sledge.md) and [install mods](managing-mods.md).

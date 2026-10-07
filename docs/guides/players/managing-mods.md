@@ -1,6 +1,6 @@
 Mods for Sledge are folders that you place inside the `mods` folder. Once a mod is there, you can enable it in the launcher.
 
-This page assumes you've already [installed Sledge](installing-sledge).
+This page assumes you've already [installed Sledge](installing-sledge.md).
 
 !!! warning "Legacy mods"
 
@@ -54,6 +54,6 @@ There are two ways to remove a mod:
 
 Mods in the older `modinfo.xml` format are not compatible with Sledge.
 
-- **Players** - install them with [Mod Manager Re-Mars-tered v1.03](https://www.factionfiles.com/ff.php?action=file&id=5995), which can be used alongside Sledge. See the [Installing Sledge](installing-sledge) page to see why SyncFaction is not compatible.
+- **Players** - install them with [Mod Manager Re-Mars-tered v1.03](https://www.factionfiles.com/ff.php?action=file&id=5995), which can be used alongside Sledge. See the [Installing Sledge](installing-sledge.md) page to see why SyncFaction is not compatible.
 
-- **Mod authors** - convert the mod to the new format. See [Converting legacy mods](../developers/editing-files/legacy-mods).
+- **Mod authors** - convert the mod to the new format. See [Converting legacy mods](../developers/editing-files/legacy-mods.md).

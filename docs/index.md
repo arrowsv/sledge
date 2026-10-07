@@ -4,18 +4,17 @@ Sledge is a modification and modding tool for Red Faction: Guerrilla Re-Mars-ter
 
 <div class="grid cards" markdown>
 
--   :lucide-scroll-text:{ .top } __For players__ [<small><span style="float: right;">Read more :octicons-arrow-right-24:{ .middle }</span></small>](guides/players/installing-sledge)
+-   :lucide-scroll-text:{ .top } __For players__ [<small><span style="float: right;">Read more :octicons-arrow-right-24:{ .middle }</span></small>](guides/players/installing-sledge.md)
 
     Information for players on how to install and use Sledge.
     
--   :lucide-hammer:{ .top } __For developers__ [<small><span style="float: right;">Read more :octicons-arrow-right-24:{ .middle }</span></small>](guides/developers/creating-your-mod/)
+-   :lucide-hammer:{ .top } __For developers__ [<small><span style="float: right;">Read more :octicons-arrow-right-24:{ .middle }</span></small>](guides/developers/creating-your-mod/index.md)
 
     Information for developers on how to create, convert, and publish mods.
 
 </div>
 
 <img src="assets/0.1.0_screenshot.png" alt="Launcher screenshot"/>
-
 
 ## Key features
 

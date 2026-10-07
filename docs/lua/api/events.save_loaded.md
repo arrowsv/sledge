@@ -8,4 +8,3 @@ end
 
 sledge.register_event(defines.event.save_loaded, save_loaded_callback)
 ```
-

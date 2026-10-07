@@ -71,4 +71,3 @@
 **Returns**
 
 * `result` (<code>number</code>)
-

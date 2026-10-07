@@ -839,4 +839,3 @@
 **Returns**
 
 * `result` (<code>integer</code>)
-

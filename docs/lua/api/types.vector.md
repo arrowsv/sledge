@@ -42,7 +42,7 @@ local vector = types.vector.new(x, y, z)
 
 **Returns**
 
-* `vector` (<code>[types.vector](/lua/api/types/vector)</code>)
+* `vector` (<code>[types.vector](types.vector.md)</code>)
 
 ---
 
@@ -56,9 +56,8 @@ local vector = types.vector.new(vector)
 
 **Parameters**
 
-* `vector` (<code>[types.vector](/lua/api/types/vector)</code>)
+* `vector` (<code>[types.vector](types.vector.md)</code>)
 
 **Returns**
 
-* `vector` (<code>[types.vector](/lua/api/types/vector)</code>)
-
+* `vector` (<code>[types.vector](types.vector.md)</code>)

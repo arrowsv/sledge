@@ -2,7 +2,7 @@ The following examples show existing mods made in the older `modinfo.xml` format
 
 !!! info
 
-    Ensure you have read the [`sledge.register_xml_edit`](editing-xml-files) and [`sledge.register_file`](overriding-files) pages before continuing.
+    Ensure you have read the [`sledge.register_xml_edit`](editing-xml-files.md) and [`sledge.register_file`](overriding-files.md) pages before continuing.
 
 ## Differences
 

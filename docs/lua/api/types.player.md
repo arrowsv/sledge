@@ -1,6 +1,6 @@
 # types.player
 
-> Inherits from: <code>[types.human](/lua/api/types/human)</code>
+> Inherits from: <code>[types.human](types.human.md)</code>
 
 ## Fields
 
@@ -33,4 +33,3 @@
 **Returns**
 
 * `result` (<code>integer</code>)
-

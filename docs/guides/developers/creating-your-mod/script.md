@@ -6,9 +6,9 @@ Because `mod.lua` runs before the game loads, most of the game's objects don't e
 
 Instead, your mod reacts to events. An event is something that happens in the game, such as a save being loaded. You register a callback function to an event, and Sledge calls it each time the event is triggered, when the game objects you need are ready to use.
 
-First, write a function that contains the code you want to run, then register the function to an event with [`sledge.register_event`](/lua/api/sledge#register_event).
+First, write a function that contains the code you want to run, then register the function to an event with [`sledge.register_event`](../../../lua/api/namespaces.sledge.md#register_event).
 
-For example, to set the player's salvage, use [`defines.event.save_loaded`](/lua/events/save_loaded). This event is triggered after a save has loaded, so the player is guaranteed to exist:
+For example, to set the player's salvage, use [`defines.event.save_loaded`](../../../lua/api/events.save_loaded.md). This event is triggered after a save has loaded, so the player is guaranteed to exist:
 
 ```lua title="mod.lua"
 -- The function runs every time a save is loaded.
@@ -21,13 +21,13 @@ end
 sledge.register_event(defines.event.save_loaded, save_loaded_callback)
 ```
 
-Each event guarantees different things about the state of the game, so choose the one that matches what your code needs. See [`defines.event`](/lua/api/defines/event) for the full list.
+Each event guarantees different things about the state of the game, so choose the one that matches what your code needs. See [`defines.event`](../../../lua/api/defines.event.md) for the full list.
 
 ### Using event data
 
 Some events provide extra information about what happened. Sledge passes this to your callback as a table, called the event's data. Add a parameter to your callback function to receive it. The `save_loaded` callback above doesn't need one, but other events do.
 
-For example, [`defines.event.key_down`](/lua/events/key_down) is triggered whenever a key is pressed. Its data contains the key that was pressed and the state of the modifier keys, so your callback can check what the player pressed:
+For example, [`defines.event.key_down`](../../../lua/api/events.key_down.md) is triggered whenever a key is pressed. Its data contains the key that was pressed and the state of the modifier keys, so your callback can check what the player pressed:
 
 ```lua title="mod.lua"
 -- The data parameter receives the table that Sledge passes in.
@@ -50,9 +50,9 @@ The fields available in the data are different for each event. Check the event's
 
 Use the following functions to log messages:
 
-- [`sledge.log`](/lua/api/sledge#log)
-- [`sledge.log_warn`](/lua/api/sledge#log)
-- [`sledge.log_error`](/lua/api/sledge#log)
+- [`sledge.log`](../../../lua/api/namespaces.sledge.md#log)
+- [`sledge.log_warn`](../../../lua/api/namespaces.sledge.md#log)
+- [`sledge.log_error`](../../../lua/api/namespaces.sledge.md#log)
 
 All log messages are automatically prefixed with your mod's ID and written to the `sledge.log` file:
 
@@ -70,12 +70,12 @@ sledge.log_error("My message.")
 
 ## Retrieving options
 
-Every mod's script environment has a [`mod`](/lua/api/global#mod) variable of the [`types.mod_info`](/lua/api/types/mod_info) type. Use it to access the metadata of the mod the script belongs to.
+Every mod's script environment has a [`mod`](../../../lua/api/namespaces.global.md#mod) variable of the [`types.mod_info`](../../../lua/api/types.mod_info.md) type. Use it to access the metadata of the mod the script belongs to.
 
-If your mod defines options in its metadata, read their values from the [`types.mod_info.options`](/lua/api/types/mod_info#options) table, using the option's name as the key. The type of the returned value depends on the option's type:
+If your mod defines options in its metadata, read their values from the [`types.mod_info.options`](../../../lua/api/types.mod_info.md#options) table, using the option's name as the key. The type of the returned value depends on the option's type:
 
 - `multiple` returns a `string`.
-- `key` returns a [`defines.key`](/lua/api/defines/key).
+- `key` returns a [`defines.key`](../../../lua/api/defines.key.md).
 - `checkbox` returns a `boolean`.
 - `custom` returns a `string`.
 
@@ -218,4 +218,4 @@ The steps are the same as before:
 
 ## Next steps
 
-After understanding the basics, see how to [edit files](../editing-files/) and [create panels](../creating-panels/). For more advanced mods, take a look at what's available in the namespaces of the [Lua API](/lua/api/game/).
+After understanding the basics, see how to [edit files](../editing-files/index.md) and [create panels](../creating-panels/index.md). For more advanced mods, take a look at what's available in the namespaces of the [Lua API](../../../lua/api/namespaces.game.md).

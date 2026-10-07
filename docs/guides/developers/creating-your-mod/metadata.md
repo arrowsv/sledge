@@ -71,7 +71,7 @@ Each option starts with `[[options]]`, which adds a new entry to the `options` a
     ---
 
     `key`
-    :   A multiple choice box populated with [`defines.key`](/lua/api/defines/key) values.
+    :   A multiple choice box populated with [`defines.key`](../../../lua/api/defines.key.md) values.
 
     ---
 
@@ -94,7 +94,7 @@ Each option starts with `[[options]]`, which adds a new entry to the `options` a
     --- 
 
     `key` (`string`)
-    :   A string representation of a [`defines.key`](/lua/api/defines/key) field (such as `"f2"`). If not present, defaults to `none`.
+    :   A string representation of a [`defines.key`](../../../lua/api/defines.key.md) field (such as `"f2"`). If not present, defaults to `none`.
 
     ---
 

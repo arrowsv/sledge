@@ -63,7 +63,7 @@ name = "sledge"
       [[namespaces.functions.params.fields]]
       name = "requires_gameplay"
       type = "boolean"
-      description = "If `true`, the window will only draw its contents if the user is in gameplay. Recommended for panels that access objects only valid in gameplay, such as [`types.player`](/lua/api/types/player)."
+      description = "If `true`, the window will only draw its contents if the user is in gameplay. Recommended for panels that access objects only valid in gameplay, such as [`types.player`](types.player.md)."
       optional = true
 
   [[namespaces.functions]]
@@ -85,7 +85,7 @@ name = "sledge"
       [[namespaces.functions.params.fields]]
       name = "requires_gameplay"
       type = "boolean"
-      description = "If `true`, the widget will only draw its contents if the user is in gameplay. Recommended for panels that access objects only valid in gameplay, such as [`types.player`](/lua/api/types/player)."
+      description = "If `true`, the widget will only draw its contents if the user is in gameplay. Recommended for panels that access objects only valid in gameplay, such as [`types.player`](types.player.md)."
       optional = true
 
   [[namespaces.functions]]

@@ -10,8 +10,8 @@ This name should match the `id` field you set in the `mod.toml` file later, so m
 
 Inside the new folder, create two files:
 
-- [`mod.toml`](metadata) contains your mod's metadata, such as its name, version, and options.
-- [`mod.lua`](script) is the script Sledge runs to load your mod.
+- [`mod.toml`](metadata.md) contains your mod's metadata, such as its name, version, and options.
+- [`mod.lua`](script.md) is the script Sledge runs to load your mod.
 
 ```text
 📁 mods/
@@ -39,4 +39,4 @@ Enable the mod in the launcher, then launch the game and look for the message in
 
 ## Next steps
 
-Continue to [`mod.toml`](metadata) to learn about the metadata fields, then [`mod.lua`](script) to start scripting.
+Continue to [`mod.toml`](metadata.md) to learn about the metadata fields, then [`mod.lua`](script.md) to start scripting.

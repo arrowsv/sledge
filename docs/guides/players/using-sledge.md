@@ -1,4 +1,4 @@
-After [installing Sledge](installing-sledge), run the `launcher.exe` file. The launcher is where you choose which mods are enabled and start the game.
+After [installing Sledge](installing-sledge.md), run the `launcher.exe` file. The launcher is where you choose which mods are enabled and start the game.
 
 ## Launcher
 
@@ -24,7 +24,7 @@ To browse for mods compatible with Sledge, click the `FactionFiles` button.
 
 !!! info "See also"
 
-    For more information about mods, see the [Managing your mods](managing-mods) page.
+    For more information about mods, see the [Managing your mods](managing-mods.md) page.
 
 ### Launching the game
 
@@ -64,4 +64,4 @@ The `Reload mods` option in the `Sledge` menu reloads all enabled mods while the
  
     As a player, don't use `Reload mods`. Changes that mods have already made to the game aren't tracked, so they can't be undone, and reloading can leave the game in a state that no longer matches your mods.
 
-    See the [Testing your mod](../developers/testing) page for more information.
+    See the [Testing your mod](../developers/testing.md) page for more information.

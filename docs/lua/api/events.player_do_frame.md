@@ -11,4 +11,4 @@ sledge.register_event(defines.event.player_do_frame, player_do_frame_callback)
 
 ## Event data
 
-* `player` (<code>[types.player](/lua/api/types/player)</code>)
+* `player` (<code>[types.player](types.player.md)</code>)

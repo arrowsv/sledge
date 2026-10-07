@@ -1,8 +1,8 @@
-Use the [`sledge.register_file`](/lua/api/sledge#register_file) and [`sledge.register_packfile`](/lua/api/sledge#register_packfile) functions to add new files to the game or replace existing ones. If you're coming from the `modinfo.xml` format, these take the place of `<Replace>`.
+Use the [`sledge.register_file`](../../../lua/api/namespaces.sledge.md#register_file) and [`sledge.register_packfile`](../../../lua/api/namespaces.sledge.md#register_packfile) functions to add new files to the game or replace existing ones. If you're coming from the `modinfo.xml` format, these take the place of `<Replace>`.
 
 !!! warning
 
-    Overriding `.xtbl` files causes compatibility issues between mods that override the same file, because one mod's edits will overwrite the other's. Use [`sledge.register_xml_edit`](editing-xml-files) instead.
+    Overriding `.xtbl` files causes compatibility issues between mods that override the same file, because one mod's edits will overwrite the other's. Use [`sledge.register_xml_edit`](editing-xml-files.md) instead.
 
 !!! info "Call these functions at the root level"
 
@@ -10,7 +10,7 @@ Use the [`sledge.register_file`](/lua/api/sledge#register_file) and [`sledge.reg
 
 ## Registering a file
 
-The [`sledge.register_file`](/lua/api/sledge#register_file) function adds a new file, or replaces an existing file if one with the same name already exists in the game.
+The [`sledge.register_file`](../../../lua/api/namespaces.sledge.md#register_file) function adds a new file, or replaces an existing file if one with the same name already exists in the game.
 
 To use it, place the file inside your mod's folder and pass its path relative to the mod's folder to the function. The `files` folder in the example below is only for organization, and you can name it whatever you like.
 
@@ -35,7 +35,7 @@ sledge.register_file("files/terr01_tutorial.scriptx")
 
 ## Registering a packfile
 
-The [`sledge.register_packfile`](/lua/api/sledge#register_packfile) function works like `sledge.register_file`, but only accepts `.vpp_pc` files. Every file inside the packfile is added to the game, or replaces the existing file with the same name.
+The [`sledge.register_packfile`](../../../lua/api/namespaces.sledge.md#register_packfile) function works like `sledge.register_file`, but only accepts `.vpp_pc` files. Every file inside the packfile is added to the game, or replaces the existing file with the same name.
 
 ```text
 📁 mods/

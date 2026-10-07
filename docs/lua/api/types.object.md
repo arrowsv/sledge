@@ -6,7 +6,7 @@
 
 **Returns**
 
-* `result` (<code>[types.matrix](/lua/api/types/matrix)</code>)
+* `result` (<code>[types.matrix](types.matrix.md)</code>)
 
 ---
 
@@ -14,7 +14,7 @@
 
 **Returns**
 
-* `result` (<code>[types.vector](/lua/api/types/vector)</code>)
+* `result` (<code>[types.vector](types.vector.md)</code>)
 
 ## Methods
 
@@ -29,4 +29,3 @@ object:set_visible(visible)
 **Parameters**
 
 * `visible` (<code>boolean</code>)
-
