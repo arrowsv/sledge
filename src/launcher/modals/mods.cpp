@@ -2,6 +2,7 @@
 
 #include "common/assets/fonts/icons.hpp"
 #include "common/config.hpp"
+#include "common/constants.hpp"
 #include "common/mods.hpp"
 #include "common/utils/imgui.hpp"
 
@@ -31,7 +32,7 @@ namespace gui {
             float child_height = ImGui::GetContentRegionAvail().y - bottom_section_height;
             float mod_list_width = ImGui::GetContentRegionAvail().x * 0.40;
 
-            auto discovered_mods = mods::manager::get().get_discovered_mods();
+            const auto& discovered_mods = mods::manager::get().get_discovered_mods();
 
             if (ImGui::BeginChild("mod_list", {mod_list_width, child_height},
                                   ImGuiChildFlags_Borders | ImGuiChildFlags_ResizeX,
@@ -47,6 +48,13 @@ namespace gui {
                     ImGui::SameLine();
                     if (ImGui::Selectable(mod.name.c_str(), selected_mod_id == mod.id)) {
                         selected_mod_id = mod.id;
+                    }
+                    if (!mod.sledge_compatible) {
+                        ImGui::SameLine();
+                        ImGui::TextColored({1.0f, 0.75f, 0.2f, 1.0f}, ICON_MD_WARNING);
+                        ImGui::SetItemTooltip("Requires Sledge %s (current version is %s).\n"
+                                              "This mod may not work correctly.",
+                                              mod.sledge_version.c_str(), constants::version);
                     }
 
                     ImGui::PopID();
@@ -89,6 +97,15 @@ namespace gui {
 
                         utils::imgui::begin_property_row("Version");
                         ImGui::TextUnformatted(mod.version.c_str());
+                        utils::imgui::end_property_row();
+
+                        utils::imgui::begin_property_row("Sledge version");
+                        ImGui::TextUnformatted(mod.sledge_version.c_str());
+                        if (!mod.sledge_compatible) {
+                            ImGui::SameLine();
+                            ImGui::TextColored({1.0f, 0.75f, 0.2f, 1.0f},
+                                               ICON_MD_WARNING " Incompatible");
+                        }
                         utils::imgui::end_property_row();
 
                         utils::imgui::end_property_table();
@@ -210,13 +227,15 @@ namespace gui {
             }
 
             ImGui::SameLine();
+
             if (ImGui::Button(ICON_MD_OPEN_IN_NEW " FactionFiles", {button_width, 0})) {
                 ShellExecuteA(0, "open",
                               "https://www.factionfiles.com/ff.php?action=files&file_category=52",
                               NULL, NULL, SW_SHOWDEFAULT);
             }
-            
+
             ImGui::SameLine();
+
             if (ImGui::Button("Cancel", {button_width, 0})) {
                 ImGui::CloseCurrentPopup();
             }

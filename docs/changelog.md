@@ -1,7 +1,11 @@
 # Changelog
 
+## 0.2.0 (2026-10-08)
+
 ### Added
 - `sledge_version` field in mod metadata, which specifies the version range of Sledge a mod is compatible with. This field is required by all mods.
+- Warning icon in the launcher's `Mods` window for incompatible mods.
+- `Sledge version` row in the launcher's `Mods` window.
 - `types.xml_node:add` method overload, which allows copying a node.
 
 ### Fixed
