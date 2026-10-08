@@ -14,7 +14,7 @@ Sledge is a modification and modding tool for Red Faction: Guerrilla Re-Mars-ter
 
 </div>
 
-<img src="assets/0.1.0_screenshot.png" alt="Launcher screenshot"/>
+<img src="assets/screenshot.png" alt="Launcher screenshot"/>
 
 ## Key features
 
