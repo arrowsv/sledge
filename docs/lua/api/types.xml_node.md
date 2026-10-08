@@ -24,7 +24,7 @@ Value of the node.
 
 ### `add`
 
-Adds a new child node.
+Adds a new child node to the end of the node's children list.
 
 ```lua
 local result = object:add(name, value?)
@@ -34,6 +34,22 @@ local result = object:add(name, value?)
 
 * `name` (<code>string</code>)
 * `value` (<code>string</code>) <small>optional</small>
+
+**Returns**
+
+* `result` (<code>[types.xml_node](types.xml_node.md)</code>)
+
+---
+
+Copies an existing node to the end of the node's children list.
+
+```lua
+local result = object:add(node)
+```
+
+**Parameters**
+
+* `node` (<code>[types.xml_node](types.xml_node.md)</code>)
 
 **Returns**
 

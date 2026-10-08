@@ -53,7 +53,7 @@ name = "xml_node"
 
   [[types.methods]]
   name = "add"
-  description = "Adds a new child node."
+  description = "Adds a new child node to the end of the node's children list."
 
     [[types.methods.params]]
     name = "name"
@@ -63,6 +63,17 @@ name = "xml_node"
     name = "value"
     type = "string"
     optional = true
+
+    [[types.methods.returns]]
+    type = "types.xml_node"
+
+  [[types.methods]]
+  name = "add"
+  description = "Copies an existing node to the end of the node's children list."
+
+    [[types.methods.params]]
+    name = "node"
+    type = "types.xml_node"
 
     [[types.methods.returns]]
     type = "types.xml_node"

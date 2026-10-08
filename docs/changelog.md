@@ -2,6 +2,7 @@
 
 ### Added
 - `sledge_version` field in mod metadata, which specifies the version range of Sledge a mod is compatible with. This field is required by all mods.
+- `types.xml_node:add` method overload, which allows copying a node.
 
 ### Fixed
 - `Documentation` button in the launcher opening the wrong page.

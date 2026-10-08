@@ -64,14 +64,17 @@ namespace lua::bindings::sledge {
             return list;
         };
 
-        xml_node["add"] = [](pugi::xml_node& node, const std::string& name,
-                             sol::optional<std::string> value) {
-            pugi::xml_node child = node.append_child(name.c_str());
-            if (value.has_value()) {
-                child.text().set(value.value());
-            }
-            return child;
-        };
+        xml_node["add"] = sol::overload(
+            [](pugi::xml_node& node, const std::string& name, sol::optional<std::string> value) {
+                pugi::xml_node child = node.append_child(name.c_str());
+                if (value.has_value()) {
+                    child.text().set(value.value());
+                }
+                return child;
+            },
+            [](pugi::xml_node& node, const pugi::xml_node& copy) {
+                return node.append_copy(copy);
+            });
 
         xml_node["delete"] = [](pugi::xml_node& node) {
             if (node.parent()) {
