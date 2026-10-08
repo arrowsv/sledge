@@ -20,7 +20,7 @@ def params(items, depth=0):
 
 
 def field(f):
-    parts = [f"### `{f['name']}`", f.get("description", ""),
+    parts = [f.get("description", ""),
              "**Returns**", f"* `result` ({link(f.get('type', ''))})"]
     return "\n\n".join(p for p in parts if p)
 
@@ -31,7 +31,7 @@ def function(f, call_name):
     call = f"{call_name}({args})"
     if rets:
         call = f"local {', '.join(r.get('name', 'result') for r in rets)} = {call}"
-    parts = [f"### `{f['name']}`", f.get("description", ""), f"```lua\n{call}\n```"]
+    parts = [f.get("description", ""), f"```lua\n{call}\n```"]
     if ps:
         parts += ["**Parameters**", "\n".join(params(ps))]
     if rets:
@@ -44,8 +44,14 @@ def section(title, items, render, sort=True):
         return ""
     if sort:
         items = sorted(items, key=lambda i: i["name"])
-    body = "\n\n---\n\n".join(render(i) for i in items)
-    return f"## {title}\n\n{body}"
+
+    # Group by name: one heading, then every body with that name, divided by ---
+    bodies = {}
+    for i in items:
+        bodies.setdefault(i["name"], []).append(render(i))
+
+    entries = [f"### `{name}`\n\n" + "\n\n---\n\n".join(group) for name, group in bodies.items()]
+    return f"## {title}\n\n" + "\n\n---\n\n".join(entries)
 
 
 def write(out: Path, name: str, *parts):
@@ -77,8 +83,8 @@ def main():
         for ns in doc.get("namespaces", []):
             n = ns["name"]
             write(out, f"namespaces.{n}", f"# {n}",
-                section("Fields", ns.get("fields", []), field),
-                section("Functions", ns.get("functions", []), lambda f: function(f, f"{n}.{f['name']}")))
+                  section("Fields", ns.get("fields", []), field),
+                  section("Functions", ns.get("functions", []), lambda f: function(f, f"{n}.{f['name']}")))
 
         for e in doc.get("events", []):
             n = e["name"]

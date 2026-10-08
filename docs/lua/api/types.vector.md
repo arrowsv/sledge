@@ -46,8 +46,6 @@ local vector = types.vector.new(x, y, z)
 
 ---
 
-### `new`
-
 Creates a new vector.
 
 ```lua
