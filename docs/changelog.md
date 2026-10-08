@@ -1,13 +1,14 @@
 # Changelog
 
-## 0.2.0
+### Added
+- `sledge_version` field in mod metadata, which specifies the version range of Sledge a mod is compatible with. This field is required by all mods.
 
 ### Fixed
 - `Documentation` button in the launcher opening the wrong page.
 
 ### Changed
 - Move the documentation from MkDocs to Zensical.
-- Move `FactionFiles mods` button to the `Mods` window in the launcher and rename it to `FactionFiles`.
+- Move `FactionFiles mods` button to the launcher's `Mods` window and rename it to `FactionFiles`.
 
 ### Removed
 - Bundled mods. They are now available on FactionFiles.

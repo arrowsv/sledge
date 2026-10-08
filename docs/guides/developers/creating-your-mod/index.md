@@ -29,6 +29,7 @@ id = "my_name.my_mod"
 name = "My Mod"
 authors = ["My Name"]
 version = "1.0.0"
+sledge_version = ">=0.1.0"
 ```
 
 ```lua title="mod.lua"

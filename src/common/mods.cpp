@@ -140,20 +140,27 @@ namespace mods {
             }
 
             mod.sledge_version = tbl["sledge_version"].value_or("");
-            if (!mod.sledge_version.empty()) {
-                if (const auto range = semver::try_parse_range(mod.sledge_version)) {
-                    if (const auto current_ver = semver::try_parse(constants::version)) {
-                        if (!range->contains(current_ver.value())) {
-                            spdlog::warn("Mod '{}' requires Sledge version '{}', but current "
-                                         "version is '{}'. Mod may not function correctly.",
-                                         mod.id, mod.sledge_version, constants::version);
-                        }
-                    }
-                } else {
+            if (mod.sledge_version.empty()) {
+                spdlog::error("Skipped mod '{}': field 'sledge_version' is missing.", mod.id);
+                return std::nullopt;
+            }
+
+            const auto range = semver::try_parse_range(mod.sledge_version);
+            if (!range) {
+                spdlog::error(
+                    "Skipped mod '{}': 'sledge_version' '{}' is not a valid version range "
+                    "(https://semver.org/).",
+                    mod.id, mod.sledge_version);
+                return std::nullopt;
+            }
+
+            if (const auto current_ver = semver::try_parse(constants::version)) {
+                if (!range->contains(*current_ver)) {
+                    mod.sledge_compatible = false;
                     spdlog::warn(
-                        "Field 'sledge_version' for mod '{}' does not adhere to the Semantic "
-                        "Versioning specification (https://semver.org/). Skipping field.",
-                        mod.id, constants::version);
+                        "Mod '{}' requires Sledge version '{}', but current version is '{}'. "
+                        "Mod may not function correctly.",
+                        mod.id, mod.sledge_version, constants::version);
                 }
             }
 
