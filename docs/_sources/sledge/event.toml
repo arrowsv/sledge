@@ -1,27 +1,27 @@
-[[defines]]
+[[enums]]
 name = "event"
 
-  [[defines.fields]]
+  [[enums.fields]]
   name = "player_do_frame"
   type = "integer"
 
-  [[defines.fields]]
+  [[enums.fields]]
   name = "alert_level_changed"
   type = "integer"
 
-  [[defines.fields]]
+  [[enums.fields]]
   name = "save_loaded"
   type = "integer"
   
-  [[defines.fields]]
+  [[enums.fields]]
   name = "key_down"
   type = "integer"
 
-  [[defines.fields]]
+  [[enums.fields]]
   name = "key_up"
   type = "integer"
   
-  [[defines.fields]]
+  [[enums.fields]]
   name = "mouse_wheel"
   type = "integer"
   

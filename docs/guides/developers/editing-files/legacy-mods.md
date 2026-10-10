@@ -54,7 +54,7 @@ This mod changes how much salvage the player gets from three materials. Each amo
     authors = ["arrows"]
     description = "Increases the amount of salvage given when it is picked up."
     version = "1.0.0"
-    sledge_version = ">=0.1.0"
+    api_version = "1.0.0"
 
     [[options]]
     name = "Metal"
@@ -194,7 +194,7 @@ This mod edits several fields on one weapon. In `modinfo.xml`, `COMBINE_BY_FIELD
     authors = ["Ace Spacer"]
     description = "Turns the nano rifle into an assault rifle."
     version = "1.0.0"
-    sledge_version = ">=0.1.0"
+    api_version = "1.0.0"
     ```
 
     ```lua title="mod.lua"
@@ -355,7 +355,7 @@ This mod replaces the `melee.xtbl` file using `<Replace>` to increase the Sledge
     authors = ["arrows"]
     description = "Increases the impact of the hammer on NPC's and vehicles to an extreme level!"
     version = "1.0.0"
-    sledge_version = ">=0.1.0"
+    api_version = "1.0.0"
     ```
 
     ```lua title="mod.lua"

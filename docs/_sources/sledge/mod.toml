@@ -1,19 +1,19 @@
 [[types]]
 name = "mod_info"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "id"
   type = "string"
   description = "Identifier of the mod."
 
-  [[types.fields]]
+  [[types.properties]]
   name = "name"
   type = "string"
   description = "Name of the mod."
 
-  [[types.fields]]
+  [[types.properties]]
   name = "options"
-  type = "table<string|boolean|defines.key|nil>"
+  type = "table<string|boolean|enums.key|nil>"
   description = "Options of the mod."
 
   # [[types.methods]]

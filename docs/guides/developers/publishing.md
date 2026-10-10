@@ -1,4 +1,6 @@
-When you are ready to publish a mod, compress it into a `.zip` file with the following structure:
+Before publishing, set the `api_version` field in your mod's metadata to the latest API version you tested on.
+
+Compress the mod's folder into a `.zip` file with the following structure:
 
 ```text
 📦 my_name.my_mod.zip

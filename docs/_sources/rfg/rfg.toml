@@ -1,100 +1,100 @@
-[[defines]]
+[[enums]]
 name = "alert_level"
 
-  [[defines.fields]]
+  [[enums.fields]]
   name = "green"
   type = "integer"
 
-  [[defines.fields]]
+  [[enums.fields]]
   name = "yellow"
   type = "integer"
 
-  [[defines.fields]]
+  [[enums.fields]]
   name = "orange"
   type = "integer"
 
-  [[defines.fields]]
+  [[enums.fields]]
   name = "red"
   type = "integer"
 
 [[types]]
 name = "game_clock"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "year"
   type = "number"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "month"
   type = "number"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "day"
   type = "number"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "hours"
   type = "number"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "minutes"
   type = "number"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "seconds"
   type = "number"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "day_of_week"
   type = "number"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "time_scale"
   type = "number"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "current_day_ticks"
   type = "number"
   
 [[namespaces]]
-name = "game"
+name = "rfg"
 
-  [[namespaces.fields]]
+  [[namespaces.properties]]
   name = "overriding_camera_position"
   type = "boolean"
   description = "Whether the game is prevented from updating the camera position every frame."
 
-  [[namespaces.fields]]
+  [[namespaces.properties]]
   name = "overriding_camera_orientation"
   type = "boolean"
   description = "Whether the game is prevented from updating the camera orientation every frame."
 
-  [[namespaces.fields]]
+  [[namespaces.properties]]
   name = "time_frozen"
   type = "boolean"
   description = "Whether the time of day is frozen."
 
-  [[namespaces.fields]]
+  [[namespaces.properties]]
   name = "unlimited_ammo"
   type = "boolean"
   description = "Whether unlimited ammo is enabled."
 
-  [[namespaces.fields]]
+  [[namespaces.properties]]
   name = "unlimited_magazine_ammo"
   type = "boolean"
   description = "Whether unlimited magazine ammo is enabled."
 
-  [[namespaces.fields]]
+  [[namespaces.properties]]
   name = "fog_visible"
   type = "boolean"
   description = "Whether fog is visible."
 
-  [[namespaces.fields]]
+  [[namespaces.properties]]
   name = "hud_visible"
   type = "boolean"
   description = "Whether the HUD is visible."
 
-  [[namespaces.fields]]
+  [[namespaces.properties]]
   name = "wind_visible"
   type = "boolean"
   description = "Whether wind is visible. If false, wind sounds are also disabled."
@@ -164,7 +164,7 @@ name = "game"
   description = "Returns the current alert level."
 
     [[namespaces.functions.returns]]
-    type = "defines.alert_level"
+    type = "enums.alert_level"
 
   [[namespaces.functions]]
   name = "set_alert_level"
@@ -172,7 +172,7 @@ name = "game"
 
     [[namespaces.functions.params]]
     name = "level"
-    type = "defines.alert_level"
+    type = "enums.alert_level"
 
   [[namespaces.functions]]
   name = "get_alert_level_cap"
@@ -180,11 +180,11 @@ name = "game"
 
     [[namespaces.functions.returns]]
     name = "minimum"
-    type = "defines.alert_level"
+    type = "enums.alert_level"
 
     [[namespaces.functions.returns]]
     name = "maximum"
-    type = "defines.alert_level"
+    type = "enums.alert_level"
 
   [[namespaces.functions]]
   name = "set_alert_level_cap"
@@ -192,11 +192,11 @@ name = "game"
 
     [[namespaces.functions.params]]
     name = "minimum"
-    type = "defines.alert_level"
+    type = "enums.alert_level"
 
     [[namespaces.functions.params]]
     name = "maximum"
-    type = "defines.alert_level"
+    type = "enums.alert_level"
 
   [[namespaces.functions]]
   name = "release_alert_level_cap"
@@ -240,7 +240,7 @@ name = "game"
 
     [[namespaces.functions.params]]
     name = "key"
-    type = "defines.key"
+    type = "enums.key"
 
     [[namespaces.functions.returns]]
     type = "boolean"

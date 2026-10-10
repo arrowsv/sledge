@@ -1,50 +1,50 @@
-[[defines]]
+[[enums]]
 name = "team"
 
-  [[defines.fields]]
+  [[enums.fields]]
   name = "none"
   type = "integer"
 
-  [[defines.fields]]
+  [[enums.fields]]
   name = "guerrilla"
   type = "integer"
 
-  [[defines.fields]]
+  [[enums.fields]]
   name = "edf"
   type = "integer"
 
-  [[defines.fields]]
+  [[enums.fields]]
   name = "civilian"
   type = "integer"
 
-  [[defines.fields]]
+  [[enums.fields]]
   name = "marauder"
   type = "integer"
 
 [[types]]
 name = "human_flags"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "invulnerable"
   type = "boolean"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "no_damage"
   type = "boolean"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "ignored_by_ai"
   type = "boolean"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "disallow_vehicle_exit"
   type = "boolean"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "in_vehicle_invisible"
   type = "boolean"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "disallow_flinches_and_ragdolls"
   type = "boolean"
 
@@ -52,21 +52,21 @@ name = "human_flags"
 name = "human"
 inherits = "types.object"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "flags"
   type = "types.human_flags"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "hit_points"
   type = "number"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "team"
-  type = "defines.team"
+  type = "enums.team"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "undercover_team"
-  type = "defines.team"
+  type = "enums.team"
 
   [[types.methods]]
   name = "teleport"

@@ -6,7 +6,7 @@ This event is triggered when the mouse is scrolled.
 local function mouse_wheel_callback(data)
 end
 
-sledge.register_event(defines.event.mouse_wheel, mouse_wheel_callback)
+sledge.register_event(enums.event.mouse_wheel, mouse_wheel_callback)
 ```
 
 ## Event data

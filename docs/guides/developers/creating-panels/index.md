@@ -14,11 +14,11 @@ Because the callback runs every frame, anything that needs to persist between fr
 
 ## Registering a panel
 
-Register a window with [`sledge.register_window`](../../../lua/api/namespaces.sledge.md#register_window), or a widget with [`sledge.register_widget`](../../../lua/api/namespaces.sledge.md#register_widget). Both take a name and a callback function. Call them at the root level of `mod.lua`.
+Register a window with [`sledge.register_window`](../../../api/lua/namespaces.sledge.md#register_window), or a widget with [`sledge.register_widget`](../../../api/lua/namespaces.sledge.md#register_widget). Both take a name and a callback function. Call them at the root level of `mod.lua`.
 
 === "Window"
 
-    ```lua title="mod.lua"
+    ``` lua title="mod.lua"
     local function draw_my_window()
         gui.text("This is a text label.")
         gui.button("Press me", function()
@@ -31,7 +31,7 @@ Register a window with [`sledge.register_window`](../../../lua/api/namespaces.sl
 
 === "Widget"
 
-    ```lua title="mod.lua"
+    ``` lua title="mod.lua"
     local function draw_my_widget()
         gui.text("This is a text label.")
     end
@@ -45,14 +45,14 @@ The functions inside the `gui` namespace draw the panel's contents. See [Drawing
 
 Both functions accept a table of options as an optional last argument. For example, to stop the player from resizing a window:
 
-```lua title="mod.lua"
+``` lua title="mod.lua"
 sledge.register_window("My Window", draw_my_window, { no_resize = true })
 ```
 
 The most commonly used option is `requires_gameplay`, which helps to prevent errors when your window uses game objects, such as the player. See the [Preventing script errors](script-errors.md) page for more information.
 
-See the `options` parameter in the documentation for [`sledge.register_window`](../../../lua/api/namespaces.sledge.md#register_window) and [`sledge.register_widget`](../../../lua/api/namespaces.sledge.md#register_widget) for the full list.
+See the `options` parameter in the documentation for [`sledge.register_window`](../../../api/lua/namespaces.sledge.md#register_window) and [`sledge.register_widget`](../../../api/lua/namespaces.sledge.md#register_widget) for the full list.
 
 !!! warning
 
-    Panels can be opened at any time, including from the main menu, before the game's objects exist. A panel that calls `game.get_player()` without handling this will cause script errors. See the [Preventing script errors](script-errors.md) page for more information.
+    Panels can be opened at any time, including from the main menu, before the game's objects exist. A panel that calls `rfg.get_player()` without handling this will cause script errors. See the [Preventing script errors](script-errors.md) page for more information.

@@ -2,18 +2,18 @@
 name = "player"
 inherits = "types.human"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "jetpack_fuel_percent"
   type = "number"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "salvage"
   type = "integer"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "mining_count"
   type = "integer"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "supply_crate_count"
   type = "integer"

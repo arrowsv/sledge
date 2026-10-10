@@ -4,14 +4,14 @@ A mod is a folder inside the `mods` folder, containing two files that tell Sledg
 
 Create a folder inside `mods` named `author.name`, where both parts use only lowercase letters `a-z`, numbers `0-9`, and underscores `_`. For example: `my_name.my_mod`.
 
-This name should match the `id` field you set in the `mod.toml` file later, so make sure it's correctly formatted.
+This name should match the `id` field you set in the metadata file later, so make sure it's correctly formatted.
 
 ## Create the files
 
 Inside the new folder, create two files:
 
-- [`mod.toml`](metadata.md) contains your mod's metadata, such as its name, version, and options.
-- [`mod.lua`](script.md) is the script Sledge runs to load your mod.
+- `mod.toml` contains your mod's metadata, such as its name, version, and options.
+- `mod.lua` is the main script Sledge runs when the game launches.
 
 ```text
 📁 mods/
@@ -29,7 +29,7 @@ id = "my_name.my_mod"
 name = "My Mod"
 authors = ["My Name"]
 version = "1.0.0"
-sledge_version = ">=0.1.0"
+api_version = "1.0.0"
 ```
 
 ```lua title="mod.lua"
@@ -40,4 +40,4 @@ Enable the mod in the launcher, then launch the game and look for the message in
 
 ## Next steps
 
-Continue to [`mod.toml`](metadata.md) to learn about the metadata fields, then [`mod.lua`](script.md) to start scripting.
+Review the [metadata reference](../../api/metadata.md) for required fields, versioning rules, and configuration options. Then, [write your script](script.md).

@@ -1,14 +1,14 @@
 [[types]]
 name = "matrix"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "right"
   type = "types.vector"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "up"
   type = "types.vector"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "forward"
   type = "types.vector"

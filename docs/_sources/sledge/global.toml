@@ -2,6 +2,6 @@
 name = "global"
 description = ""
 
-  [[namespaces.fields]]
+  [[namespaces.properties]]
   name = "mod"
   type = "types.mod_info"

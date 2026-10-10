@@ -1,12 +1,12 @@
 [[types]]
 name = "xml_node"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "value"
   type = "string"
   description = "Value of the node."
 
-  [[types.fields]]
+  [[types.properties]]
   name = "name"
   type = "string"
   description = "Name of the node."

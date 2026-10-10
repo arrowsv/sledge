@@ -2,15 +2,15 @@
 name = "vector"
 description = "Represents 3 floating-point numbers."
 
-  [[types.fields]]
+  [[types.properties]]
   name = "x"
   type = "number"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "y"
   type = "number"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "z"
   type = "number"
 

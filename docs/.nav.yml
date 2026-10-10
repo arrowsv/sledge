@@ -13,10 +13,8 @@ nav:
 
     - Developers:
 
-      - Creating your mod:
-        - Overview: guides/developers/creating-your-mod/index.md
-        - The metadata file: guides/developers/creating-your-mod/metadata.md
-        - The script file: guides/developers/creating-your-mod/script.md
+      - Creating your mod: guides/developers/mod.md
+      - Writing your script: guides/developers/script.md
 
       - Editing files:
         - Overview: guides/developers/editing-files/index.md
@@ -32,18 +30,20 @@ nav:
       - Testing your mod: guides/developers/testing.md
       - Publishing your mod: guides/developers/publishing.md
 
-  - Lua:
-
-    - API:
+  - API:
+    - Overview: "api/overview.md"
+    - Changelog: "api/changelog.md"
+    - Metadata: "api/metadata.md"
     
+    - Lua:
       - Namespaces:
-        - "lua/api/namespaces.*"
+        - "api/lua/namespaces.*"
 
       - Types:
-        - "lua/api/types.*"
+        - "api/lua/types.*"
 
-      - Defines:
-        - "lua/api/defines.*"
+      - Enums:
+        - "api/lua/enums.*"
 
       - Events:
-        - "lua/api/events.*"
+        - "api/lua/events.*"

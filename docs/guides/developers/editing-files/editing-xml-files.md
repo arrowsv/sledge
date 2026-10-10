@@ -1,4 +1,4 @@
-Use the [`sledge.register_xml_edit`](../../../lua/api/namespaces.sledge.md#register_xml_edit) function to edit XML files. Instead of replacing a whole file, your mod changes only the values and entries it needs, so multiple mods can edit the same file without overwriting each other. If you're coming from the `modinfo.xml` format, this takes the place of `<Edit>`.
+Use the [`sledge.register_xml_edit`](../../../api/lua/namespaces.sledge.md#register_xml_edit) function to edit XML files. Instead of replacing a whole file, your mod changes only the values and entries it needs, so multiple mods can edit the same file without overwriting each other. If you're coming from the `modinfo.xml` format, this takes the place of `<Edit>`.
 
 The following file formats are supported:
 
@@ -16,9 +16,9 @@ The following file formats are supported:
 
 ## Registering an edit
 
-The `sledge.register_xml_edit` function takes the name of the file to edit and a callback function. Sledge calls the callback when the game loads that file, passing the XML document as a [`types.xml_node`](../../../lua/api/types.xml_node.md). The callback can then modify the document before Sledge sends it back to the game.
+The `sledge.register_xml_edit` function takes the name of the file to edit and a callback function. Sledge calls the callback when the game loads that file, passing the XML document as a [`types.xml_node`](../../../api/lua/types.xml_node.md). The callback can then modify the document before Sledge sends it back to the rfg.
 
-```lua title="mod.lua"
+``` lua title="mod.lua"
 sledge.register_xml_edit("spawn_group_vehicle.xtbl", function(document)
     -- Read and modify the document here.
 end)
@@ -28,7 +28,7 @@ Pass only the file's name, such as `spawn_group_vehicle.xtbl`, and not its path 
 
 The rest of this page uses a snippet of `spawn_group_vehicle.xtbl` to demonstrate navigating and modifying a document:
 
-```xml title="spawn_group_vehicle.xtbl"
+``` xml title="spawn_group_vehicle.xtbl"
 <root>
 <Table>
     <spawn_group_vehicle>
@@ -71,33 +71,33 @@ The rest of this page uses a snippet of `spawn_group_vehicle.xtbl` to demonstrat
 
 Use these functions to navigate the document:
 
-[`types.xml_node:get`](../../../lua/api/types.xml_node.md#get)
-:   Returns a node's child by its name.
+[`types.xml_node:get`](../../../api/lua/types.xml_node.md#get)
+: Returns a node's child by its name.
 
 ---
 
-[`types.xml_node:get_from_path`](../../../lua/api/types.xml_node.md#get_from_path)
-:   Returns the first node that matches the given XPath.
+[`types.xml_node:get_from_path`](../../../api/lua/types.xml_node.md#get_from_path)
+: Returns the first node that matches the given XPath.
 
 ---
 
-[`types.xml_node:get_multiple_from_path`](../../../lua/api/types.xml_node.md#get_multiple_from_path)
-:   Returns all nodes that match the given XPath.
+[`types.xml_node:get_multiple_from_path`](../../../api/lua/types.xml_node.md#get_multiple_from_path)
+: Returns all nodes that match the given XPath.
 
 ---
 
-[`types.xml_node:children`](../../../lua/api/types.xml_node.md#children)
-:   Returns all children of the node.
+[`types.xml_node:children`](../../../api/lua/types.xml_node.md#children)
+: Returns all children of the node.
 
 ---
 
-[`types.xml_node:parent`](../../../lua/api/types.xml_node.md#parent)
-:   Returns the parent of the node.
+[`types.xml_node:parent`](../../../api/lua/types.xml_node.md#parent)
+: Returns the parent of the node.
 
 ---
 
-[`types.xml_node:exists`](../../../lua/api/types.xml_node.md#exists)
-:   Returns whether the node exists.
+[`types.xml_node:exists`](../../../api/lua/types.xml_node.md#exists)
+: Returns whether the node exists.
 
 !!! info
 
@@ -105,7 +105,7 @@ Use these functions to navigate the document:
 
     An XPath beginning with `//` searches the entire document from the current node, no matter how deeply nested the matches are. This lets you skip navigating through `<root>` and `<Table>` to reach the `<spawn_group_vehicle>` nodes.
 
-```lua title="mod.lua"
+``` lua title="mod.lua"
 sledge.register_xml_edit("spawn_group_vehicle.xtbl", function(document)
     -- Get the <spawn_group_vehicle> node with the <Name> "Amb_Parker".
     local group = document:get_from_path("//spawn_group_vehicle[Name='Amb_Parker']")
@@ -146,27 +146,27 @@ end)
 
 Use these fields and functions to change the document:
 
-[`types.xml_node.name`](../../../lua/api/types.xml_node.md#name)
-:   Name of the node.
+[`types.xml_node.name`](../../../api/lua/types.xml_node.md#name)
+: Name of the node.
 
 ---
 
-[`types.xml_node.value`](../../../lua/api/types.xml_node.md#value)
-:   Value of the node.
+[`types.xml_node.value`](../../../api/lua/types.xml_node.md#value)
+: Value of the node.
 
 ---
 
-[`types.xml_node:add`](../../../lua/api/types.xml_node.md#add)
-:   Adds a new child node and returns it.
+[`types.xml_node:add`](../../../api/lua/types.xml_node.md#add)
+: Adds a new child node and returns it.
 
 ---
 
-[`types.xml_node:delete`](../../../lua/api/types.xml_node.md#delete)
-:   Deletes the node.
+[`types.xml_node:delete`](../../../api/lua/types.xml_node.md#delete)
+: Deletes the node.
 
 The most common edit is adding to or changing an existing entry. For example, to add a vehicle to the `Amb_Parker` group:
 
-```lua title="mod.lua"
+``` lua title="mod.lua"
 sledge.register_xml_edit("spawn_group_vehicle.xtbl", function(document)
     local group = document:get_from_path("//spawn_group_vehicle[Name = 'Amb_Parker']")
     local vehicle_list = group:get("vehicle_list")
@@ -178,7 +178,7 @@ end)
 
 Nodes can also be changed in place, removed, and rebuilt. This example replaces the entire `Amb_Manufacturing` vehicle list:
 
-```lua title="mod.lua"
+``` lua title="mod.lua"
 sledge.register_xml_edit("spawn_group_vehicle.xtbl", function(document)
     local group = document:get_from_path("//spawn_group_vehicle[Name='Amb_Manufacturing']")
 
@@ -203,6 +203,6 @@ end)
 
 ## Using options in an edit
 
-Edits are often driven by a mod's options. Read the options with `mod.options`, then assign the result to a node's `value`. See [Mapping options to values](../creating-your-mod/script.md#mapping-options-to-values) if the display names in your options differ from the values the game needs.
+Edits are often driven by a mod's options. Read the options with `mod.options`, then assign the result to a node's `value`. See [Mapping options to values](../script.md#mapping-options-to-values) if the display names in your options differ from the values the game needs.
 
 For complete mods that combine options and XML edits, see the examples on the [Converting legacy mods](legacy-mods.md#examples) page.

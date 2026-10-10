@@ -1,10 +1,10 @@
 [[types]]
 name = "camera"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "position"
   type = "types.vector"
 
-  [[types.fields]]
+  [[types.properties]]
   name = "orientation"
   type = "types.matrix"

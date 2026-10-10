@@ -93,7 +93,7 @@ name = "sledge"
 
     [[namespaces.functions.params]]
     name = "event"
-    type = "defines.event"
+    type = "enums.event"
 
     [[namespaces.functions.params]]
     name = "callback"

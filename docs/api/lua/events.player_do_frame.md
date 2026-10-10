@@ -6,7 +6,7 @@ This event is triggered every single frame the player is processed. This will no
 local function player_do_frame_callback(data)
 end
 
-sledge.register_event(defines.event.player_do_frame, player_do_frame_callback)
+sledge.register_event(enums.event.player_do_frame, player_do_frame_callback)
 ```
 
 ## Event data

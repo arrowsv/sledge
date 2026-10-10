@@ -4,7 +4,7 @@ description = "This event is triggered a key is released."
 
     [[events.data]]
     name = "key"
-    type = "defines.key"
+    type = "enums.key"
 
     [[events.data]]
     name = "shift_down"

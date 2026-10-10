@@ -153,7 +153,7 @@ name = "gui"
     type = "function(new_value: boolean)"
 
   [[namespaces.functions]]
-  name = "set_tooltip"
+  name = "tooltip"
   description = "Sets the previous widget's tooltip."
 
     [[namespaces.functions.params]]
@@ -169,8 +169,8 @@ name = "gui"
     type = "function"
 
   [[namespaces.functions]]
-  name = "set_help_marker"
-  description = "Sets the previous widget's help marker."
+  name = "help_marker"
+  description = "Creates a help marker next to the previous widget."
 
     [[namespaces.functions.params]]
     name = "text"
@@ -178,7 +178,7 @@ name = "gui"
 
   [[namespaces.functions]]
   name = "help_marker"
-  description = "Sets the previous widget's help marker."
+  description = "Creates a help marker next to the previous widget."
 
     [[namespaces.functions.params]]
     name = "body"

@@ -6,5 +6,5 @@ This event is triggered when a save has loaded.
 local function save_loaded_callback()
 end
 
-sledge.register_event(defines.event.save_loaded, save_loaded_callback)
+sledge.register_event(enums.event.save_loaded, save_loaded_callback)
 ```
