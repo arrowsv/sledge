@@ -91,21 +91,23 @@ namespace lua::bindings::sledge {
     }
 
     void bind_tooltip(sol::table& table) {
-        table["set_tooltip"] = utils::imgui::set_tooltip;
-        table["tooltip"] = [](sol::function body) {
-            if (utils::imgui::begin_tooltip()) {
-                body();
-                utils::imgui::end_tooltip();
-            }
-        };
+        table["tooltip"] =
+            sol::overload([](const std::string& text) { utils::imgui::set_tooltip(text); },
+                          [](sol::function body) {
+                              if (utils::imgui::begin_tooltip()) {
+                                  body();
+                                  utils::imgui::end_tooltip();
+                              }
+                          });
 
-        table["set_help_marker"] = &utils::imgui::set_help_marker;
-        table["help_marker"] = [](sol::function body) {
-            if (utils::imgui::begin_help_marker()) {
-                body();
-                utils::imgui::end_help_marker();
-            }
-        };
+        table["help_marker"] =
+            sol::overload([](const std::string& text) { utils::imgui::set_help_marker(text); },
+                          [](sol::function body) {
+                              if (utils::imgui::begin_help_marker()) {
+                                  body();
+                                  utils::imgui::end_help_marker();
+                              }
+                          });
     }
 
     void bind_tab(sol::table& table) {
