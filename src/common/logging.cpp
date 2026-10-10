@@ -24,7 +24,9 @@ namespace logging {
             return;
         }
 
-        spdlog::info("Sledge {} - Build date: {} {}", constants::version, __DATE__, __TIME__);
+        spdlog::info("Sledge {} (API {}) - Build date: {} {}",
+                     constants::sledge_version.to_string(), constants::api_version.to_string(),
+                     __DATE__, __TIME__);
     }
 
     void update_level() {

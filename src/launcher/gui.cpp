@@ -148,10 +148,13 @@ namespace gui {
 
         column_height = ImGui::GetItemRectSize().y;
 
-        auto version_size = ImGui::CalcTextSize(constants::version);
+        std::string version_str =
+            std::format("Sledge {} (API {})", constants::sledge_version.to_string(),
+                        constants::api_version.to_string());
+        auto version_size = ImGui::CalcTextSize(version_str.c_str());
         ImGui::SetCursorPos(
             {io.DisplaySize.x - version_size.x - 12, io.DisplaySize.y - version_size.y - 12});
-        ImGui::TextDisabled(constants::version);
+        ImGui::TextDisabled("%s", version_str.c_str());
 
         if (open_options) {
             ImGui::OpenPopup("Options");

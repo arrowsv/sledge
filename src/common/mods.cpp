@@ -139,29 +139,25 @@ namespace mods {
                 return std::nullopt;
             }
 
-            mod.sledge_version = tbl["sledge_version"].value_or("");
-            if (mod.sledge_version.empty()) {
-                spdlog::error("Skipped mod '{}': field 'sledge_version' is missing.", mod.id);
+            mod.api_version = tbl["api_version"].value_or("");
+            if (mod.api_version.empty()) {
+                spdlog::error("Skipped mod '{}': field 'api_version' is missing.", mod.id);
                 return std::nullopt;
             }
 
-            const auto range = semver::try_parse_range(mod.sledge_version);
-            if (!range) {
-                spdlog::error(
-                    "Skipped mod '{}': 'sledge_version' '{}' is not a valid version range "
-                    "(https://semver.org/).",
-                    mod.id, mod.sledge_version);
+            const auto mod_api_sv = semver::try_parse(mod.api_version);
+            if (!mod_api_sv) {
+                spdlog::error("Skipped mod '{}': 'api_version' '{}' is not a valid version.",
+                              mod.id, mod.api_version);
                 return std::nullopt;
             }
 
-            if (const auto current_ver = semver::try_parse(constants::version)) {
-                if (!range->contains(*current_ver)) {
-                    mod.sledge_compatible = false;
-                    spdlog::warn(
-                        "Mod '{}' requires Sledge version '{}', but current version is '{}'. "
-                        "Mod may not function correctly.",
-                        mod.id, mod.sledge_version, constants::version);
-                }
+            mod.api_compatible = mod_api_sv->major() == constants::api_version.major() &&
+                                 mod_api_sv->minor() <= constants::api_version.minor();
+            if (!mod.api_compatible) {
+                spdlog::warn("Mod '{}' was written for API version '{}', but this Sledge version "
+                             "provides '{}'. Update Sledge to make sure it works correctly.",
+                             mod.id, mod.api_version, constants::api_version.to_string());
             }
 
             if (auto options = tbl["options"].as_array()) {

@@ -6,6 +6,13 @@
 
 - `GitHub` button in the launcher.
 
+### Changed
+
+- Decouple API version from the main Sledge version, starting at `1.0.0`, with a separate changelog for future API changes.
+- Rename `sledge_version` field in mod metadata to `api_version`, which specifies the API version the mod was written on.
+- Rename the `game` namespace to `rfg`.
+- Rename the `defines` namespace to `enums`.
+
 ## 0.2.0 (2026-10-08)
 
 ### Added

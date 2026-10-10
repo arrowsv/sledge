@@ -49,12 +49,14 @@ namespace gui {
                     if (ImGui::Selectable(mod.name.c_str(), selected_mod_id == mod.id)) {
                         selected_mod_id = mod.id;
                     }
-                    if (!mod.sledge_compatible) {
+                    if (!mod.api_compatible) {
                         ImGui::SameLine();
                         ImGui::TextColored({1.0f, 0.75f, 0.2f, 1.0f}, ICON_MD_WARNING);
-                        ImGui::SetItemTooltip("Requires Sledge %s (current version is %s).\n"
-                                              "This mod may not work correctly.",
-                                              mod.sledge_version.c_str(), constants::version);
+                        utils::imgui::set_tooltip(std::format(
+                            "This mod is written for API version {}, but this Sledge "
+                            "version provides {}.\n\nUpdate Sledge to make sure it works "
+                            "correctly.",
+                            mod.api_version, constants::api_version.to_string()));
                     }
 
                     ImGui::PopID();
@@ -99,12 +101,17 @@ namespace gui {
                         ImGui::TextUnformatted(mod.version.c_str());
                         utils::imgui::end_property_row();
 
-                        utils::imgui::begin_property_row("Sledge version");
-                        ImGui::TextUnformatted(mod.sledge_version.c_str());
-                        if (!mod.sledge_compatible) {
+                        utils::imgui::begin_property_row("API version");
+                        ImGui::TextUnformatted(mod.api_version.c_str());
+                        if (!mod.api_compatible) {
                             ImGui::SameLine();
                             ImGui::TextColored({1.0f, 0.75f, 0.2f, 1.0f},
                                                ICON_MD_WARNING " Incompatible");
+                            utils::imgui::set_tooltip(std::format(
+                                "This mod is written for API version {}, but this Sledge "
+                                "version provides {}.\n\nUpdate Sledge to make sure it works "
+                                "correctly.",
+                                mod.api_version, constants::api_version.to_string()));
                         }
                         utils::imgui::end_property_row();
 

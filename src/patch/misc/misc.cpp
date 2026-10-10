@@ -39,7 +39,8 @@ namespace misc {
 
     HOOK_FUNC(OFFSET(0x458740, 0x00458740), const char*, __cdecl, keen_get_build_version) {
         static std::string version =
-            std::format("{} - Sledge {}", keen_get_build_version_original(), constants::version);
+            std::format("{} - Sledge {} (API {})", keen_get_build_version_original(),
+                        constants::sledge_version.to_string(), constants::api_version.to_string());
         return version.c_str();
     }
 

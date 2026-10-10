@@ -1,5 +1,10 @@
 #pragma once
 
+#include <semver.hpp>
+
+using namespace semver::literals;
+
 namespace constants {
-    constexpr char version[] = "0.2.0";
+    inline constexpr auto sledge_version = semver::version(0, 3, 0);
+    inline constexpr auto api_version = semver::version(1, 0, 0);
 }
