@@ -11,6 +11,7 @@
 - Decouple API version from the main Sledge version, starting at `1.0.0`, with a separate changelog for future API changes.
 - Rename `sledge_version` field in mod metadata to `api_version`, which specifies the API version the mod was written on.
 - Resize the launcher window to 800 x 450 pixels.
+- Show the `tooltip` field in mod metadata as a help marker in the launcher.
 - Rename the `game` namespace to `rfg`.
 - Rename the `defines` namespace to `enums`.
 - Wrap `gui.property_row` labels when they are too long.

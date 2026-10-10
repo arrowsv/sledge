@@ -102,10 +102,10 @@ namespace gui {
             }
 
             ImGui::SameLine();
-            auto version_cstr_size = ImGui::CalcTextSize(constants::version).x;
+            auto version_cstr_size = ImGui::CalcTextSize(constants::sledge_version.to_string().c_str()).x;
             ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetContentRegionAvail().x -
                                  version_cstr_size);
-            ImGui::TextDisabled(constants::version);
+            ImGui::TextDisabled("%s", constants::sledge_version.to_string().c_str());
 
             ImGui::EndMainMenuBar();
         }
