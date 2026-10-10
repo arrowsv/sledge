@@ -132,10 +132,14 @@ namespace gui {
             open_mods = true;
         }
 
+        if (ImGui::Button(ICON_MD_OPEN_IN_NEW " GitHub", {full, 24})) {
+            ShellExecuteA(0, "open", "https://github.com/arrowsv/sledge", NULL, NULL, SW_SHOWDEFAULT);
+        }
+
         if (ImGui::Button(ICON_MD_OPEN_IN_NEW " Documentation", {full, 24})) {
             ShellExecuteA(0, "open", "https://sledge.readthedocs.io/", NULL, NULL, SW_SHOWDEFAULT);
         }
-        
+
         if (ImGui::Button(ICON_MD_OPEN_IN_NEW " Discord", {full, 24})) {
             ShellExecuteA(0, "open", "https://discord.gg/factionfiles", NULL, NULL, SW_SHOWDEFAULT);
         }

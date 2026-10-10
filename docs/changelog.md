@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+### Added
+
+- `GitHub` button in the launcher.
+
 ## 0.2.0 (2026-10-08)
 
 ### Added
