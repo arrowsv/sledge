@@ -54,8 +54,8 @@ int main() {
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0);
     glfwWindowHint(GLFW_RESIZABLE, GLFW_FALSE);
 
-    int width = 704;
-    int height = 396;
+    int width = 800;
+    int height = 450;
 
     GLFWwindow* window = glfwCreateWindow(width, height, "Sledge", nullptr, nullptr);
     if (!window) {
