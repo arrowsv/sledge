@@ -5,9 +5,9 @@
 
 namespace lua::bindings::sledge {
     void bind_key(sol::state_view& lua) {
-        auto defines = lua["defines"].get_or_create<sol::table>();
+        auto enums = lua["enums"].get_or_create<sol::table>();
 
-        auto key = defines.create_named("key");
+        auto key = enums.create_named("key");
         key["none"] = utils::os::key::none;
         key["mouse_left"] = utils::os::key::mouse_left;
         key["mouse_right"] = utils::os::key::mouse_right;

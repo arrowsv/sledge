@@ -9,9 +9,9 @@
 namespace lua::bindings::rfg {
 
     void bind_team(sol::state_view& lua) {
-        auto defines = lua["defines"].get_or_create<sol::table>();
+        auto enums = lua["enums"].get_or_create<sol::table>();
 
-        auto team = defines.create_named("team");
+        auto team = enums.create_named("team");
         team["none"] = ::rfg::team::HUMAN_TEAM_NONE;
         team["guerrilla"] = ::rfg::team::HUMAN_TEAM_GUERILLA;
         team["edf"] = ::rfg::team::HUMAN_TEAM_EDF;

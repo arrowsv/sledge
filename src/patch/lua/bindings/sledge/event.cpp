@@ -6,9 +6,9 @@
 namespace lua::bindings::sledge {
 
     void bind_event(sol::state_view& lua) {
-        auto defines = lua["defines"].get_or_create<sol::table>();
+        auto enums = lua["enums"].get_or_create<sol::table>();
 
-        auto events = defines.create_named("event");
+        auto events = enums.create_named("event");
         events["game_do_frame"] = events::event::game_do_frame;
         events["player_do_frame"] = events::event::player_do_frame;
         events["alert_level_changed"] = events::event::alert_level_changed;

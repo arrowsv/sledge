@@ -1,4 +1,4 @@
-#include "game.hpp"
+#include "rfg.hpp"
 
 #include "patch/misc/player.hpp"
 #include "patch/rfg/game.hpp"
@@ -9,7 +9,7 @@
 
 #include <sol/sol.hpp>
 
-struct game_type {};
+struct rfg_type {};
 
 namespace lua::bindings::rfg {
 
@@ -28,28 +28,28 @@ namespace lua::bindings::rfg {
         game_clock["current_day_ticks"] = &::rfg::game_clock::current_day_ticks;
     }
 
-    void bind_defines(sol::state_view& lua) {
-        auto defines = lua["defines"].get_or_create<sol::table>();
+    void bind_enums(sol::state_view& lua) {
+        auto enums = lua["enums"].get_or_create<sol::table>();
 
-        auto time_of_day = defines.create_named("time_of_day");
+        auto time_of_day = enums.create_named("time_of_day");
         time_of_day["day"] = ::rfg::game_clock_time_of_day::GC_DAY;
         time_of_day["night"] = ::rfg::game_clock_time_of_day::GC_NIGHT;
 
-        auto alert_level = defines.create_named("alert_level");
+        auto alert_level = enums.create_named("alert_level");
         alert_level["green"] = ::rfg::alert_level::ALERT_LEVEL_GREEN;
         alert_level["yellow"] = ::rfg::alert_level::ALERT_LEVEL_YELLOW;
         alert_level["orange"] = ::rfg::alert_level::ALERT_LEVEL_ORANGE;
         alert_level["red"] = ::rfg::alert_level::ALERT_LEVEL_RED;
     }
 
-    void bind_player(sol::usertype<game_type>& game) {
+    void bind_player(sol::usertype<rfg_type>& game) {
         game["get_player"] = []() -> ::rfg::player* { return ::rfg::get_local_player(); };
         game["is_in_gameplay"] = []() -> bool {
             return ::rfg::gameseq_state_is_active(::rfg::game_state::GS_GAMEPLAY);
         };
     }
 
-    void bind_camera(sol::usertype<game_type>& game) {
+    void bind_camera(sol::usertype<rfg_type>& game) {
         game["get_camera"] = []() -> ::rfg::camera* { return ::rfg::g_camera(); };
         game["overriding_camera_position"] = sol::property(
             []() { return misc::player::g_camera_overriding_position; },
@@ -59,7 +59,7 @@ namespace lua::bindings::rfg {
             [](bool overriding) { misc::player::g_camera_overriding_orientation = overriding; });
     }
 
-    void bind_time(sol::usertype<game_type>& game) {
+    void bind_time(sol::usertype<rfg_type>& game) {
         game["time_frozen"] =
             sol::property([]() { return !*::rfg::g_game_time_should_update(); },
                           [](bool frozen) { *::rfg::g_game_time_should_update() = !frozen; });
@@ -74,7 +74,7 @@ namespace lua::bindings::rfg {
         };
     }
 
-    void bind_alert_level(sol::usertype<game_type>& game) {
+    void bind_alert_level(sol::usertype<rfg_type>& game) {
         game["get_alert_level"] = []() { return ::rfg::get_alert_level(); };
         game["set_alert_level"] = [](::rfg::alert_level alert_level) {
             ::rfg::set_alert_level(alert_level);
@@ -91,7 +91,7 @@ namespace lua::bindings::rfg {
         game["release_alert_level_cap"] = []() { ::rfg::release_alert_level_cap(); };
     }
 
-    void bind_input(sol::usertype<game_type>& game) {
+    void bind_input(sol::usertype<rfg_type>& game) {
         game["is_key_down"] = input::is_key_down;
         game["is_key_just_pressed"] = input::is_key_just_pressed;
         game["is_key_just_released"] = input::is_key_just_released;
@@ -105,7 +105,7 @@ namespace lua::bindings::rfg {
             [](bool enabled) { *::rfg::g_player_camera_input_disabled() = !enabled; });
     }
 
-    void bind_ui(sol::usertype<game_type>& game, sol::state_view& lua) {
+    void bind_ui(sol::usertype<rfg_type>& game, sol::state_view& lua) {
         game["show_message"] = [&lua](const std::string& text, sol::optional<sol::table> options) {
             sol::table options_table = options ? options.value() : lua.create_table();
 
@@ -117,7 +117,7 @@ namespace lua::bindings::rfg {
         };
     }
 
-    void bind_settings(sol::usertype<game_type>& game) {
+    void bind_settings(sol::usertype<rfg_type>& game) {
         game["unlimited_ammo"] =
             sol::property([]() { return *::rfg::g_unlimited_ammo(); },
                           [](bool enabled) { *::rfg::g_unlimited_ammo() = enabled; });
@@ -145,22 +145,22 @@ namespace lua::bindings::rfg {
         game["is_paused"] = []() -> bool { return ::rfg::game_is_paused(); };
     }
 
-    void bind_game(sol::state_view& lua) {
-        lua["game"] = game_type{};
+    void bind_rfg(sol::state_view& lua) {
+        lua["rfg"] = rfg_type{};
 
         auto types = lua["types"].get_or_create<sol::table>();
-        auto game = types.new_usertype<game_type>("game");
+        auto rfg = types.new_usertype<rfg_type>("rfg");
 
         bind_types(lua);
-        bind_defines(lua);
+        bind_enums(lua);
 
         // Functions/properties
-        bind_player(game);
-        bind_camera(game);
-        bind_time(game);
-        bind_alert_level(game);
-        bind_input(game);
-        bind_ui(game, lua);
-        bind_settings(game);
+        bind_player(rfg);
+        bind_camera(rfg);
+        bind_time(rfg);
+        bind_alert_level(rfg);
+        bind_input(rfg);
+        bind_ui(rfg, lua);
+        bind_settings(rfg);
     }
 }

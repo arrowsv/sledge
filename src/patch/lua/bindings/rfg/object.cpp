@@ -30,9 +30,9 @@ namespace lua::bindings::rfg {
     }
 
     void bind_object_type(sol::state_view& lua) {
-        auto defines = lua["defines"].get_or_create<sol::table>();
+        auto enums = lua["enums"].get_or_create<sol::table>();
 
-        auto object_type = defines.create_named("object_type");
+        auto object_type = enums.create_named("object_type");
         object_type["undefined"] = ::rfg::object_type::OT_UNDEFINED;
         object_type["human"] = ::rfg::object_type::OT_HUMAN;
         object_type["item"] = ::rfg::object_type::OT_ITEM;
@@ -41,9 +41,9 @@ namespace lua::bindings::rfg {
     }
 
     void bind_object_sub_type(sol::state_view& lua) {
-        auto defines = lua["defines"].get_or_create<sol::table>();
+        auto enums = lua["enums"].get_or_create<sol::table>();
 
-        auto object_sub_type = defines.create_named("object_sub_type");
+        auto object_sub_type = enums.create_named("object_sub_type");
         object_sub_type["undefined"] = ::rfg::object_sub_type::OT_SUB_UNDEFINED;
         object_sub_type["mover_general"] = ::rfg::object_sub_type::OT_SUB_MOVER_GENERAL;
         object_sub_type["mover_rfg"] = ::rfg::object_sub_type::OT_SUB_MOVER_RFG;

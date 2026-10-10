@@ -10,7 +10,7 @@
 #include "rfg/math/vector.hpp"
 #include "rfg/math/matrix.hpp"
 #include "rfg/camera.hpp"
-#include "rfg/game.hpp"
+#include "rfg/rfg.hpp"
 #include "rfg/object.hpp"
 #include "rfg/human.hpp"
 #include "rfg/player.hpp"
@@ -20,7 +20,7 @@
 namespace lua::bindings {
     void bind_all(sol::state_view& lua) {
         auto types = lua["types"].get_or_create<sol::table>();
-        auto defines = lua["defines"].get_or_create<sol::table>();
+        auto enums = lua["enums"].get_or_create<sol::table>();
 
         // sledge
         sledge::bind_sledge(lua);
@@ -38,7 +38,7 @@ namespace lua::bindings {
 
         // rfg
         rfg::bind_camera(lua);
-        rfg::bind_game(lua);
+        rfg::bind_rfg(lua);
         rfg::bind_object(lua);
         rfg::bind_human(lua);
         rfg::bind_player(lua);
