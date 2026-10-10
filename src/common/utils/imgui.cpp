@@ -263,13 +263,18 @@ namespace utils::imgui {
     }
 
     void begin_property_row(const char* label) {
-        ImGui::TableNextRow();
-        ImGui::TableSetColumnIndex(0);
-        ImGui::AlignTextToFramePadding();
-        ImGui::TextDisabled("%s", label);
-        ImGui::TableSetColumnIndex(1);
-        ImGui::PushID(label);
-    }
+    ImGui::TableNextRow();
+    ImGui::TableSetColumnIndex(0);
+    ImGui::AlignTextToFramePadding();
+
+    ImGui::PushTextWrapPos(ImGui::GetCursorPos().x + 170.0f);
+    ImGui::TextDisabled("%s", label);
+    ImGui::PopTextWrapPos();
+
+    ImGui::TableSetColumnIndex(1);
+    ImGui::SetNextItemWidth(ImMin(ImGui::GetContentRegionAvail().x, 250.0f));
+    ImGui::PushID(label);
+}
 
     void end_property_row() { ImGui::PopID(); }
 

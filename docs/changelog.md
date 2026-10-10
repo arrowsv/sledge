@@ -12,6 +12,7 @@
 - Rename `sledge_version` field in mod metadata to `api_version`, which specifies the API version the mod was written on.
 - Rename the `game` namespace to `rfg`.
 - Rename the `defines` namespace to `enums`.
+- Wrap `gui.property_row` labels when they are too long.
 
 ## 0.2.0 (2026-10-08)
 
