@@ -183,4 +183,5 @@ namespace rfg {
 
     REF_VAR(g_unlimited_ammo, bool, OFFSET(0x3881CB6, 0x03882cb6));
     REF_VAR(g_unlimited_magazine_ammo, bool, OFFSET(0x3881CBC, 0x03882cbc));
+    REF_VAR(g_allow_walker_spawn, bool, OFFSET(0x01693700, 0x01694700));
 }

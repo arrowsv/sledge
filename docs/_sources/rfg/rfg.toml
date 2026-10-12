@@ -99,6 +99,11 @@ name = "rfg"
   type = "boolean"
   description = "Whether wind is visible. If false, wind sounds are also disabled."
 
+  [[namespaces.properties]]
+  name = "walker_spawning"
+  type = "boolean"
+  description = "Whether walker vehicles can spawn."
+
   [[namespaces.functions]]
   name = "get_player"
   description = "Returns the player."

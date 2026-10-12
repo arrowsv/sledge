@@ -140,8 +140,10 @@ namespace lua::bindings::rfg {
                               }
                           });
 
-        game["pause"] = []() { ::rfg::game_pause(true); };
-        game["unpause"] = []() { ::rfg::game_unpause(); };
+        game["walker_spawning"] =
+            sol::property([]() { return *::rfg::g_allow_walker_spawn(); },
+                          [](bool enabled) { *::rfg::g_allow_walker_spawn() = enabled; });
+                          
         game["is_paused"] = []() -> bool { return ::rfg::game_is_paused(); };
     }
 
