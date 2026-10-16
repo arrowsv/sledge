@@ -1,23 +1,10 @@
-Some game objects, such as [`types.player`](../../../api/lua/types.player.md), only exist at certain times. Using one before it's valid causes a script error. For example, calling [`rfg.get_player()`](../../../api/lua/namespaces.rfg.md#get_player) before the player has loaded returns `nil`.
+Some game objects (like the player), do not exist immediately, such as when in the main menu. Accessing them too early causes script errors.
 
-Panels are especially prone to this because the player can open them at any time, including from the main menu. The same applies to event callbacks, where each event guarantees different things about the state of the rfg.
+You can prevent errors using one of three methods depending on your needs:
 
-There are three ways to guard a panel. Which one to use depends on what the panel should do when the objects aren't available.
+## Require gameplay
 
-## Requiring gameplay
-
-If the whole panel needs the player to be in gameplay, set the `requires_gameplay` field to `true` in the panel's options.
-
-The following script causes errors if the player opens the window from the main menu, because the player object doesn't exist yet:
-
-``` lua title="mod.lua"
-sledge.register_window("My Window", function()
-    local player = rfg.get_player()
-    gui.text(player.salvage)
-end)
-```
-
-This version won't cause an error:
+The simplest fix for entire panels. If a player opens the panel outside of gameplay, Sledge automatically blocks execution and displays `This panel requires the player to be in gameplay.`.
 
 ``` lua title="mod.lua"
 sledge.register_window("My Window", function()
@@ -26,11 +13,9 @@ sledge.register_window("My Window", function()
 end, { requires_gameplay = true })
 ```
 
-When `requires_gameplay` is `true`, Sledge intercepts the callback and shows the message `This panel requires the player to be in gameplay.` in the window instead, if the player opens it from the main menu.
+## Check for gameplay
 
-## Checking for gameplay
-
-[`rfg.is_in_gameplay`](../../../api/lua/namespaces.rfg.md#is_in_gameplay) lets you do the same check yourself. This is equivalent to `requires_gameplay`, but you control what's shown instead:
+[`rfg.is_in_gameplay`](../../../api/lua/namespaces.rfg.md#is_in_gameplay) is equivalent to the `requires_gameplay` option, except you can control what section of code is blocked from executing:
 
 ``` lua title="mod.lua"
 sledge.register_window("My Window", function()
@@ -44,13 +29,11 @@ sledge.register_window("My Window", function()
 end)
 ```
 
-Use this when you want a custom message, or when only part of the panel needs the player and the rest can always be drawn.
+## Check for `nil`
 
-## Checking for `nil`
+Best used when a panel should stay functional and display default/fallback values even when certain game objects aren't valid yet.
 
-Checking whether an object is `nil` before using it also prevents errors, and doesn't require `rfg.is_in_gameplay`. This is the best choice when the panel should still show something useful without the object.
-
-For example, here is a simplified version of the built-in `Position` widget. It shows `0.0` for each coordinate when the player doesn't exist:
+The following widget shows `0.0` for each coordinate when the player doesn't exist:
 
 ``` lua title="mod.lua"
 sledge.register_widget("Position", function()
@@ -76,18 +59,3 @@ sledge.register_widget("Position", function()
     end)
 end)
 ```
-
-## Which one to use
-
-`requires_gameplay`
-: The simplest choice. Use it when the whole panel depends on the player or other gameplay objects.
-
----
-
-`rfg.is_in_gameplay`
-: Use it when you want a custom message, or when only some of the panel depends on gameplay.
-
----
-
-Checking for `nil`
-: Use it when the panel should keep working, showing default values, even when an object isn't available.

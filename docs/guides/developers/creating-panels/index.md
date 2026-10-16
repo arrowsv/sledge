@@ -1,58 +1,56 @@
-Panels are the windows and widgets a mod can draw on screen. Use them to show information, or to let the player change settings in-game beyond what the mod's metadata options offer.
+Panels are the windows and widgets a mod can draw on screen to display information or let players change settings in-game.
 
-There are two kinds of panel:
+## Panel types
 
-- **Windows** - Only visible while the Sledge overlay is open. They have a background and accept player input, so use them for things the player changes, such as their team, their position, or a variable defined in your script.
+- **Windows** - Visible only while the Sledge overlay is open. They include a background and accept player input, so use them for things such as changing a player's team, position, or script variables.
 
-- **Widgets** - Stay visible when the overlay is closed, and have no background. Use them for information the player wants to see while playing, such as frames per second, position, or speed.
+- **Widgets** - Stay visible even when the overlay is closed, and have no background. Ideal for information the player would want to see while playing, such as frame rate, position, or speed.
 
 ## How panels work
 
-To register a panel, provide a name and a callback function. While the panel is visible, Sledge calls the callback every frame to draw its contents, so any changes to the data it displays appear immediately.
+To create a panel, provide a name and a callback function to Sledge. While the panel is open, Sledge runs the callback every frame to draw its contents.
 
-Because the callback runs every frame, anything that needs to persist between frames, such as a setting the player changes, must be stored in a variable outside the callback. Variables declared inside it are created again on every frame.
+!!! warning "State persistance"
 
-## Registering a panel
+    Because the callback runs every frame, any variable that needs to change or persist must be declared outside the callback function. Variables declared inside the callback will reset every frame.
 
-Register a window with [`sledge.register_window`](../../../api/lua/namespaces.sledge.md#register_window), or a widget with [`sledge.register_widget`](../../../api/lua/namespaces.sledge.md#register_widget). Both take a name and a callback function. Call them at the root level of `mod.lua`.
+## Registering panels
+
+Register windows with [`sledge.register_window`](../../../api/lua/namespaces.sledge.md#register_window) and widgets with [`sledge.register_widget`](../../../api/lua/namespaces.sledge.md#register_widget) at the root level of `mod.lua`.
 
 === "Window"
 
-    ``` lua title="mod.lua"
-    local function draw_my_window()
+    ```lua title="mod.lua"
+    sledge.register_window("My Window", function()
         gui.text("This is a text label.")
         gui.button("Press me", function()
             sledge.log("A button was pressed.")
         end)
-    end
-
-    sledge.register_window("My Window", draw_my_window)
+    end)
     ```
 
 === "Widget"
 
-    ``` lua title="mod.lua"
-    local function draw_my_widget()
+    ```lua title="mod.lua"
+    sledge.register_widget("My Widget", function()
         gui.text("This is a text label.")
-    end
-
-    sledge.register_widget("My Widget", draw_my_widget)
+    end)
     ```
 
-The functions inside the `gui` namespace draw the panel's contents. See [Drawing elements](drawing-elements.md) for how to use them.
+The [`gui`](../../../api/lua/namespaces.gui.md) namespace provides functions for drawing the panel's contents. See how to [draw elements](drawing-elements.md).
 
 ## Panel options
 
-Both functions accept a table of options as an optional last argument. For example, to stop the player from resizing a window:
+The registration functions accept an optional table of configuration settings as their last argument:
 
-``` lua title="mod.lua"
-sledge.register_window("My Window", draw_my_window, { no_resize = true })
+```lua title="mod.lua"
+sledge.register_window("My Window", function()
+    gui.text("This is a text label.")
+end, { requires_gameplay = true })
 ```
 
-The most commonly used option is `requires_gameplay`, which helps to prevent errors when your window uses game objects, such as the player. See the [Preventing script errors](script-errors.md) page for more information.
+See the `options` parameter documentation for the full list.
 
-See the `options` parameter in the documentation for [`sledge.register_window`](../../../api/lua/namespaces.sledge.md#register_window) and [`sledge.register_widget`](../../../api/lua/namespaces.sledge.md#register_widget) for the full list.
+!!! warning "Preventing script errors"
 
-!!! warning
-
-    Panels can be opened at any time, including from the main menu, before the game's objects exist. A panel that calls `rfg.get_player()` without handling this will cause script errors. See the [Preventing script errors](script-errors.md) page for more information.
+    Panels can be opened at any time, including from the main menu, before game objects exist. If your panel modifies the player through `rfg.get_player()` without safeguarding against this, it will cause script errors. See [Preventing script errors](script-errors.md).

@@ -51,6 +51,13 @@
 
 ---
 
+### <small><code>walker_spawning</code></small> <small>:lucide-move-right: <code>boolean</code></small> { #walker_spawning data-toc-label="walker_spawning" }
+
+:   
+    Whether walker vehicles can spawn.
+
+---
+
 ### <small><code>wind_visible</code></small> <small>:lucide-move-right: <code>boolean</code></small> { #wind_visible data-toc-label="wind_visible" }
 
 :   

@@ -8,122 +8,104 @@ name = "My Mod"
 authors = ["My Name", "Another Name"]
 description = "A description of my mod."
 version = "1.0.0"
-api_version = "1.0.0"
+api_version = "1.1.0"
 ```
 
 ## Fields
 
-`id` (`string`)
-:   The unique identifier of your mod. This must be formatted as `my_name.my_mod` and only contain lowercase letters `a-z`, numbers `0-9`, and the symbols `.` and `_`. Ideally, the identifier and your mod's folder name should be the same.
+| <div style="width: 100px;">Field</div> | Type | Required | Description |
+| --- | --- | --- | --- |
+| `id`          | `string` | :lucide-check: | Unique identifier in `my_name.my_mod` format (lowercase `a-z`, `0-9`, `.`, `_`). Should match your folder name.|
+| `name`        | `string` | :lucide-check: | The display name of your mod. |
+| `authors`     | `string[]` | :lucide-check: | List of authors. |
+| `version`     | `string` | :lucide-check: | Version following [Semantic Versioning](https://semver.org) (`major.minor.patch`). See [versioning rules](#versioning-rules).
+| `api_version` | `string` | :lucide-check: | Target mod API version (`major.minor.patch`). Warns users if major version mismatches or minor is lower. |
+| `description` | `string` | :lucide-x: | A short summary of your mod.
 
----
+### Versioning rules
 
-`name` (`string`)
-:   The display name of your mod.
+When updating the `version` field:
 
----
-
-`authors` (`string[]`)
-:   The authors of your mod, written as an array of strings.
-
----
-
-`description` (`string`) <small>optional</small>
-:   The description of your mod.
-
----
-
-`version` (`string`)
-:   The version of your mod. This must follow the `major.minor.patch` format from the [Semantic Versioning](https://semver.org) specification. For a mod's initial release, start at `1.0.0`.
-
-    - Increment the major version (`1.0.0` -> `2.0.0`) when breaking changes are made.
-    - Increment the minor version (`1.0.0` -> `1.1.0`) when new features are added.
-    - Increment the patch version (`1.0.0` -> `1.0.1`) when bug fixes are made.
-
----
-
-`api_version` (`string`)
-:   The mod API version your mod was written and tested for, written as `major.minor.patch` (e.g. `"1.0.0"`). This is normally the latest version listed in the [API changelog](changelog.md). If you update Sledge and re-test your mod, update this value as well.
-
-    Sledge loads your mod if its API version has the same major number as your value and a minor number that is equal or higher. Otherwise, the launcher warns the player that the mod may not work correctly.
+- Increment the major version (`1.0.0` -> `2.0.0`) when breaking changes are made.
+- Increment the minor version (`1.0.0` -> `1.1.0`) when new features are added.
+- Increment the patch version (`1.0.0` -> `1.0.1`) when bug fixes are made.
 
 ## Options
 
-Options are settings that players can configure in the launcher. Each option's chosen value can be accessed from your mod's script.
+Options are settings configured by players in the launcher. Each value can be read by your mod's Lua script. Each option entry begins with `[[options]]`.
 
-Each option starts with `[[options]]`, which adds a new entry to the `options` array.
+```toml
+[[options]]
+name = "Vehicle choice"
+type = "multiple"
+default = "EDF Scout"
+choices = ["EDF APC", "EDF Scout"]
+```
 
 ### Fields
 
-`name` (`string`)
-:   The name of the option.
+| Field | <div style="width: 200px;">Type</div> | Required | Description |
+| --- | --- | --- | --- |
+| `name`        | `string` | :lucide-check:     | The name of the option. |
+| `type`        | `string[]` | :lucide-check:   | The type of the option (see [available types](#available-types)). |
+| `choices`     | `string|(string|table)[]` | :lucide-minus: | Selection list (see [writing multiple choices](#writing-multiple-choices)). Required when `type = "multiple"`. |
+| `tooltip`     | `string` | :lucide-x:         | Tooltip shown when hovering over the option. |
+| `default`     | `string` | :lucide-x:         | Initial value. Differs based on type (see [available types](#available-types)). |
 
----
+### Available types
 
-`tooltip` (`string`) <small>optional</small>
-:   The tooltip that appears when hovering over the option.
+| Type | Default | Description |
+| --- | --- | --- |
+| `multiple`  | First entry in `choices` | Dropdown choice box populated using `choices`. |
+| `key`       | `"none"`                 | Dropdown choice box populated with [`enums.key`](lua/enums.key.md) values. |
+| `checkbox`  | `"false"`                | Toggle switch allowing a `true` or `false` value. |
+| `custom`    | `""`                     | Unrestricted text input box. |
 
----
+### Writing multiple choices
 
-`type` (`string`)
-:   The type of the option. The following types are available:
+The `choices` field defines the selection list or copies choices from another option. It is applicable only when `type = "multiple"`.
 
-    `multiple`
-    :   A multiple choice box populated using the `choices` field.
+- **String array** - Each string acts as both the display name and the script value.
+- **Table array** - Each table defines a custom display name and value using `{ name = "Display", value = ... }`.
 
-    ---
+```toml
+# String values
+choices = [
+    "Choice 1", 
+    "Choice 2"
+]
 
-    `key`
-    :   A multiple choice box populated with [`enums.key`](lua/enums.key.md) values.
+# Custom display names for string values
+choices = [
+    { name = "Low", value = "1" },
+    { name = "Medium", value = "2" },
+    { name = "High", value = "3" },
+    "4" # String values can still be used alongside a table
+]
 
-    ---
+# Array values
+choices = [
+    { name = "Supply Truck", value = ["Min_SupplyTruck_1", "Min_SupplyTruck_2", "Min_SupplyTruck_3"] },
+    { name = "Supply Truck (Turret)", value = ["Min_SupplyTruck_MG1", "Min_SupplyTruck_MG2", "Min_SupplyTruck_MG3"] }
+]
 
-    `checkbox`
-    :   A checkbox that allows a `true` or `false` value.
+# Copy choices from another option
+choices = "Other option name"
+```
 
-    ---
+!!! warning "Consistent return types"
+    Avoid mixing string values and array values within the same `choices` list. Keep choice values as either all strings or all arrays of strings so your Lua script can safely handle the return type.
 
-    `custom`
-    :   A text box that allows a custom value.
-
----
-
-`default` (`string, boolean`) <small>optional</small>
-:   The default choice of the option. The value to write depends on the option's type:
-
-    `multiple` (`string`)
-    :   A choice from the `choices` array. If not present, defaults to the first string in `choices`.
-
-    ---
-
-    `key` (`string`)
-    :   A string representation of an [`enums.key`](lua/enums.key.md) field (such as `"f2"`). If not present, defaults to `none`.
-
-    ---
-
-    `checkbox` (`boolean`)
-    :   A `true` or `false` value. If not present, defaults to `false`.
-
-    ---
-
-    `custom` (`string`)
-    :   A custom value. If not present, defaults to an empty string.
-
----
-
-`choices` (`string[]`)
-:   An array of strings available in the multiple choice box. This is only applicable to the `multiple` type.
-
-    !!! info "Copying choices"
-        An option can copy the choices of another option by writing that option's name as a string. The option being copied must also be of type `multiple`.
+!!! info "Copying choices"
+    An option can copy another option's choices by passing that option's name as a string. The target option must also be of type `multiple`.
 
 ### Examples
 
-=== "multiple"
+=== "`multiple`"
 
     ```toml title="mod.toml"
     [[options]]
-    name = "My choices"
+    name = "Choices"
     type = "multiple"
     default = "Choice 2"
     choices = [
@@ -132,12 +114,31 @@ Each option starts with `[[options]]`, which adds a new entry to the `options` a
     ]
 
     [[options]]
-    name = "My copied choices"
+    name = "Copied choices"
     type = "multiple"
-    choices = "My choices"
+    choices = "Choices"
+
+    [[options]]
+    name = "Custom display names"
+    type = "multiple"
+    default = "Medium"
+    choices = [
+        { name = "Low", value = "1" },
+        { name = "Medium", value = "2" },
+        { name = "High", value = "3" }
+    ]
+
+    [[options]]
+    name = "Array choice values"
+    type = "multiple"
+    default = "Option A"
+    choices = [
+        { name = "Option A", value = ["1", "2"] },
+        { name = "Option B", value = ["3", "4"] }
+    ]
     ```
 
-=== "key"
+=== "`key`"
 
     ```toml title="mod.toml"
     [[options]]
@@ -146,7 +147,7 @@ Each option starts with `[[options]]`, which adds a new entry to the `options` a
     default = "f3"
     ```
 
-=== "checkbox"
+=== "`checkbox`"
 
     ```toml title="mod.toml"
     [[options]]
@@ -154,92 +155,43 @@ Each option starts with `[[options]]`, which adds a new entry to the `options` a
     tooltip = "Description of the feature."
     type = "checkbox"
     default = false
+
+    [[options]]
+    name = "Enable another feature"
+    type = "checkbox"
+    default = "true" # A string representation of a boolean is also accepted
     ```
 
-=== "custom"
+=== "`custom`"
 
     ```toml title="mod.toml"
     [[options]]
-    name = "Multiplier"
+    name = "Character name"
     type = "custom"
-    default = "4"
+    default = "Samanya"
     ```
 
 ## Full example
 
 ```toml title="mod.toml"
-id = "arrows.safehouse_vehicle_selector"
-name = "Safehouse Vehicle Selector"
+id = "arrows.toggle_hud_weather"
+name = "Toggle HUD/Weather"
 authors = ["arrows"]
-description = "Select which vehicle spawns at each safehouse."
-version = "1.0.0"
+version = "1.0.1"
 api_version = "1.0.0"
 
 [[options]]
-name = "Parker"
-type = "multiple"
-choices = [
-    "EDF APC",
-    "EDF APC (Turret)",
-    "EDF Scout",
-    "EDF Scout (Turret)",
-    "EDF Staff",
-    "EDF Staff (Turret)",
-    "EDF Supply Truck",
-    "EDF Supply Truck (Turret)",
-    "EDF Flyer",
-    "EDF Bomber",
-    "Civilian Supply Truck",
-    "Civilian Supply Truck (Turret)",
-    "Civilian Garbage Truck",
-    "Civilian Garbage Truck (Turret)",
-    "Civilian Dump Truck",
-    "Civilian Pickup",
-    "Civilian Pickup (Turret)",
-    "Civilian Mining ATV",
-    "Civilian Mining ATV (Turret)",
-    "Civilian Mini Hauler",
-    "Civilian Rover",
-    "Civilian Rover (Turret)",
-    "Civilian Emergency Rover",
-    "Civilian Flatbed",
-    "Civilian Flatbed (Turret)",
-    "Civilian Fuel Tanker",
-    "Civilian Supercar",
-    "Civilian Luxury Coupé",
-    "Civilian Luxury SUV",
-    "Civilian Luxury Taxi",
-    "Civilian Luxury Bus",
-    "Marauder Jetter",
-    "Marauder Raider",
-    "Light Walker",
-    "Heavy Walker",
-    "Combat Walker",
-    "Tank",
-    "Heavy Tank",
-    "Rocket Tank",
-    "Heavy Rocket Tank",
-    "Bulldozer",
-    "Mars Rover"
-]
+name = "HUD key"
+type = "key"
+default = "numpad_1"
 
 [[options]]
-name = "Dust"
-type = "multiple"
-choices = "Parker"
+name = "Fog key"
+type = "key"
+default = "numpad_2"
 
 [[options]]
-name = "Badlands"
-type = "multiple"
-choices = "Parker"
-
-[[options]]
-name = "Oasis"
-type = "multiple"
-choices = "Parker"
-
-[[options]]
-name = "Eos"
-type = "multiple"
-choices = "Parker"
+name = "Wind key"
+type = "key"
+default = "numpad_3"
 ```

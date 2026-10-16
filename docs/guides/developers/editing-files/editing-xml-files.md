@@ -1,32 +1,58 @@
-Use the [`sledge.register_xml_edit`](../../../api/lua/namespaces.sledge.md#register_xml_edit) function to edit XML files. Instead of replacing a whole file, your mod changes only the values and entries it needs, so multiple mods can edit the same file without overwriting each other. If you're coming from the `modinfo.xml` format, this takes the place of `<Edit>`.
+Use [`sledge.register_xml_edit`](../../../api/lua/namespaces.sledge.md#register_xml_edit) to modify XML values safely so multiple mods can coexist without overwriting each other.
 
-The following file formats are supported:
+The following formats are supported:
 
 - `.xtbl`
 - `.dtodx`
 - `.gtodx`
 
-!!! warning
+!!! warning "Unsupported"
 
     `.scriptx` files are not supported because they use a non-standard XML format made specifically for the game's scripting system. Instead, use [`sledge.register_file`](overriding-files.md) to fully replace the file with your edits included.
 
-!!! info "Call this function at the root level"
+!!! info "Call at the root level"
 
-    Write this function at the root level of `mod.lua`, not inside an event callback, so Sledge calls them immediately at launch. Calling them later is technically possible, but the results can be unpredictable.
+    Always place `sledge.register_xml_edit` at the root level of `mod.lua`, outside of any event callback, so Sledge registers it immediately at launch.
 
 ## Registering an edit
 
-The `sledge.register_xml_edit` function takes the name of the file to edit and a callback function. Sledge calls the callback when the game loads that file, passing the XML document as a [`types.xml_node`](../../../api/lua/types.xml_node.md). The callback can then modify the document before Sledge sends it back to the rfg.
+Pass the file name and a callback function that receives an XML document as a [`types.xml_node`](../../../api/lua/types.xml_node.md):
 
 ``` lua title="mod.lua"
 sledge.register_xml_edit("spawn_group_vehicle.xtbl", function(document)
-    -- Read and modify the document here.
+    local group = document:get_from_path("//spawn_group_vehicle[Name='Amb_Parker']")
+    sledge.log("Found group name: " .. group:get("Name").value)
 end)
 ```
 
-Pass only the file's name, such as `spawn_group_vehicle.xtbl`, and not its path inside the game's data files. Like the other file functions, call `sledge.register_xml_edit` at the top level of `mod.lua`.
+## Navigating nodes
 
-The rest of this page uses a snippet of `spawn_group_vehicle.xtbl` to demonstrate navigating and modifying a document:
+Use [XPath queries](https://www.w3schools.com/xml/xpath_syntax.asp) or node methods to traverse the document:
+
+| Method                                                                                            | Description                                     |
+| ------------------------------------------------------------------------------------------------- | ----------------------------------------------- |
+| [`node:get(name)`](../../../api/lua/types.xml_node.md#get)                                        | Returns a node's child by name.                 |
+| [`node:get_from_path(query)`](../../../api/lua/types.xml_node.md#get_from_path)                   | Returns the first node matching an XPath query. |
+| [`node:get_multiple_from_path(query)`](../../../api/lua/types.xml_node.md#get_multiple_from_path) | Returns all nodes matching an XPath query.      |
+| [`node:children()`](../../../api/lua/types.xml_node.md#children)                                  | Returns all children of the node.               |
+| [`node:parent()`](../../../api/lua/types.xml_node.md#parent)                                      | Returns the parent node.                        |
+| [`node:exists()`](../../../api/lua/types.xml_node.md#exists)                                      | Returns whether the node exists.                |
+
+## Modifying nodes
+
+Use these functions and fields to alter nodes:
+
+| Field/Method | Description |
+| --- | --- |
+| [`node.name`](../../../api/lua/types.xml_node.md#name) | Get or set a node's name. |
+| [`node.value`](../../../api/lua/types.xml_node.md#value) | Get or set a node's text value. |
+| [`node:add(name, value)`](../../../api/lua/types.xml_node.md#add) | Adds a new child node and returns it. |
+| [`node:add(node)`](../../../api/lua/types.xml_node.md#add) | Copies and adds a node as a child. |
+| [`node:delete()`](../../../api/lua/types.xml_node.md#delete) | Deletes the node. |
+
+## Examples
+
+The examples below all work on this file. It has been shortened for readability:
 
 ``` xml title="spawn_group_vehicle.xtbl"
 <root>
@@ -35,174 +61,130 @@ The rest of this page uses a snippet of `spawn_group_vehicle.xtbl` to demonstrat
         <Name>Amb_Parker</Name>
         <vehicle_list>
             <vehicle_type>Min_LightPickup_1</vehicle_type>
-            <vehicle_type>Min_LightPickup_2</vehicle_type>
-            <vehicle_type>Min_LightPickup_3</vehicle_type>
             <vehicle_type>Col_Mini_Hauler_1</vehicle_type>
-            <vehicle_type>Col_Mini_Hauler_2</vehicle_type>
-            <vehicle_type>Col_Mini_Hauler_3</vehicle_type>
             <vehicle_type>Min_DumpTruck_1</vehicle_type>
-            <vehicle_type>Min_DumpTruck_2</vehicle_type>
-            <vehicle_type>Min_DumpTruck_3</vehicle_type>
             <vehicle_type>Min_SupplyTruck_1</vehicle_type>
-            <vehicle_type>Min_SupplyTruck_2</vehicle_type>
-            <vehicle_type>Min_SupplyTruck_3</vehicle_type>
         </vehicle_list>
     </spawn_group_vehicle>
     <spawn_group_vehicle>
         <Name>Amb_Manufacturing</Name>
         <vehicle_list>
             <vehicle_type>Min_Rover-A_1</vehicle_type>
-            <vehicle_type>Min_Rover-A_2</vehicle_type>
-            <vehicle_type>Min_Rover-A_3</vehicle_type>
-            <vehicle_type>Min_SupplyTruck_1</vehicle_type>
-            <vehicle_type>Min_SupplyTruck_2</vehicle_type>
-            <vehicle_type>Min_SupplyTruck_3</vehicle_type>
             <vehicle_type>Col_TrashTruck_1</vehicle_type>
             <vehicle_type>Col_Mini_Hauler_1</vehicle_type>
-            <vehicle_type>Col_Mini_Hauler_2</vehicle_type>
-            <vehicle_type>Col_Mini_Hauler_3</vehicle_type>
         </vehicle_list>
     </spawn_group_vehicle>
 </Table>
 </root>
 ```
 
-## Retrieving nodes
+Every example goes inside `sledge.register_xml_edit`. The callback receives `document`, the root of the file. The snippets below assume this setup:
 
-Use these functions to navigate the document:
-
-[`types.xml_node:get`](../../../api/lua/types.xml_node.md#get)
-: Returns a node's child by its name.
-
----
-
-[`types.xml_node:get_from_path`](../../../api/lua/types.xml_node.md#get_from_path)
-: Returns the first node that matches the given XPath.
-
----
-
-[`types.xml_node:get_multiple_from_path`](../../../api/lua/types.xml_node.md#get_multiple_from_path)
-: Returns all nodes that match the given XPath.
-
----
-
-[`types.xml_node:children`](../../../api/lua/types.xml_node.md#children)
-: Returns all children of the node.
-
----
-
-[`types.xml_node:parent`](../../../api/lua/types.xml_node.md#parent)
-: Returns the parent of the node.
-
----
-
-[`types.xml_node:exists`](../../../api/lua/types.xml_node.md#exists)
-: Returns whether the node exists.
-
-!!! info
-
-    The `get_from_path` and `get_multiple_from_path` functions find nodes using an [XPath](https://www.w3schools.com/xml/xpath_syntax.asp) string.
-
-    An XPath beginning with `//` searches the entire document from the current node, no matter how deeply nested the matches are. This lets you skip navigating through `<root>` and `<Table>` to reach the `<spawn_group_vehicle>` nodes.
-
-``` lua title="mod.lua"
+```lua title="mod.lua"
 sledge.register_xml_edit("spawn_group_vehicle.xtbl", function(document)
-    -- Get the <spawn_group_vehicle> node with the <Name> "Amb_Parker".
     local group = document:get_from_path("//spawn_group_vehicle[Name='Amb_Parker']")
 
-    -- Get the <Name> node and log its value, which is "Amb_Parker".
-    local group_name = group:get("Name").value
-    sledge.log("Group name: " .. group_name)
-
-    -- Get the <vehicle_list> node.
-    local vehicle_list = group:get("vehicle_list")
-
-    -- Get the children of <vehicle_list> and log the value of each.
-    sledge.log("Vehicle list (children):")
-    for _, vehicle in ipairs(vehicle_list:children()) do
-        sledge.log("Vehicle type: " .. vehicle.value)
-    end
-
-    -- The same <vehicle_type> nodes can be retrieved with an XPath. Here,
-    -- children is simpler, but get_multiple_from_path is useful when the
-    -- nodes you want aren't all direct children.
-    sledge.log("Vehicle list (get_multiple_from_path):")
-    for _, vehicle in ipairs(group:get_multiple_from_path("vehicle_list/vehicle_type")) do
-        sledge.log("Vehicle type: " .. vehicle.value)
-    end
-
-    -- Get the parent of <vehicle_list>, which is the <spawn_group_vehicle> node.
-    local same_group = vehicle_list:parent()
-
-    -- Check whether a node exists.
-    local missing = group:get_from_path("not_a_real_node")
-    if not missing:exists() then
-        sledge.log("not_a_real_node was not found.")
-    end
+    -- Snippets go here.
 end)
 ```
 
-## Modifying nodes
+!!! note
+    A path starting with `//` searches the whole document. A path without it, like `vehicle_list/vehicle_type`, starts from the node you call it on.
 
-Use these fields and functions to change the document:
+### Reading nodes
 
-[`types.xml_node.name`](../../../api/lua/types.xml_node.md#name)
-: Name of the node.
+```lua
+-- Get a direct child by name.
+local vehicle_list = group:get("vehicle_list")
+sledge.log(group:get("Name").value) -- Amb_Parker
 
----
+-- Loop over all children.
+for _, vehicle in ipairs(vehicle_list:children()) do
+    sledge.log(vehicle.value) -- Min_LightPickup_1, Col_Mini_Hauler_1, Min_DumpTruck_1, Min_SupplyTruck_1
+end
 
-[`types.xml_node.value`](../../../api/lua/types.xml_node.md#value)
-: Value of the node.
+-- Get all matches for an XPath. Same as children(), but it
+-- also works when the nodes you want are nested deeper or need filtering.
+local vehicles = group:get_multiple_from_path("vehicle_list/vehicle_type")
 
----
-
-[`types.xml_node:add`](../../../api/lua/types.xml_node.md#add)
-: Adds a new child node and returns it.
-
----
-
-[`types.xml_node:delete`](../../../api/lua/types.xml_node.md#delete)
-: Deletes the node.
-
-The most common edit is adding to or changing an existing entry. For example, to add a vehicle to the `Amb_Parker` group:
-
-``` lua title="mod.lua"
-sledge.register_xml_edit("spawn_group_vehicle.xtbl", function(document)
-    local group = document:get_from_path("//spawn_group_vehicle[Name = 'Amb_Parker']")
-    local vehicle_list = group:get("vehicle_list")
-
-    -- Add a new <vehicle_type> node with a value to the end of the list.
-    vehicle_list:add("vehicle_type", "Col_FuelTanker_1")
-end)
+-- Go up one level.
+local same_group = vehicle_list:parent() -- the <spawn_group_vehicle> node
 ```
 
-Nodes can also be changed in place, removed, and rebuilt. This example replaces the entire `Amb_Manufacturing` vehicle list:
+A query that finds nothing will still return a node rather than `nil`. Use `node:exists()` to check:
 
-``` lua title="mod.lua"
-sledge.register_xml_edit("spawn_group_vehicle.xtbl", function(document)
-    local group = document:get_from_path("//spawn_group_vehicle[Name='Amb_Manufacturing']")
-
-    -- Delete the existing <vehicle_list> node.
-    group:get("vehicle_list"):delete()
-
-    -- Create a new <vehicle_list> node and add <vehicle_type> nodes to it.
-    local vehicle_list = group:add("vehicle_list")
-    local first_vehicle = vehicle_list:add("vehicle_type", "Col_FuelTanker_1")
-    vehicle_list:add("vehicle_type", "Col_FixedFlatbed")
-
-    -- Change the first vehicle's value.
-    first_vehicle.value = "Min_Emergency_1"
-
-    -- Find the "Col_FixedFlatbed" node we added and delete it.
-    vehicle_list:get_from_path("vehicle_type='Col_FixedFlatbed'"):delete()
-
-    -- Log the name of the node, which is "vehicle_type".
-    sledge.log(first_vehicle.name)
-end)
+```lua
+local missing = group:get_from_path("not_a_real_node")
+if not missing:exists() then
+    sledge.log("Not found.")
+end
 ```
 
-## Using options in an edit
+!!! note
 
-Edits are often driven by a mod's options. Read the options with `mod.options`, then assign the result to a node's `value`. See [Mapping options to values](../script.md#mapping-options-to-values) if the display names in your options differ from the values the game needs.
+    If the `XML warnings enabled` config option is enabled, warnings will appear in `sledge.log` when a script uses `get`, `get_from_path`, or `get_multiple_from_path` and the resulting node doesn't exist.
 
-For complete mods that combine options and XML edits, see the examples on the [Converting legacy mods](legacy-mods.md#examples) page.
+### Adding a node
+
+```lua
+group:get("vehicle_list"):add("vehicle_type", "Col_FuelTanker_1")
+```
+
+```xml
+<vehicle_list>
+    <vehicle_type>Min_LightPickup_1</vehicle_type>
+    <vehicle_type>Col_Mini_Hauler_1</vehicle_type>
+    <vehicle_type>Min_DumpTruck_1</vehicle_type>
+    <vehicle_type>Min_SupplyTruck_1</vehicle_type>
+    <vehicle_type>Col_FuelTanker_1</vehicle_type> <!-- added -->
+</vehicle_list>
+```
+
+### Changing a value
+
+```lua
+local node = group:get_from_path("vehicle_list/vehicle_type[.='Min_DumpTruck_1']")
+node.value = "Min_Emergency_1"
+```
+
+```xml
+<vehicle_type>Min_Emergency_1</vehicle_type> <!-- was Min_DumpTruck_1 -->
+```
+
+### Deleting a node
+
+```lua
+group:get_from_path("vehicle_list/vehicle_type[.='Col_Mini_Hauler_1']"):delete()
+```
+
+```xml
+<vehicle_list>
+    <vehicle_type>Min_LightPickup_1</vehicle_type>
+    <vehicle_type>Min_Emergency_1</vehicle_type>
+    <vehicle_type>Min_SupplyTruck_1</vehicle_type>
+</vehicle_list>
+```
+
+### Replacing a whole list
+
+Replace a list by deleting and recreating the node.
+
+``` lua
+local manufacturing = document:get_from_path("//spawn_group_vehicle[Name='Amb_Manufacturing']")
+
+manufacturing:get("vehicle_list"):delete()
+
+local list = manufacturing:add("vehicle_list")
+list:add("vehicle_type", "Col_FuelTanker_1")
+list:add("vehicle_type", "Col_FixedFlatbed")
+```
+
+``` xml
+<vehicle_list>
+    <vehicle_type>Col_FuelTanker_1</vehicle_type>
+    <vehicle_type>Col_FixedFlatbed</vehicle_type>
+</vehicle_list>
+```
+
+!!! tip
+    If you only need to change some nodes within a list, edit or delete them in place instead of replacing the whole list. That keeps any entries you didn't touch, and it plays better with other mods that edit the same file.

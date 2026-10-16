@@ -1,14 +1,13 @@
-All functions used to draw elements inside a panel are in the [`gui`](../../../api/lua/namespaces.gui.md) namespace. Call them from inside a panel's callback function, in the order you want the elements to appear. See [Creating panels](index.md) for how to register one.
+All drawing functions belong to the [`gui`](../../../api/lua/namespaces.gui.md) namespace and should be called inside your panel's callback function in the order you want elements rendered.
 
 ## Handling input
 
-Most input elements, such as [`gui.checkbox`](../../../api/lua/namespaces.gui.md#checkbox), [`gui.input_int`](../../../api/lua/namespaces.gui.md#input_int), and [`gui.slider_int`](../../../api/lua/namespaces.gui.md#slider_int), don't change anything by themselves. You give them the value to display, and a callback function. When the player changes the element, Sledge calls your callback with the new value, and you decide what to do with it.
+Interactive elements (such as checkboxes, sliders, and inputs), require you to pass the current value and a callback function handles changes:
 
-``` lua title="mod.lua"
--- Stored outside the callback so it persists between frames.
+```lua title="mod.lua"
 local show_message = false
 
-local function draw_my_window()
+sledge.register_window("My Window", function()
     gui.checkbox("Show message", show_message, function(new_value)
         show_message = new_value
     end)
@@ -16,103 +15,51 @@ local function draw_my_window()
     if show_message then
         gui.text("Hello!")
     end
-end
-
-sledge.register_window("My Window", draw_my_window)
+end)
 ```
-
-Here, `show_message` is the value the checkbox displays, and the callback saves the player's choice back into it. Because the panel's callback runs every frame, the checkbox is drawn with the updated value on the next frame.
-
-Elements that edit game values work the same way. Pass in the game's current value, then write the new value back in the callback, as the [property table example](#formatting-with-property-tables) below does with `rfg.fog_visible`.
-
-Buttons use the same idea. [`gui.button`](../../../api/lua/namespaces.gui.md#button) takes a label and a callback that runs when the button is pressed.
-
-!!! info
-
-    Variables that hold state, like `show_message` above, must be declared outside the panel's callback. If they were declared inside it, they would be reset to their starting value every frame and the player's change would be lost immediately.
 
 ## Formatting with property tables
 
-When displaying mod configurations or numerical data (aside from standard action buttons), use property tables. They line up each setting's label and value in a consistent grid, so panels look like the rest of Sledge's interface.
+Use property tables to align the labels and values of settings into a clean, uniform grid:
 
-Use [`gui.property_table`](../../../api/lua/namespaces.gui.md#property_table) to create the container, and [`gui.property_row`](../../../api/lua/namespaces.gui.md#property_row) to add each setting to it.
+- Use [`gui.property_table`](../../../api/lua/namespaces.gui.md#property_table) to create the container.
+- Use [`gui.property_row`](../../../api/lua/namespaces.gui.md#property_row) to add items.
 
-Many input functions accept an optional `label` parameter. Whether to provide it depends on where the element is placed:
 
-- **Inside a property table** - don't provide the `label` parameter. `gui.property_row` already enums the label for that row, so omitting it prevents the text from appearing twice.
-- **Outside a property table** - provide the `label` parameter.
+!!! warning "Label parameters"
 
-Here is an example with elements inside and outside of a property table:
+    Do not pass explicit label parameters to input elements placed inside property tables, because `gui.property_row` handles the label for you.
 
 ``` lua title="mod.lua"
-local my_custom_integer = 50
-local my_custom_choice = false
+local custom_integer = 50
+local custom_choice = false
 
-local function draw_my_panel()
-    gui.button("Press me", function()
-        sledge.log("A button was pressed.")
-    end)
-
-    gui.separator("Settings")
-
-    -- Inside a property table: no label parameter, since each row has one.
-    gui.property_table("settings_table", function()
-        gui.property_row("Show fog", function()
-            gui.checkbox(rfg.fog_visible, function(new_value)
-                rfg.fog_visible = new_value
-            end)
-        end)
-
-        local player = rfg.get_player()
-        gui.property_row("Salvage", function()
-            gui.input_int(player.salvage, function(new_value)
-                player.salvage = new_value
-            end)
-        end)
-
+sledge.register_window("My Config", function()
+    gui.property_table("settings", function()
         gui.property_row("Custom integer", function()
-            gui.slider_int(my_custom_integer, 0, 50, function(new_value)
-                my_custom_integer = new_value
+            gui.slider_int(custom_integer, 0, 50, function(new_value)
+                custom_integer = new_value
             end)
         end)
     end)
 
-    -- Outside a property table: the label is the first parameter.
-    gui.checkbox("My custom choice", my_custom_choice, function(new_value)
-        my_custom_choice = new_value
-
-        if my_custom_choice then
-            sledge.log("My custom choice is true.")
+    -- Provide the label parameter because it is outside a property table.
+    gui.checkbox("Custom choice", custom_choice, function(new_value)
+        custom_choice = new_value
+        
+        if custom_choice then
+            sledge.log("Custom choice is true.")
         end
     end)
-end
-
-sledge.register_window("My Config", draw_my_panel, { requires_gameplay = true })
+end, { requires_gameplay = true })
 ```
-
-This panel uses `rfg.get_player()`, so it's registered with `requires_gameplay = true`. See [Preventing script errors](script-errors.md).
 
 ## Useful functions
 
-[`gui.tooltip`](../../../api/lua/namespaces.gui.md#tooltip)
-: Shows text when the previously drawn element is hovered.
-
----
-
-[`gui.help_marker`](../../../api/lua/namespaces.gui.md#help_marker)
-: Like `gui.set_tooltip`, but attaches the text to a `?` icon next to the element.
-
----
-
-[`gui.separator`](../../../api/lua/namespaces.gui.md#separator)
-: Draws a horizontal dividing line, optionally with a heading, to group related elements.
-
----
-
-[`gui.same_line`](../../../api/lua/namespaces.gui.md#same_line)
-: Places the next element on the same line as the previous one.
-
----
-
-[`gui.new_line`](../../../api/lua/namespaces.gui.md#new_line)
-: Moves the next element down to a new line.
+| Function | Description |
+| --- | --- |
+| [`gui.tooltip`](../../../api/lua/namespaces.gui.md#tooltip) | Displays text when the previous element is hovered. |
+| [`gui.help_marker`](../../../api/lua/namespaces.gui.md#help_marker) | Attaches a `?` icon next to the previous element with hover text. |
+| [`gui.separator`](../../../api/lua/namespaces.gui.md#separator) | Draws a horizontal dividing line with an optional section heading. |
+| [`gui.same_line`](../../../api/lua/namespaces.gui.md#same_line) | Forces the next element to render on the same line. |
+| [`gui.new_line`](../../../api/lua/namespaces.gui.md#new_line) | Moves the next element down to a new line. |

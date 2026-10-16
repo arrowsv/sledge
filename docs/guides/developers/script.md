@@ -1,36 +1,27 @@
-The `mod.lua` file is the main entry point for your mod. Sledge runs it only once, before the game starts loading. This is where you set up everything your mod does, such as reading and storing options from the metadata, registering event callbacks, panels, file overrides, and XML edits.
+`mod.lua` is your mod's main entry point, run once by Sledge before the game starts loading. Use it to set up options, register events, panels, file overrides, and XML edits.
 
-## Running code using events
+## Handling events
 
-Because `mod.lua` runs before the game loads, most of the game's objects don't exist yet. Code that uses them directly, such as `rfg.get_player().salvage = 100000`, will cause an error if it's written at the top level of the script.
-
-Instead, your mod reacts to events. An event is something that happens in the game, such as a save being loaded. You register a callback function to an event, and Sledge calls it each time the event is triggered, when the game objects you need are ready to use.
-
-First, write a function that contains the code you want to run, then register the function to an event with [`sledge.register_event`](../../api/lua/namespaces.sledge.md#register_event).
-
-For example, to set the player's salvage, use [`enums.event.save_loaded`](../../api/lua/events.save_loaded.md). This event is triggered after a save has loaded, so the player is guaranteed to exist:
+Because the script runs early, game objects (like the player) don't exist yet. Direct modifications at the top level will cause errors. Instead, register callback functions to game events using [`sledge.register_event`](../../api/lua/namespaces.sledge.md#register_event).
 
 ```lua title="mod.lua"
--- The function runs every time a save is loaded.
+-- Runs every time a save is loaded, which guarantees the player exists
 local function save_loaded_callback()
     rfg.get_player().salvage = 100000
     sledge.log("The player's salvage is now " .. rfg.get_player().salvage)
 end
 
--- Tell Sledge to call it when the save_loaded event is triggered.
+-- Register the callback function to the event
 sledge.register_event(enums.event.save_loaded, save_loaded_callback)
 ```
 
-Each event guarantees different things about the state of the game, so choose the one that matches what your code needs. See [`enums.event`](../../api/lua/enums.event.md) for the full list.
+See [`enums.event`](../../api/lua/enums.event.md) for the full list of events.
 
 ### Using event data
 
-Some events provide extra information about what happened. Sledge passes this to your callback as a table, called the event's data. Add a parameter to your callback function to receive it. The `save_loaded` callback above doesn't need one, but other events do.
-
-For example, [`enums.event.key_down`](../../api/lua/events.key_down.md) is triggered whenever a key is pressed. Its data contains the key that was pressed and the state of the modifier keys, so your callback can check what the player pressed:
+Some events pass an extra data table to your callback function. For example, the [`enums.event.key_down`](../../api/lua/events.key_down.md) event lets you check what key was pressed:
 
 ```lua title="mod.lua"
--- The data parameter receives the table that Sledge passes in.
 local function key_down_callback(data)
     if data.key == enums.key.f5 then
         if data.shift_down then
@@ -44,49 +35,39 @@ end
 sledge.register_event(enums.event.key_down, key_down_callback)
 ```
 
-The fields available in the data are different for each event. Check the event's documentation page to see what it provides.
-
 ## Writing log messages
 
-Use the following functions to log messages:
-
-- [`sledge.log`](../../api/lua/namespaces.sledge.md#log)
-- [`sledge.log_warn`](../../api/lua/namespaces.sledge.md#log)
-- [`sledge.log_error`](../../api/lua/namespaces.sledge.md#log)
-
-All log messages are automatically prefixed with your mod's ID and written to the `sledge.log` file:
+Write messages to the `sledge.log` file:
 
 ```lua title="mod.lua"
-sledge.log("My message.")
-sledge.log_warn("My message.")
-sledge.log_error("My message.")
+sledge.log("Info message.")
+sledge.log_warn("Warning message.")
+sledge.log_error("Error message.")
 ```
 
 ```log title="sledge.log"
-[0000-00-00 00:00:00.000] [info] [my_name.my_mod] My message.
-[0000-00-00 00:00:00.000] [warn] [my_name.my_mod] My message.
-[0000-00-00 00:00:00.000] [error] [my_name.my_mod] My message.
+[0000-00-00 00:00:00.000] [info] [my_name.my_mod] Info message.
+[0000-00-00 00:00:00.000] [warn] [my_name.my_mod] Warning message.
+[0000-00-00 00:00:00.000] [error] [my_name.my_mod] Error message.
 ```
 
 ## Retrieving options
 
-Every mod's script environment has a [`mod`](../../api/lua/namespaces.global.md#mod) variable of the [`types.mod_info`](../../api/lua/types.mod_info.md) type. Use it to access the metadata of the mod the script belongs to.
+Use the global [`mod`](../../api/lua/namespaces.global.md#mod) variable to read options configured by players. Option values depend on their type:
 
-If your mod enums options in its metadata, read their values from the [`types.mod_info.options`](../../api/lua/types.mod_info.md#options) table, using the option's name as the key. The type of the returned value depends on the option's type:
+- `multiple` :lucide-move-right: `string|string[]`
+- `key` :lucide-move-right: [`enums.key`](../../api/lua/enums.key.md)
+- `checkbox` :lucide-move-right: `boolean`
+- `custom` :lucide-move-right: `string`
 
-- `multiple` returns a `string`.
-- `key` returns a [`enums.key`](../../api/lua/enums.key.md).
-- `checkbox` returns a `boolean`.
-- `custom` returns a `string`.
-
-For example, here is how to define all four types of options in the metadata and retrieve them in Lua:
+Access the value using the option's name as a key:
 
 ```toml title="mod.toml"
 id = "my_name.my_mod"
 name = "My Mod"
 authors = ["My Name"]
 version = "1.0.0"
-api_version = "1.0.0"
+api_version = "1.1.0"
 
 [[options]]
 name = "Toggle choice"
@@ -107,116 +88,25 @@ choices = [
 ]
 
 [[options]]
+name = "Multiple array choice"
+type = "multiple"
+choices = [
+    { name = "Choice 1", value = ["1", "2"] },
+    { name = "Choice 2", value = ["3", "4"] }
+]
+
+[[options]]
 name = "Custom choice"
 type = "custom"
 default = "Default value"
 ```
 
 ```lua title="mod.lua"
--- This is a boolean.
-local toggle_choice = mod.options["Toggle choice"]
-
--- This is a enums.key.
-local key_choice = mod.options["Key choice"]
-
--- This is a string.
-local multiple_choice = mod.options["Multiple choice"]
-
--- This is a string.
-local custom_choice = mod.options["Custom choice"]
-
--- This is nil because no option with this name exists.
-local non_existing_choice = mod.options["Another choice"]
+local enabled = mod.options["Toggle choice"] -- boolean
+local key = mod.options["Key choice"] -- enums.key
+local choice = mod.options["Multiple choices"] -- string
+local choice_array = mod.options["Multiple array choice"] -- string[]
+local custom_val = mod.options["Custom choice"] -- string
 ```
 
-### Mapping options to values
-
-A `multiple` option shows the player a list of display names, and `mod.options` returns the one they picked as a string. Sometimes the display name isn't the value your script needs. To handle this, show friendly names in the option and map each one to the real value in Lua.
-
-Mapping uses a table where each key is a display name and each value is whatever your script needs.
-
-#### Basic example
-
-Say you want a "Spawn rate" option where the player picks `Low`, `Medium`, or `High`, but your script needs the numbers `1`, `2`, or `3`.
-
-1. Define the option in your metadata, with the display names as the `choices`:
-
-    ```toml title="mod.toml"
-    [[options]]
-    name = "Spawn rate"
-    type = "multiple"
-    choices = [
-        "Low",
-        "Medium",
-        "High"
-    ]
-    ```
-
-2. In your script, define the mapping table. Each key must exactly match one of the `choices`, including capitalization:
-
-    ```lua title="mod.lua"
-    local spawn_rates = {
-        ["Low"] = 1,
-        ["Medium"] = 2,
-        ["High"] = 3
-    }
-    ```
-
-3. Read the player's choice, then use it as the key to look up the matching value:
-
-    ```lua title="mod.lua"
-    local spawn_rate_choice = mod.options["Spawn rate"]
-    local spawn_rate = spawn_rates[spawn_rate_choice]
-
-    sledge.log("The spawn rate is " .. spawn_rate)
-    ```
-
-    !!! warning
-
-        If a key in the table doesn't match a choice in `mod.toml`, the lookup returns `nil` and using it will cause an error. Update both whenever you rename a choice.
-
-#### Mapping to a table of values
-
-The value doesn't have to be a single number or string. It can be anything, including another table.
-
-For example, the *Safehouse Vehicle Selector* mod edits `spawn_group_vehicle.xtbl`, which requires vehicle code names like `Col_Taxi_1`. Many of these aren't understandable to players, so the mod shows each vehicle's display name in the option. Each vehicle also has several variants, so each display name maps to a table of code names.
-
-The steps are the same as before:
-
-1. Define the option with the display names as the `choices`:
-
-    ```toml title="mod.toml"
-    [[options]]
-    name = "Parker"
-    type = "multiple"
-    choices = [
-        "Civilian Luxury Taxi",
-        "Civilian Rover"
-    ]
-    ```
-
-2. Define the mapping table, with each value being a table of code names:
-
-    ```lua title="mod.lua"
-    local vehicle_choices = {
-        ["Civilian Luxury Taxi"] = {"Col_Taxi_1", "Col_Taxi_2", "Col_Taxi_3"},
-        ["Civilian Rover"] = {"Min_Rover-A_1", "Min_Rover-A_2", "Min_Rover-A_3"}
-    }
-    ```
-
-3. Look up the player's choice and iterate over the resulting table:
-
-    ```lua title="mod.lua"
-    local parker_choice = mod.options["Parker"]
-    local code_names = vehicle_choices[parker_choice]
-
-    for _, code_name in ipairs(code_names) do
-        sledge.log(code_name)
-    end
-    ```
-
-    In a real mod, you would use these code names to edit the game files instead of logging them.
-
-## Next steps
-
-After understanding the basics, see how to [edit files](editing-files/index.md) and [create panels](creating-panels/index.md). For more advanced mods, take a look at what's available in the [Lua API](../../api/overview.md).
+Next, learn how to [edit files](editing-files/index.md), [create panels](creating-panels/index.md), or explore the [Lua API](../../api/overview.md).

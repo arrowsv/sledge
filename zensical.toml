@@ -18,9 +18,20 @@ features = [
     "navigation.path",
     "content.code.copy"
 ]
-palette.scheme = "slate"
-palette.primary = "orange"
-palette.accent = "orange"
+
+[[project.theme.palette]] 
+scheme = "default"
+primary = "deep orange"
+accent = "deep orange"
+toggle.icon = "lucide/sun"
+toggle.name = "Switch to dark mode"
+
+[[project.theme.palette]]
+scheme = "slate"
+primary = "orange"
+accent = "orange"
+toggle.icon = "lucide/moon"
+toggle.name = "Switch to light mode"
 
 [project.markdown_extensions]
 admonition = {}
@@ -31,6 +42,7 @@ pymdownx.highlight = {}
 pymdownx.details = {}
 pymdownx.superfences = {}
 attr_list = {}
+tables = {}
 md_in_html = {}
 pymdownx.emoji.emoji_generator = "zensical.extensions.emoji.to_svg"
 pymdownx.emoji.emoji_index = "zensical.extensions.emoji.twemoji"

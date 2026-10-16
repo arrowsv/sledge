@@ -1,19 +1,17 @@
-A mod is a folder inside the `mods` folder, containing two files that tell Sledge what your mod is and what it does.
+A mod is a folder inside the `mods` folder containing a `mod.toml` (metadata) and a `mod.lua` (script).
 
 ## Create the folder
 
-Create a folder inside `mods` named `author.name`, where both parts use only lowercase letters `a-z`, numbers `0-9`, and underscores `_`. For example: `my_name.my_mod`.
+Create a folder inside `mods` named `author.name` (using only lowercase letters `a-z`, numbers `0-9`, and underscores `_`, e.g., `my_name.my_mod`).
 
-This name should match the `id` field you set in the metadata file later, so make sure it's correctly formatted.
+While this specific folder name isn't strictly required, it should match the metadata's `id` field for the sake of consistency. Ensure it is correctly formatted.
 
 ## Create the files
 
-Inside the new folder, create two files:
+- The `mod.toml` file contains your mod's metadata, such as its name, version, and options.
+- The `mod.lua` file is the main script Sledge runs when the game launches.
 
-- `mod.toml` contains your mod's metadata, such as its name, version, and options.
-- `mod.lua` is the main script Sledge runs when the game launches.
-
-```text
+```
 📁 mods/
 └── 📁 my_name.my_mod/
     ├── 📄 mod.toml
@@ -29,15 +27,13 @@ id = "my_name.my_mod"
 name = "My Mod"
 authors = ["My Name"]
 version = "1.0.0"
-api_version = "1.0.0"
+api_version = "1.1.0"
 ```
 
 ```lua title="mod.lua"
 sledge.log("Hello from my mod!")
 ```
 
-Enable the mod in the launcher, then launch the game and look for the message in the `sledge.log` file. If it's there, your mod is loaded.
+Enable the mod in the launcher, launch the game, and check the `sledge.log` file to verify it loaded.
 
-## Next steps
-
-Review the [metadata reference](../../api/metadata.md) for required fields, versioning rules, and configuration options. Then, [write your script](script.md).
+Next, check out the [metadata reference](../../api/metadata.md) and learn how to [write your script](script.md).
