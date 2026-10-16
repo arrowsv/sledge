@@ -29,14 +29,6 @@ namespace mods {
                 auto& current_selection = state.options[opt.name];
 
                 switch (opt.type) {
-                    case mods::mod_option_type::custom:
-                    case mods::mod_option_type::key:
-                    case mods::mod_option_type::checkbox: {
-                        if (current_selection.empty()) {
-                            current_selection = opt.default_choice;
-                        }
-                        break;
-                    }
                     case mods::mod_option_type::multiple: {
                         // Reset to default if it doesn't exist in the defined choices.
                         auto it =
@@ -48,7 +40,14 @@ namespace mods {
                         if (it == opt.multiple_choice.end() && !opt.multiple_choice.empty()) {
                             current_selection = opt.multiple_choice[0].display_name;
                         }
-                    } break;
+                        break;
+                    }
+                    default: {
+                        if (current_selection.empty()) {
+                            current_selection = opt.default_choice;
+                        }
+                        break;
+                    }
                 }
 
                 active_options[opt.name] = current_selection;
@@ -216,6 +215,30 @@ namespace mods {
                                     default_val->get() == "true" ? "true" : "false";
                             } else {
                                 option.default_choice = "false";
+                            }
+                            break;
+                        }
+                        case mod_option_type::integer: {
+                            option.type = mod_option_type::integer;
+                            if (auto default_val = opt_tbl["default"].as_integer()) {
+                                option.default_choice = std::to_string(default_val->get());
+                            } else if (auto default_val = opt_tbl["default"].as_string()) {
+                                option.default_choice = default_val->get();
+                            } else {
+                                option.default_choice = "0";
+                            }
+                            break;
+                        }
+                        case mod_option_type::floating: {
+                            option.type = mod_option_type::floating;
+                            if (auto default_val = opt_tbl["default"].as_floating_point()) {
+                                option.default_choice = std::to_string(default_val->get());
+                            } else if (auto default_val = opt_tbl["default"].as_integer()) {
+                                option.default_choice = std::to_string(static_cast<double>(default_val->get()));
+                            } else if (auto default_val = opt_tbl["default"].as_string()) {
+                                option.default_choice = default_val->get();
+                            } else {
+                                option.default_choice = "0.0";
                             }
                             break;
                         }

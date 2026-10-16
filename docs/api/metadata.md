@@ -59,6 +59,8 @@ choices = ["EDF APC", "EDF Scout"]
 | `multiple`  | First entry in `choices` | Dropdown choice box populated using `choices`. |
 | `key`       | `"none"`                 | Dropdown choice box populated with [`enums.key`](lua/enums.key.md) values. |
 | `checkbox`  | `"false"`                | Toggle switch allowing a `true` or `false` value. |
+| `integer `  | `"0"`                    | Integer input box. |
+| `floating`  | `"0.0"`                  | Floating-point input box. |
 | `custom`    | `""`                     | Unrestricted text input box. |
 
 ### Writing multiple choices
@@ -101,7 +103,7 @@ choices = "Other option name"
 
 ### Examples
 
-=== "`multiple`"
+=== "multiple"
 
     ```toml title="mod.toml"
     [[options]]
@@ -138,7 +140,7 @@ choices = "Other option name"
     ]
     ```
 
-=== "`key`"
+=== "key"
 
     ```toml title="mod.toml"
     [[options]]
@@ -147,22 +149,39 @@ choices = "Other option name"
     default = "f3"
     ```
 
-=== "`checkbox`"
+=== "checkbox"
 
     ```toml title="mod.toml"
     [[options]]
     name = "Enable feature"
     tooltip = "Description of the feature."
     type = "checkbox"
-    default = false
 
     [[options]]
     name = "Enable another feature"
     type = "checkbox"
-    default = "true" # A string representation of a boolean is also accepted
+    default = true
     ```
 
-=== "`custom`"
+=== "integer"
+
+    ```toml title="mod.toml"
+    [[options]]
+    name = "Amount"
+    type = "integer"
+    default = 100
+    ```
+
+=== "floating"
+
+    ```toml title="mod.toml"
+    [[options]]
+    name = "Height"
+    type = "floating"
+    default = 5.2
+    ```
+
+=== "custom"
 
     ```toml title="mod.toml"
     [[options]]

@@ -16,7 +16,7 @@
 
 ---
 
-### <small><code>options</code></small> <small>:lucide-move-right: <code>table&lt;string, string|string[]|boolean|[enums.key](enums.key.md)&gt;</code></small> { #options data-toc-label="options" }
+### <small><code>options</code></small> <small>:lucide-move-right: <code>table&lt;string, string|string[]|boolean|integer|number|[enums.key](enums.key.md)&gt;</code></small> { #options data-toc-label="options" }
 
 :   
     Options of the mod.

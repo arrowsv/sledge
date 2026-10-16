@@ -6,7 +6,7 @@
 #include <vector>
 
 namespace mods {
-    enum class mod_option_type { multiple, custom, key, checkbox };
+    enum class mod_option_type { multiple, custom, key, checkbox, integer, floating };
 
     struct mod_choice {
         std::string display_name;

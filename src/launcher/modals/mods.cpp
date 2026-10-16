@@ -8,6 +8,7 @@
 
 #include <imgui.h>
 #include <imgui_stdlib.h>
+#include <string>
 
 namespace {
     config temp_config;
@@ -158,6 +159,20 @@ namespace gui {
                                         bool is_checked = (current_selection == "true");
                                         if (ImGui::Checkbox(id.c_str(), &is_checked)) {
                                             current_selection = is_checked ? "true" : "false";
+                                        }
+                                        break;
+                                    }
+                                    case mods::mod_option_type::integer: {
+                                        int num = std::stoi(current_selection);
+                                        if (ImGui::InputInt(id.c_str(), &num)) {
+                                            current_selection = std::to_string(num);
+                                        }
+                                        break;
+                                    }
+                                    case mods::mod_option_type::floating: {
+                                        float num = std::stof(current_selection);
+                                        if (ImGui::InputFloat(id.c_str(), &num)) {
+                                            current_selection = std::format("{}", num); 
                                         }
                                         break;
                                     }

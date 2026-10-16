@@ -3,6 +3,7 @@
 ### Added
 
 - Choice tables for mod metadata options that take a display name and value, which can be a string or array of strings. This is used to map choices to a different value, rather than manually doing so in the script.
+- `integer` and `floating` mod option types.
 - `rfg.walker_spawning` property.
 
 ### Changed

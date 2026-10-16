@@ -13,7 +13,7 @@ name = "mod_info"
 
   [[types.properties]]
   name = "options"
-  type = "table<string, string|string[]|boolean|enums.key>"
+  type = "table<string, string|string[]|boolean|integer|number|enums.key>"
   description = "Options of the mod."
 
   # [[types.methods]]
