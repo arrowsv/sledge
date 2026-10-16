@@ -221,9 +221,9 @@ namespace lua::bindings::sledge {
 
         table["property_row"] = [](const std::string& label, sol::function body) {
             if (!utils::imgui::in_property_table()) {
-                spdlog::warn("Ignoring property row with label '{}': row must be called within a "
-                             "property table.",
-                             label);
+                SPDLOG_WARN("Ignoring property row with label '{}': row must be called within a "
+                            "property table.",
+                            label);
                 return;
             }
             utils::imgui::begin_property_row(label.c_str());

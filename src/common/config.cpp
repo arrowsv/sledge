@@ -19,7 +19,7 @@ void config::load_from_file() {
         try {
             tbl = toml::parse_file(config_path.string());
         } catch (const toml::parse_error& e) {
-            spdlog::error("Failed to parse config file: {}", e.what());
+            SPDLOG_ERROR("Failed to parse config file: {}", e.what());
         }
     }
 

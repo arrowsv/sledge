@@ -32,10 +32,11 @@ namespace {
 
         size_t num_enabled_mods = mods::manager::get().get_enabled_mods().size();
 
-        auto data_str = std::format("{}|{}|{}", constants::sledge_version.to_string(), misc_hash, num_enabled_mods);
+        auto data_str = std::format("{}|{}|{}", constants::sledge_version.to_string(), misc_hash,
+                                    num_enabled_mods);
         uint32_t new_hash = rfg::get_crc32_from_string(data_str.c_str());
 
-        spdlog::debug("Calculated multiplayer hash: '{}'", new_hash);
+        SPDLOG_DEBUG("Calculated multiplayer hash: '{}'", new_hash);
         *rfg::g_mod_table_hash() = new_hash;
     }
 }

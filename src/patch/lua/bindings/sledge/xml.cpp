@@ -24,8 +24,8 @@ namespace lua::bindings::sledge {
         xml_node["get"] = [](pugi::xml_node& node, const std::string& name) -> pugi::xml_node {
             auto child = node.child(name);
             if (config::get().sledge.xml_warnings_enabled && child.empty() && !node.empty()) {
-                spdlog::warn("Failed to find XML node: '{}' has no child named '{}'.", node.name(),
-                             name);
+                SPDLOG_WARN("Failed to find XML node: '{}' has no child named '{}'.", node.name(),
+                            name);
             }
             return child;
         };
@@ -36,8 +36,8 @@ namespace lua::bindings::sledge {
 
             if (config::get().sledge.xml_warnings_enabled && found_node.node().empty() &&
                 !node.empty()) {
-                spdlog::warn("Failed to find XML node: '{}' has no match for path '{}'.",
-                             node.name(), query);
+                SPDLOG_WARN("Failed to find XML node: '{}' has no match for path '{}'.",
+                            node.name(), query);
             }
 
             return found_node.node();
@@ -48,8 +48,8 @@ namespace lua::bindings::sledge {
             pugi::xpath_node_set found_nodes = node.select_nodes(query.c_str());
 
             if (config::get().sledge.xml_warnings_enabled && found_nodes.empty() && !node.empty()) {
-                spdlog::warn("Failed to find XML nodes: '{}' has no matches for path '{}'.",
-                             node.name(), query);
+                SPDLOG_WARN("Failed to find XML nodes: '{}' has no matches for path '{}'.",
+                            node.name(), query);
             }
 
             sol::table list = lua.create_table();

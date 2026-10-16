@@ -38,10 +38,9 @@ extern "C" __declspec(dllexport) bool initialize() {
         if (!enabled_mods.empty()) {
             std::string enabled_mods_str = "";
             for (const auto& mod : enabled_mods) {
-                enabled_mods_str +=
-                    std::format("\n{} ({}) - {}", mod.id, mod.name, mod.version);
+                enabled_mods_str += std::format("\n{} ({}) - {}", mod.id, mod.name, mod.version);
             }
-            spdlog::info("Enabled mods: {}", enabled_mods_str);
+            SPDLOG_INFO("Enabled mods: {}", enabled_mods_str);
         }
 
         gui::manager::get().initialize();
@@ -51,6 +50,7 @@ extern "C" __declspec(dllexport) bool initialize() {
         graphics::apply_patches();
         input::apply_patches();
 
+        SPDLOG_DEBUG("Finished initializing Sledge.");
         return true;
     } catch (const std::exception& e) {
         utils::os::show_message_error("Unhandled exception during initialization: " +

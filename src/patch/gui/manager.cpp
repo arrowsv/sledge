@@ -235,7 +235,7 @@ namespace gui {
         auto result = lua::manager::get().execute_function(*options.draw_function);
         if (!result.valid()) {
             sol::error err = result;
-            spdlog::error("[{}] Failed to draw panel: {}", title, err.what());
+            SPDLOG_ERROR("[{}] Failed to draw panel: {}", title, err.what());
             this->options.open = false;
         }
     }

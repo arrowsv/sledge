@@ -8,12 +8,12 @@
 
 namespace utils::os {
     void show_message_info(const std::string& message) {
-        spdlog::info(message);
+        SPDLOG_INFO(message);
         MessageBoxA(NULL, message.c_str(), "Sledge", MB_OK | MB_ICONINFORMATION);
     }
 
     void show_message_error(const std::string& message) {
-        spdlog::error(message);
+        SPDLOG_ERROR(message);
         MessageBoxA(NULL, message.c_str(), "Sledge", MB_OK | MB_ICONERROR);
     }
 
@@ -74,7 +74,7 @@ namespace utils::os {
             directory = outPath;
             NFD_FreePathU8(outPath);
         } else if (result != NFD_CANCEL) {
-            spdlog::error("Failed picking folder in dialog: {}", NFD_GetError());
+            SPDLOG_ERROR("Failed picking folder in dialog: {}", NFD_GetError());
         }
         NFD_Quit();
 

@@ -11,6 +11,8 @@
 #include "patch/lua/events/save.hpp"
 #include "patch/lua/events/player.hpp"
 
+#include <spdlog/spdlog.h>
+
 namespace misc {
     HOOK_FUNC(OFFSET(0x00b37800, 0x00b37c10), void, __cdecl, post_event, rfg::event_data* data) {
         post_event_original(data);
@@ -28,7 +30,7 @@ namespace misc {
         }
     }
 
-    HOOK_FUNC(OFFSET(0x7D8730, 0x007d8710), void, __cdecl, gameseq_set_state,
+    HOOK_FUNC(OFFSET(0x7d8730, 0x7d8710), void, __cdecl, gameseq_set_state,
               rfg::game_state new_state, bool uninterruptible) {
         gameseq_set_state_original(new_state, uninterruptible);
         if (new_state == rfg::game_state::GS_GAMEPLAY) {
@@ -37,17 +39,18 @@ namespace misc {
         }
     }
 
-    HOOK_FUNC(OFFSET(0x458740, 0x00458740), const char*, __cdecl, keen_get_build_version) {
+    HOOK_FUNC(OFFSET(0x458740, 0x458740), const char*, __cdecl, keen_get_build_version) {
         static std::string version =
             std::format("{} - Sledge {} (API {})", keen_get_build_version_original(),
                         constants::sledge_version.to_string(), constants::api_version.to_string());
         return version.c_str();
     }
 
-    HOOK_FUNC(OFFSET(0x5D2360, 0x005d2440), uint8_t, __cdecl, rfg_init_stage_1_loop_update) {
+    HOOK_FUNC(OFFSET(0x5d2360, 0x5d2440), uint8_t, __cdecl, rfg_init_stage_1_loop_update) {
         if (config::get().game.skip_startup_videos) {
             *rfg::g_exit_startup_videos() = true;
         }
+        SPDLOG_DEBUG("Game is starting.");
         return rfg_init_stage_1_loop_update_original();
     }
 

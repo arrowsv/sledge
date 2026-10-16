@@ -20,7 +20,7 @@ namespace lua::bindings::sledge {
             const auto& states = config::get().sledge.mod_states;
             auto state_it = states.find(self.id);
             if (state_it == states.end()) {
-                spdlog::error("Failed to find state for mod '{}'.", self.id);
+                SPDLOG_ERROR("Failed to find state for mod '{}'.", self.id);
                 return options_table;
             }
 
@@ -28,8 +28,8 @@ namespace lua::bindings::sledge {
                 const auto& option_states = state_it->second.options;
                 auto opt_it = option_states.find(option.name);
                 if (opt_it == option_states.end()) {
-                    spdlog::error("Failed to find state of option '{}' for mod '{}'.", option.name,
-                                  self.id);
+                    SPDLOG_ERROR("Failed to find state of option '{}' for mod '{}'.", option.name,
+                                 self.id);
                     continue;
                 }
 

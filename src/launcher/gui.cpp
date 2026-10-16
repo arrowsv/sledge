@@ -38,7 +38,7 @@ namespace {
             stbi_load_from_memory(data, data_size, &image_width, &image_height, NULL, 4);
 
         if (!image_data) {
-            spdlog::error("Failed to load texture: {}", stbi_failure_reason());
+            SPDLOG_ERROR("Failed to load texture: {}", stbi_failure_reason());
             return 0;
         }
 

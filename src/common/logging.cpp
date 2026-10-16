@@ -24,14 +24,15 @@ namespace logging {
             return;
         }
 
-        spdlog::info("Sledge {} (API {}) - Build date: {} {}",
-                     constants::sledge_version.to_string(), constants::api_version.to_string(),
-                     __DATE__, __TIME__);
+        SPDLOG_INFO("Sledge {} (API {}) - Build date: {} {}", constants::sledge_version.to_string(),
+                    constants::api_version.to_string(), __DATE__, __TIME__);
     }
 
     void update_level() {
         if (config::get().sledge.debug_logs_enabled) {
             spdlog::set_level(spdlog::level::debug);
+            spdlog::flush_on(spdlog::level::debug);
+            spdlog::set_pattern("[%Y-%m-%d %H:%M:%S.%e] [%l] [%!] [%@] %v");
         }
     }
 }

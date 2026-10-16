@@ -50,27 +50,27 @@ namespace lua::bindings::sledge {
         sledge["log"] = [](sol::this_environment this_env, const std::string& message) {
             auto mod_info = api::utils::get_env_mod(this_env);
             if (mod_info) {
-                spdlog::info("[{}] {}", mod_info->id, message);
+                SPDLOG_INFO("[{}] {}", mod_info->id, message);
             } else {
-                spdlog::info(message);
+                SPDLOG_INFO(message);
             }
         };
 
         sledge["log_warn"] = [](sol::this_environment this_env, const std::string& message) {
             auto mod_info = api::utils::get_env_mod(this_env);
             if (mod_info) {
-                spdlog::warn("[{}] {}", mod_info->id, message);
+                SPDLOG_WARN("[{}] {}", mod_info->id, message);
             } else {
-                spdlog::warn(message);
+                SPDLOG_WARN(message);
             }
         };
 
         sledge["log_error"] = [](sol::this_environment this_env, const std::string& message) {
             auto mod_info = api::utils::get_env_mod(this_env);
             if (mod_info) {
-                spdlog::error("[{}] {}", mod_info->id, message);
+                SPDLOG_ERROR("[{}] {}", mod_info->id, message);
             } else {
-                spdlog::error(message);
+                SPDLOG_ERROR(message);
             }
         };
 
@@ -131,7 +131,7 @@ namespace lua::bindings::sledge {
 
             panel_opts.draw_function = draw_func;
             auto mod_info = api::utils::get_env_mod(this_env);
-            
+
             auto widget = create_panel(title, panel_opts, mod_info);
             gui::manager::get().register_widget(widget);
         };

@@ -11,7 +11,7 @@ namespace utils::memory {
 
         if (!VirtualProtect(reinterpret_cast<void*>(address), size, PAGE_EXECUTE_READWRITE,
                             &old_protect)) {
-            spdlog::error("VirtualProtect failed: {}", GetLastError());
+            SPDLOG_ERROR("VirtualProtect failed: {}", GetLastError());
         }
 
         std::memcpy(reinterpret_cast<void*>(address), data, size);

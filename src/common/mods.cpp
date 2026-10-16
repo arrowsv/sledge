@@ -79,8 +79,8 @@ namespace mods {
                 &mod_info::id);
 
             if (exists != list.end()) {
-                spdlog::warn("Skipped mod '{}': a mod already exists with the id '{}'.",
-                             mod_config_path.string(), mod.value().id);
+                SPDLOG_WARN("Skipped mod '{}': a mod already exists with the id '{}'.",
+                            mod_config_path.string(), mod.value().id);
                 continue;
             }
             list.push_back(mod.value());
@@ -100,13 +100,13 @@ namespace mods {
 
             mod.id = tbl["id"].value_or("");
             if (mod.id.empty()) {
-                spdlog::error("Skipped mod '{}': field 'id' is missing.", mod_config_path.string());
+                SPDLOG_ERROR("Skipped mod '{}': field 'id' is missing.", mod_config_path.string());
                 return std::nullopt;
             }
 
             if (std ::any_of(mod.id.begin(), mod.id.end(),
                              [](unsigned char c) { return std::isspace(c) || std::isupper(c); })) {
-                spdlog::error(
+                SPDLOG_ERROR(
                     "Skipped mod '{}': field 'id' must not contain spaces or uppercase letters.",
                     mod_config_path.string());
                 return std::nullopt;
@@ -114,7 +114,7 @@ namespace mods {
 
             mod.name = tbl["name"].value_or("");
             if (mod.name.empty()) {
-                spdlog::error("Skipped mod '{}': field 'name' is missing.", mod.id);
+                SPDLOG_ERROR("Skipped mod '{}': field 'name' is missing.", mod.id);
                 return std::nullopt;
             }
 
@@ -124,8 +124,8 @@ namespace mods {
                     mod.authors.push_back(author_str->get());
                 }
             } else {
-                spdlog::error("Skipped mod '{}': field 'authors' is missing or not an array.",
-                              mod.id);
+                SPDLOG_ERROR("Skipped mod '{}': field 'authors' is missing or not an array.",
+                             mod.id);
                 return std::nullopt;
             }
 
@@ -133,36 +133,36 @@ namespace mods {
 
             mod.version = tbl["version"].value_or("");
             if (mod.version.empty()) {
-                spdlog::error("Skipped mod '{}': field 'version' is missing.", mod.id);
+                SPDLOG_ERROR("Skipped mod '{}': field 'version' is missing.", mod.id);
                 return std::nullopt;
             }
 
             if (!semver::try_parse(mod.version)) {
-                spdlog::error("Skipped mod '{}': version '{}' does not adhere to the Semantic "
-                              "Versioning specification (https://semver.org/).",
-                              mod.id, mod.version);
+                SPDLOG_ERROR("Skipped mod '{}': version '{}' does not adhere to the Semantic "
+                             "Versioning specification (https://semver.org/).",
+                             mod.id, mod.version);
                 return std::nullopt;
             }
 
             mod.api_version = tbl["api_version"].value_or("");
             if (mod.api_version.empty()) {
-                spdlog::error("Skipped mod '{}': field 'api_version' is missing.", mod.id);
+                SPDLOG_ERROR("Skipped mod '{}': field 'api_version' is missing.", mod.id);
                 return std::nullopt;
             }
 
             const auto mod_api_sv = semver::try_parse(mod.api_version);
             if (!mod_api_sv) {
-                spdlog::error("Skipped mod '{}': 'api_version' '{}' is not a valid version.",
-                              mod.id, mod.api_version);
+                SPDLOG_ERROR("Skipped mod '{}': 'api_version' '{}' is not a valid version.", mod.id,
+                             mod.api_version);
                 return std::nullopt;
             }
 
             mod.api_compatible = mod_api_sv->major() == constants::api_version.major() &&
                                  mod_api_sv->minor() <= constants::api_version.minor();
             if (!mod.api_compatible) {
-                spdlog::warn("Mod '{}' was written for API version '{}', but this Sledge version "
-                             "provides '{}'. Update Sledge to make sure it works correctly.",
-                             mod.id, mod.api_version, constants::api_version.to_string());
+                SPDLOG_WARN("Mod '{}' was written for API version '{}', but this Sledge version "
+                            "provides '{}'. Update Sledge to make sure it works correctly.",
+                            mod.id, mod.api_version, constants::api_version.to_string());
             }
 
             if (auto options = tbl["options"].as_array()) {
@@ -173,16 +173,16 @@ namespace mods {
 
                     std::string name = opt_tbl["name"].value_or("");
                     if (name.empty()) {
-                        spdlog::warn("Skipping option for mod '{}': field 'name' is missing.",
-                                     mod.name);
+                        SPDLOG_WARN("Skipping option for mod '{}': field 'name' is missing.",
+                                    mod.name);
                         continue;
                     }
                     option.name = name;
 
                     std::string type_str = opt_tbl["type"].value_or("");
                     if (type_str.empty()) {
-                        spdlog::warn("Skipping option '{}' for mod '{}': field 'type' is missing.",
-                                     option.name, mod.name);
+                        SPDLOG_WARN("Skipping option '{}' for mod '{}': field 'type' is missing.",
+                                    option.name, mod.name);
                         continue;
                     }
 
@@ -190,8 +190,8 @@ namespace mods {
 
                     auto type = magic_enum::enum_cast<mod_option_type>(type_str);
                     if (!type) {
-                        spdlog::warn("Skipping option '{}' for mod '{}': '{}' is an invalid type.",
-                                     option.name, mod.name, type_str);
+                        SPDLOG_WARN("Skipping option '{}' for mod '{}': '{}' is an invalid type.",
+                                    option.name, mod.name, type_str);
                         continue;
                     }
 
@@ -234,7 +234,8 @@ namespace mods {
                             if (auto default_val = opt_tbl["default"].as_floating_point()) {
                                 option.default_choice = std::to_string(default_val->get());
                             } else if (auto default_val = opt_tbl["default"].as_integer()) {
-                                option.default_choice = std::to_string(static_cast<double>(default_val->get()));
+                                option.default_choice =
+                                    std::to_string(static_cast<double>(default_val->get()));
                             } else if (auto default_val = opt_tbl["default"].as_string()) {
                                 option.default_choice = default_val->get();
                             } else {
@@ -248,9 +249,9 @@ namespace mods {
 
                             auto choices = opt_tbl["choices"];
                             if (!choices) {
-                                spdlog::warn("Skipping option '{}' for mod '{}': field 'choices' "
-                                             "is missing.",
-                                             option.name, mod.name);
+                                SPDLOG_WARN("Skipping option '{}' for mod '{}': field 'choices' "
+                                            "is missing.",
+                                            option.name, mod.name);
                                 continue;
                             }
 
@@ -293,9 +294,9 @@ namespace mods {
                                 }
                             } else if (auto choices_str = choices.as_string()) {
                                 if (choices_str->get().empty()) {
-                                    spdlog::warn("Skipping option '{}' for mod '{}': 'choices' "
-                                                 "string is empty.",
-                                                 option.name, mod.name);
+                                    SPDLOG_WARN("Skipping option '{}' for mod '{}': 'choices' "
+                                                "string is empty.",
+                                                option.name, mod.name);
                                     continue;
                                 }
 
@@ -306,9 +307,9 @@ namespace mods {
                                                  });
 
                                 if (options_it == mod.options.end()) {
-                                    spdlog::warn("Skipping option '{}' for mod '{}': option '{}' "
-                                                 "does not exist.",
-                                                 option.name, mod.name, choices_str->get());
+                                    SPDLOG_WARN("Skipping option '{}' for mod '{}': option '{}' "
+                                                "does not exist.",
+                                                option.name, mod.name, choices_str->get());
                                     continue;
                                 }
 
@@ -323,9 +324,9 @@ namespace mods {
                                     option.default_choice = options_it->default_choice;
                                 }
                             } else {
-                                spdlog::warn("Skipping option '{}' for mod '{}': field 'choices' "
-                                             "must be an array or string.",
-                                             option.name, mod.name);
+                                SPDLOG_WARN("Skipping option '{}' for mod '{}': field 'choices' "
+                                            "must be an array or string.",
+                                            option.name, mod.name);
                                 continue;
                             }
                             break;
@@ -335,7 +336,7 @@ namespace mods {
                 }
             }
         } catch (const toml::parse_error& e) {
-            spdlog::error("Failed parsing mod '{}': {}", mod_config_path.string(), e.what());
+            SPDLOG_ERROR("Failed parsing mod '{}': {}", mod_config_path.string(), e.what());
             return std::nullopt;
         }
         return mod;

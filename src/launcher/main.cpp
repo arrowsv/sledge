@@ -45,7 +45,7 @@ int main() {
     config::get().save();
 
     if (!glfwInit()) {
-        spdlog::error("Failed to initialize GLFW.");
+        SPDLOG_ERROR("Failed to initialize GLFW.");
         return 1;
     }
 

@@ -60,19 +60,19 @@ namespace {
     std::unordered_map<std::string, std::unique_ptr<memory_entry>> memory_entry_registry;
     std::unordered_map<std::string, std::vector<sol::protected_function>> xml_edit_registry;
     std::unordered_set<std::filesystem::path> packfile_registry;
-    
+
     const std::unordered_set<std::string> valid_xml_exts = {".xtbl", ".dtodx", ".gtodx"};
 
     bool extract_game_file(const std::string& file_name, std::vector<char>& out_buffer) {
         rfg::cfile* file = rfg::cf_open_file_name(file_name.c_str(), "rb", rfg::PLATFORM_PC, false);
         if (!file) {
-            spdlog::error("Failed to open game file '{}' for extraction.", file_name);
+            SPDLOG_ERROR("Failed to open game file '{}' for extraction.", file_name);
             return false;
         }
 
         uint32_t size = file->size;
         if (!size) {
-            spdlog::error("Failed to read size of extracted game file '{}'.", file_name);
+            SPDLOG_ERROR("Failed to read size of extracted game file '{}'.", file_name);
             rfg::cf_close(file);
             return false;
         }
@@ -87,8 +87,7 @@ namespace {
         for (const auto& [file_name, source_path] : source_file_registry) {
             std::ifstream file(source_path, std::ios::binary | std::ios::ate);
             if (!file.is_open()) {
-                spdlog::error("Failed to open registered file '{}'.",
-                              source_path.string());
+                SPDLOG_ERROR("Failed to open registered file '{}'.", source_path.string());
                 continue;
             }
 
@@ -110,7 +109,7 @@ namespace {
                 raw_buffer = it->second->buffer;
             } else {
                 if (!extract_game_file(file_name, raw_buffer)) {
-                    spdlog::error("Skipping XML edits for '{}': extraction failed.", file_name);
+                    SPDLOG_ERROR("Skipping XML edits for '{}': extraction failed.", file_name);
                     continue;
                 }
             }
@@ -119,8 +118,8 @@ namespace {
             pugi::xml_parse_result parse_res =
                 doc.load_buffer(raw_buffer.data(), raw_buffer.size());
             if (!parse_res) {
-                spdlog::error("Failed to parse XML for '{}': {}", file_name,
-                              parse_res.description());
+                SPDLOG_ERROR("Failed to parse XML for '{}': {}", file_name,
+                             parse_res.description());
                 continue;
             }
 
@@ -128,7 +127,7 @@ namespace {
                 auto res = modify_func(&doc);
                 if (!res.valid()) {
                     sol::error err = res;
-                    spdlog::error("Lua XML modification error on '{}': {}", file_name, err.what());
+                    SPDLOG_ERROR("Lua XML modification error on '{}': {}", file_name, err.what());
                 }
             }
 
@@ -145,7 +144,7 @@ namespace {
 namespace misc::files {
     void register_file(const std::filesystem::path& file_path) {
         if (!std::filesystem::exists(file_path)) {
-            spdlog::error("Failed to register file '{}': file does not exist.", file_path.string());
+            SPDLOG_ERROR("Failed to register file '{}': file does not exist.", file_path.string());
             return;
         }
 
@@ -155,14 +154,14 @@ namespace misc::files {
 
     void register_packfile(const std::filesystem::path& file_path) {
         if (packfile_registry.contains(file_path)) {
-            spdlog::warn("Skipped registering packfile '{}': packfile is already registered.",
-                         file_path.string());
+            SPDLOG_WARN("Skipped registering packfile '{}': packfile is already registered.",
+                        file_path.string());
             return;
         }
 
         if (!std::filesystem::exists(file_path)) {
-            spdlog::error("Failed to register packfile '{}': file does not exist.",
-                          file_path.string());
+            SPDLOG_ERROR("Failed to register packfile '{}': file does not exist.",
+                         file_path.string());
             return;
         }
         packfile_registry.insert(file_path);
@@ -172,13 +171,15 @@ namespace misc::files {
         std::filesystem::path file_path(file_name);
 
         if (file_name.empty() || !file_path.has_extension()) {
-            spdlog::error("Failed to register XML edit for '{}': file name is not valid.", file_name);
+            SPDLOG_ERROR("Failed to register XML edit for '{}': file name is not valid.",
+                         file_name);
             return;
         }
 
         std::string ext = file_path.extension().string();
         if (!valid_xml_exts.contains(ext)) {
-            spdlog::error("Failed to register XML edit for '{}': '{}' is not a supported file type.", file_name, ext);
+            SPDLOG_ERROR("Failed to register XML edit for '{}': '{}' is not a supported file type.",
+                         file_name, ext);
             return;
         }
 
@@ -218,7 +219,7 @@ namespace misc::files {
                 auto vpp_result =
                     rfg::packfile_add(packfile.string().c_str(), nullptr, false, false);
                 if (!vpp_result) {
-                    spdlog::error("Failed to add packfile '{}'.", packfile.string());
+                    SPDLOG_ERROR("Failed to add packfile '{}'.", packfile.string());
                 }
             }
             process_and_stage_files();

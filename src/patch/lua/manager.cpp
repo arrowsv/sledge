@@ -37,7 +37,7 @@ namespace lua {
 
         run_enabled_mods();
         m_loading = false;
-        spdlog::info("Reloaded mods.");
+        SPDLOG_INFO("Reloaded mods.");
     }
 
     void manager::run_enabled_mods() {
@@ -56,28 +56,28 @@ namespace lua {
             auto result = execute_script_file(script_path, environment);
             if (!result.valid()) {
                 sol::error err = result;
-                spdlog::error("Failed to execute script '{}': {}", script_path.string(),
-                              err.what());
+                SPDLOG_ERROR("Failed to execute script '{}': {}", script_path.string(), err.what());
             }
         }
-        spdlog::debug("Finished running enabled mods.");
+        SPDLOG_DEBUG("Finished running enabled mods.");
     }
 
     sol::protected_function_result
     manager::execute_script_file(const std::filesystem::path& script_path, sol::environment& env) {
         std::lock_guard<std::recursive_mutex> lock(m_lua_state_mutex);
         if (m_lua_state == nullptr) {
-            spdlog::error("Failed to execute Lua script '{}': Lua has not been initialized.",
-                          script_path.string());
+            SPDLOG_ERROR("Failed to execute Lua script '{}': Lua has not been initialized.",
+                         script_path.string());
             return sol::protected_function_result();
         }
+        SPDLOG_DEBUG("Executing Lua script file '{}'.", script_path.string());
         return m_lua_state->safe_script_file(script_path.string(), env, sol::script_pass_on_error);
     }
 
     sol::protected_function_result manager::execute_script_string(const std::string& script) {
         std::lock_guard<std::recursive_mutex> lock(m_lua_state_mutex);
         if (m_lua_state == nullptr) {
-            spdlog::error("Failed to execute Lua script string: Lua has not been initialized.");
+            SPDLOG_ERROR("Failed to execute Lua script string: Lua has not been initialized.");
             return sol::protected_function_result();
         }
         return m_lua_state->safe_script(script, sol::script_pass_on_error);
@@ -86,8 +86,8 @@ namespace lua {
     sol::protected_function_result manager::execute_function(sol::protected_function& func) {
         std::lock_guard<std::recursive_mutex> lock(m_lua_state_mutex);
         if (m_lua_state == nullptr || !func.valid()) {
-            spdlog::error("Failed to execute Lua function: Lua has not been initialized or "
-                          "function was invalid.");
+            SPDLOG_ERROR("Failed to execute Lua function: Lua has not been initialized or "
+                         "function was invalid.");
             return sol::protected_function_result();
         }
         return func();
@@ -97,8 +97,8 @@ namespace lua {
     manager::execute_function_with_context(sol::protected_function& func, sol::table& context) {
         std::lock_guard<std::recursive_mutex> lock(m_lua_state_mutex);
         if (m_lua_state == nullptr || !func.valid()) {
-            spdlog::error("Failed to execute Lua function. Lua has not been initialized or "
-                          "function was invalid.");
+            SPDLOG_ERROR("Failed to execute Lua function. Lua has not been initialized or "
+                         "function was invalid.");
             return sol::protected_function_result();
         }
         return func(context);
@@ -148,7 +148,7 @@ namespace lua {
             auto result = execute_function_with_context(callback.function, context_table);
             if (!result.valid()) {
                 sol::error err = result;
-                spdlog::error("Failed to execute Lua function. {}", err.what());
+                SPDLOG_ERROR("Failed to execute Lua function. {}", err.what());
             }
         }
     }

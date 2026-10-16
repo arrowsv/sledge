@@ -32,6 +32,7 @@ add_includedirs("deps/semver")
 add_includedirs("deps/crashcatch")
 add_includedirs("deps/imgui")
 add_cxflags("-Wunused-variable", "-Wunused-function")
+add_defines("SPDLOG_ACTIVE_LEVEL=SPDLOG_LEVEL_DEBUG")
 
 -- targets
 target("common")
