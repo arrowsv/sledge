@@ -4,6 +4,7 @@
 #include <spdlog/spdlog.h>
 #include <imgui.h>
 #include <sol/sol.hpp>
+#include <string>
 
 namespace lua::bindings::sledge {
     void bind_mod(sol::state_view& lua) {
@@ -72,10 +73,14 @@ namespace lua::bindings::sledge {
                     case mods::mod_option_type::custom:
                         options_table[option.name] = sol::make_object(lua, option_value);
                         break;
-
-                    default:
-                        spdlog::warn("Unknown option type for option '{}'.", option.name);
+                    case mods::mod_option_type::integer: {
+                        options_table[option.name] = sol::make_object(lua, std::stoi(option_value));
                         break;
+                    }
+                    case mods::mod_option_type::floating: {
+                        options_table[option.name] = sol::make_object(lua, std::stof(option_value));
+                        break;
+                    }
                 }
             }
 
