@@ -33,15 +33,21 @@ namespace mods {
                     case mods::mod_option_type::key:
                     case mods::mod_option_type::checkbox: {
                         if (current_selection.empty()) {
-                            current_selection = opt.choice_default;
+                            current_selection = opt.default_choice;
                         }
                         break;
                     }
                     case mods::mod_option_type::multiple: {
                         // Reset to default if it doesn't exist in the defined choices.
-                        if (std::find(opt.choice_multiple.begin(), opt.choice_multiple.end(),
-                                      current_selection) == opt.choice_multiple.end())
-                            current_selection = opt.choice_default;
+                        auto it =
+                            std::find_if(opt.multiple_choice.begin(), opt.multiple_choice.end(),
+                                         [&](const mods::mod_choice& choice) {
+                                             return choice.display_name == current_selection;
+                                         });
+
+                        if (it == opt.multiple_choice.end() && !opt.multiple_choice.empty()) {
+                            current_selection = opt.multiple_choice[0].display_name;
+                        }
                     } break;
                 }
 
@@ -162,11 +168,11 @@ namespace mods {
 
             if (auto options = tbl["options"].as_array()) {
                 for (auto&& node : *options) {
-                    auto& tbl = *node.as_table();
+                    auto& opt_tbl = *node.as_table();
 
                     mod_option option;
 
-                    std::string name = tbl["name"].value_or("");
+                    std::string name = opt_tbl["name"].value_or("");
                     if (name.empty()) {
                         spdlog::warn("Skipping option for mod '{}': field 'name' is missing.",
                                      mod.name);
@@ -174,14 +180,14 @@ namespace mods {
                     }
                     option.name = name;
 
-                    std::string type_str = tbl["type"].value_or("");
+                    std::string type_str = opt_tbl["type"].value_or("");
                     if (type_str.empty()) {
                         spdlog::warn("Skipping option '{}' for mod '{}': field 'type' is missing.",
                                      option.name, mod.name);
                         continue;
                     }
 
-                    option.tooltip = tbl["tooltip"].value_or("");
+                    option.tooltip = opt_tbl["tooltip"].value_or("");
 
                     auto type = magic_enum::enum_cast<mod_option_type>(type_str);
                     if (!type) {
@@ -193,18 +199,17 @@ namespace mods {
                     switch (type.value()) {
                         case mod_option_type::custom: {
                             option.type = mod_option_type::custom;
-                            option.choice_default = tbl["default"].value_or("");
+                            option.default_choice = opt_tbl["default"].value_or("");
                             break;
                         }
                         case mod_option_type::key: {
                             option.type = mod_option_type::key;
-                            option.choice_default = tbl["default"].value_or("none");
+                            option.default_choice = opt_tbl["default"].value_or("none");
                             break;
                         }
                         case mod_option_type::checkbox: {
                             option.type = mod_option_type::checkbox;
-                            if (auto default_val = tbl["default"].as_boolean()) {
-                                option.choice_default = default_val->get() ? "true" : "false";
+                            if (auto default_val = opt_tbl["default"].as_boolean()) {
                             } else {
                                 option.choice_default = "false";
                             }
@@ -212,9 +217,9 @@ namespace mods {
                         }
                         case mod_option_type::multiple: {
                             option.type = mod_option_type::multiple;
-                            option.choice_default = tbl["default"].value_or("");
+                            option.default_choice = opt_tbl["default"].value_or("");
 
-                            auto choices = tbl["choices"];
+                            auto choices = opt_tbl["choices"];
                             if (!choices) {
                                 spdlog::warn("Skipping option '{}' for mod '{}': field 'choices' "
                                              "is missing.",
@@ -223,40 +228,41 @@ namespace mods {
                             }
 
                             if (auto choices_arr = choices.as_array()) {
-                                if (choices_arr->empty()) {
-                                    spdlog::warn("Skipping option '{}' for mod '{}': 'choices' "
-                                                 "array is empty.",
-                                                 option.name, mod.name);
-                                    continue;
+                                for (auto&& choice_node : *choices_arr) {
+                                    if (auto choice_str = choice_node.as_string()) {
+                                        std::string val = choice_str->get();
+                                        option.multiple_choice.push_back({val, false, val, {}});
+                                    } else if (auto choice_tbl = choice_node.as_table()) {
+                                        std::string display = choice_tbl->at("name").value_or("");
+                                        if (display.empty())
+                                            continue;
+
+                                        mod_choice choice;
+                                        choice.display_name = display;
+
+                                        auto& val_node = choice_tbl->at("value");
+                                        if (auto val_str = val_node.as_string()) {
+                                            choice.is_array = false;
+                                            choice.string_value = val_str->get();
+                                        } else if (auto val_arr = val_node.as_array()) {
+                                            choice.is_array = true;
+                                            for (auto&& v : *val_arr) {
+                                                if (auto s = v.as_string()) {
+                                                    choice.array_value.push_back(s->get());
+                                                }
+                                            }
+                                        }
+
+                                        option.multiple_choice.push_back(choice);
+                                    }
                                 }
 
-                                if (option.choice_default.empty()) {
-                                    auto choice_first = (*choices_arr).get(0);
-                                    if (!choice_first || !choice_first->is_string()) {
-                                        spdlog::warn("Skipping option '{}' for mod '{}': first "
-                                                     "choice is invalid or a non-string value.",
-                                                     option.name, mod.name);
-                                        continue;
-                                    }
-
-                                    option.choice_default = choice_first->as_string()->get();
-                                }
-
-                                for (auto&& choice_val : *choices_arr) {
-                                    auto choice_str = choice_val.as_string();
-                                    if (!choice_str) {
-                                        spdlog::warn("Skipping choice of option '{}' for mod '{}': "
-                                                     "choice is a non-string value.",
-                                                     option.name, mod.name);
-                                        continue;
-                                    } else if (choice_str->get().empty()) {
-                                        spdlog::warn("Skipping choice of option '{}' for mod '{}': "
-                                                     "choice is empty.",
-                                                     option.name, mod.name);
-                                        continue;
-                                    }
-
-                                    option.choice_multiple.push_back(choice_str->get());
+                                if (option.default_choice.empty() &&
+                                    !option.multiple_choice.empty()) {
+                                    option.default_choice =
+                                        option.multiple_choice[0].is_array
+                                            ? option.multiple_choice[0].array_value[0]
+                                            : option.multiple_choice[0].string_value;
                                 }
                             } else if (auto choices_str = choices.as_string()) {
                                 if (choices_str->get().empty()) {
@@ -279,15 +285,15 @@ namespace mods {
                                     continue;
                                 }
 
-                                option.choice_multiple = options_it->choice_multiple;
+                                option.multiple_choice = options_it->multiple_choice;
 
                                 if (option.tooltip.empty() && !options_it->tooltip.empty()) {
                                     option.tooltip = options_it->tooltip;
                                 }
 
-                                if (option.choice_default.empty() &&
-                                    !option.choice_multiple.empty()) {
-                                    option.choice_default = options_it->choice_default;
+                                if (option.default_choice.empty() &&
+                                    !option.multiple_choice.empty()) {
+                                    option.default_choice = options_it->default_choice;
                                 }
                             } else {
                                 spdlog::warn("Skipping option '{}' for mod '{}': field 'choices' "

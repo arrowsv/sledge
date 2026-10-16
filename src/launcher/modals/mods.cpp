@@ -164,11 +164,14 @@ namespace gui {
                                     case mods::mod_option_type::multiple: {
                                         if (ImGui::BeginCombo(id.c_str(),
                                                               current_selection.c_str())) {
-                                            for (const std::string& val : option.choice_multiple) {
-                                                bool is_selected = (current_selection == val);
+                                            for (const mods::mod_choice& choice :
+                                                 option.multiple_choice) {
+                                                bool is_selected =
+                                                    (current_selection == choice.display_name);
 
-                                                if (ImGui::Selectable(val.c_str(), is_selected)) {
-                                                    current_selection = val;
+                                                if (ImGui::Selectable(choice.display_name.c_str(),
+                                                                      is_selected)) {
+                                                    current_selection = choice.display_name;
                                                 }
                                                 if (is_selected) {
                                                     ImGui::SetItemDefaultFocus();
@@ -181,13 +184,13 @@ namespace gui {
                                 }
                                 utils::imgui::end_property_row();
 
-                                if (!option.choice_default.empty()) {
+                                if (!option.default_choice.empty()) {
                                     if (utils::imgui::begin_tooltip()) {
-                                        if (!option.choice_default.empty()) {
+                                        if (!option.default_choice.empty()) {
                                             if (utils::imgui::begin_property_table("default")) {
                                                 utils::imgui::begin_property_row("Default");
                                                 ImGui::TextUnformatted(
-                                                    option.choice_default.c_str());
+                                                    option.default_choice.c_str());
                                                 utils::imgui::end_property_row();
                                                 utils::imgui::end_property_table();
                                             }

@@ -45,7 +45,30 @@ namespace lua::bindings::sledge {
                         options_table[option.name] = sol::make_object(lua, option_value == "true");
                         break;
 
-                    case mods::mod_option_type::multiple:
+                    case mods::mod_option_type::multiple: {
+                        auto choice_it = std::find_if(option.multiple_choice.begin(),
+                                                      option.multiple_choice.end(),
+                                                      [&](const mods::mod_choice& c) {
+                                                          return c.display_name == option_value;
+                                                      });
+
+                        if (choice_it != option.multiple_choice.end()) {
+                            if (choice_it->is_array) {
+                                sol::table arr = lua.create_table();
+                                int idx = 1;
+                                for (const auto& val : choice_it->array_value) {
+                                    arr[idx++] = val;
+                                }
+                                options_table[option.name] = arr;
+                            } else {
+                                options_table[option.name] =
+                                    sol::make_object(lua, choice_it->string_value);
+                            }
+                        } else {
+                            options_table[option.name] = sol::make_object(lua, option_value);
+                        }
+                        break;
+                    }
                     case mods::mod_option_type::custom:
                         options_table[option.name] = sol::make_object(lua, option_value);
                         break;

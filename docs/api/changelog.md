@@ -1,3 +1,9 @@
-## 1.0.0 (Sledge 0.3.0)
+## 1.1.0 <small>(Sledge 0.4.0)</small>
+
+### Added
+
+- Choice tables for mod metadata options that take a display name and value, which can be a string or array of strings. This is used to map choices to a different value, rather than manually doing so in the script.
+
+## 1.0.0 <small>(Sledge 0.3.0)</small>
 
 - First release.

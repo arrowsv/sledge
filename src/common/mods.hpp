@@ -8,12 +8,19 @@
 namespace mods {
     enum class mod_option_type { multiple, custom, key, checkbox };
 
+    struct mod_choice {
+        std::string display_name;
+        bool is_array = false;
+        std::string string_value;
+        std::vector<std::string> array_value;
+    };
+
     struct mod_option {
         std::string name;
         mod_option_type type;
         std::string tooltip;
-        std::string choice_default;
-        std::vector<std::string> choice_multiple;
+        std::string default_choice;
+        std::vector<mod_choice> multiple_choice;
     };
 
     struct mod_state {

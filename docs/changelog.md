@@ -1,6 +1,12 @@
 # Changelog
 
-## 0.3.0 (2026-10-10)
+## 0.4.0
+
+### Changed
+
+- Bump API version to `1.1.0`.
+
+## 0.3.0 <small>(2026-10-10)</small>
 
 ### Added
 
@@ -17,7 +23,7 @@
 - Wrap `gui.property_row` labels when they are too long.
 - Merge the `gui.set_tooltip` and `gui.set_help_marker` functions into overloads of `gui.tooltip` and `gui.help_marker`.
 
-## 0.2.0 (2026-10-08)
+## 0.2.0 <small>(2026-10-08)</small>
 
 ### Added
 
@@ -39,7 +45,7 @@
 
 - Bundled mods. They are now available on FactionFiles.
 
-## 0.1.0 (2026-10-03)
+## 0.1.0 <small>(2026-10-03)</small>
 
 ### Added
 
@@ -57,7 +63,7 @@
 
 - `types.mod_info:import` method.
 
-## 0.1.0-beta.3 (2026-09-26)
+## 0.1.0-beta.3 <small>(2026-09-26)</small>
 
 ### Added
 
@@ -100,7 +106,7 @@
 - `gui.separator_text`, `gui.begin_tooltip`, `gui.end_tooltip`, `gui.begin_help_marker`, `gui.end_help_marker`, `gui.begin_tab_bar`, `gui.end_tab_bar`, `gui.begin_tab_item`, `gui.end_tab_item`, `gui.input_text_hint`, `gui.input_int_1/2/3/4`, `gui.input_float_1/2/3/4`, `gui.drag_int`, and `gui.drag_float` functions.
 - `types.mod_info.version`, `types.mod_info.description`, `types.mod_info.author`, and `types.mod_info.path` fields.
 
-## 0.1.0-beta.2 (2026-08-18)
+## 0.1.0-beta.2 <small>(2026-08-18)</small>
 
 ### Added
 
@@ -117,6 +123,6 @@
 - Launcher executable.
 - `game_directory` and `keep_launcher_open` config options.
 
-## 0.1.0-beta.1 (2026-08-12)
+## 0.1.0-beta.1 <small>(2026-08-12)</small>
 
 - First release.
