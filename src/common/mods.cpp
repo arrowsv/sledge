@@ -210,8 +210,12 @@ namespace mods {
                         case mod_option_type::checkbox: {
                             option.type = mod_option_type::checkbox;
                             if (auto default_val = opt_tbl["default"].as_boolean()) {
+                                option.default_choice = default_val->get() ? "true" : "false";
+                            } else if (auto default_val = opt_tbl["default"].as_string()) {
+                                option.default_choice =
+                                    default_val->get() == "true" ? "true" : "false";
                             } else {
-                                option.choice_default = "false";
+                                option.default_choice = "false";
                             }
                             break;
                         }
