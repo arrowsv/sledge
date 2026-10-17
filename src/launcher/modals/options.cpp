@@ -98,12 +98,13 @@ namespace gui {
             }
             ImGui::EndChild();
 
-            int button_count = 2;
-            float button_width = (ImGui::GetContentRegionAvail().x -
-                                  (ImGui::GetStyle().ItemSpacing.x * (button_count - 1))) /
-                                 button_count;
+            float button_width = 110.0f * ImGui::GetStyle().FontScaleMain;
+            float total_width = button_width * 2.0f + ImGui::GetStyle().ItemSpacing.x;
 
             ImGui::Spacing();
+            ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetContentRegionAvail().x -
+                                 total_width);
+
             if (ImGui::Button("Apply", {button_width, 0})) {
                 config::get() = temp_config;
                 config::get().save();

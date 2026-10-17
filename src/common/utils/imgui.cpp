@@ -242,13 +242,13 @@ namespace utils::imgui {
     }
     bool begin_help_marker() {
         ImGui::SameLine();
-        ImGui::TextDisabled(ICON_MD_QUESTION_MARK);
+        ImGui::TextDisabled(ICON_MD_HELP);
         return begin_tooltip();
     }
     void end_help_marker() { end_tooltip(); }
 
     bool begin_property_table(const char* str_id) {
-        ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(4.0f, 2.0f));
+        ImGui::PushStyleVar(ImGuiStyleVar_CellPadding, ImVec2(2.0f, 2.0f));
         bool open = ImGui::BeginTable(str_id, 2, ImGuiTableFlags_SizingFixedFit);
         if (open) {
             ImGui::TableSetupColumn("label", ImGuiTableColumnFlags_WidthFixed);

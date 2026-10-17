@@ -132,8 +132,13 @@ namespace gui {
             open_mods = true;
         }
 
+        ImGui::Spacing();
+        ImGui::Separator();
+        ImGui::Spacing();
+
         if (ImGui::Button(ICON_MD_OPEN_IN_NEW " GitHub", {full, 24})) {
-            ShellExecuteA(0, "open", "https://github.com/arrowsv/sledge", NULL, NULL, SW_SHOWDEFAULT);
+            ShellExecuteA(0, "open", "https://github.com/arrowsv/sledge", NULL, NULL,
+                          SW_SHOWDEFAULT);
         }
 
         if (ImGui::Button(ICON_MD_OPEN_IN_NEW " Documentation", {full, 24})) {
@@ -148,9 +153,7 @@ namespace gui {
 
         column_height = ImGui::GetItemRectSize().y;
 
-        std::string version_str =
-            std::format("Sledge {} (API {})", constants::sledge_version.to_string(),
-                        constants::api_version.to_string());
+        std::string version_str = constants::format_version();
         auto version_size = ImGui::CalcTextSize(version_str.c_str());
         ImGui::SetCursorPos(
             {io.DisplaySize.x - version_size.x - 12, io.DisplaySize.y - version_size.y - 12});

@@ -2,9 +2,14 @@
 
 ## 0.4.0
 
+### Added
+
+- Search box and `Open mods folder` in the launcher's `Mods` window.
+
 ### Changed
 
 - Bump API version to `1.1.0`.
+- Improve the launcher's interface.
 
 ## 0.3.0 <small>(2026-10-10)</small>
 

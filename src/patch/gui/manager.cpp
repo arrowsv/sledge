@@ -13,7 +13,9 @@
 #include <vector>
 #include <spdlog/spdlog.h>
 
-const float widget_padding = 10.0f;
+namespace {
+    const float widget_padding = 10.0f;
+}
 
 namespace gui {
     void manager::initialize() {
@@ -102,10 +104,11 @@ namespace gui {
             }
 
             ImGui::SameLine();
-            auto version_cstr_size = ImGui::CalcTextSize(constants::sledge_version.to_string().c_str()).x;
+            auto version_str = constants::format_version();
+            auto version_str_size = ImGui::CalcTextSize(version_str.c_str()).x;
             ImGui::SetCursorPosX(ImGui::GetCursorPosX() + ImGui::GetContentRegionAvail().x -
-                                 version_cstr_size);
-            ImGui::TextDisabled("%s", constants::sledge_version.to_string().c_str());
+                                 version_str_size);
+            ImGui::TextDisabled("%s", version_str.c_str());
 
             ImGui::EndMainMenuBar();
         }
